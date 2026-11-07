@@ -1,0 +1,722 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Constructor Latinus</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout: one marble tablet column. Greek-key band on top, the task tablet in the middle, a forum strip with cheering Romans below. */
+  --bg:#E6E9ED; --surface:#F8F8F5; --surface2:#E1E4E9; --ink:#18213A; --muted:#566075; --line:#C2C8D2;
+  --lapis:#27498A; --red:#A3302A; --laurel:#33702F; --gold:#9C771C;
+  --toga:#F5F2E9; --skin:#E5B891; --bronze:#B88A3A;
+  --display:'Cinzel','Trajan Pro',Georgia,serif;
+  --body:'Alegreya Sans','Segoe UI',system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1426; --surface:#172039; --surface2:#212B49; --ink:#EDE9DE; --muted:#9FA9C0; --line:#2F3A58;
+    --lapis:#86A8EA; --red:#E7706A; --laurel:#8DC480; --gold:#D9B45E; --toga:#F1EDE0;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1426; --surface:#172039; --surface2:#212B49; --ink:#EDE9DE; --muted:#9FA9C0; --line:#2F3A58;
+  --lapis:#86A8EA; --red:#E7706A; --laurel:#8DC480; --gold:#D9B45E; --toga:#F1EDE0;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--body); font-size:18px; line-height:1.4;
+  padding-block:18px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+h1,h2,p{margin:0}
+.app{max-width:880px;margin:0 auto;display:grid;gap:16px}
+.lat{font-family:var(--display);letter-spacing:.04em}
+
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.eyebrow{font-family:var(--display);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+h1{font-weight:700;font-size:clamp(1.7rem,5.5vw,2.3rem);line-height:1.1;text-wrap:balance;margin-top:4px}
+.stats{display:flex;gap:20px;font-variant-numeric:tabular-nums}
+.stat{display:grid;text-align:right;line-height:1.1}
+.stat span{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+.stat b{font-family:var(--display);font-size:1.6rem}
+.bump{animation:bump .45s}
+.meander{display:block;color:var(--gold)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:22px;box-shadow:0 14px 28px -22px rgba(8,12,28,.55)}
+.card + .card{margin-top:0}
+h2{font-size:1.5rem;line-height:1.15;text-wrap:balance}
+.lead{color:var(--muted);margin-top:8px;max-width:60ch}
+.rules{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px;max-width:60ch}
+.rules li{padding-left:22px;position:relative}
+.rules li::before{content:"";position:absolute;left:2px;top:.55em;width:8px;height:8px;background:var(--gold);transform:rotate(45deg)}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:20px}
+.btn{font:inherit;font-weight:700;letter-spacing:.02em;padding:12px 22px;border-radius:4px;border:1px solid var(--lapis);background:var(--lapis);color:var(--surface);cursor:pointer;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn:focus-visible,.hintbtn:focus-visible,summary:focus-visible{outline:3px solid var(--lapis);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--lapis)}
+.best{color:var(--muted);font-size:.95rem}
+
+details.ref{margin-top:22px;border-top:1px solid var(--line);padding-top:14px}
+details.ref summary{cursor:pointer;font-weight:700;color:var(--lapis)}
+.tbl{display:grid;gap:0;margin-top:12px}
+.tr{display:grid;grid-template-columns:8.5rem minmax(0,1fr);gap:4px 14px;padding:9px 0;border-bottom:1px solid var(--line)}
+.tr b{font-family:var(--display);letter-spacing:.04em;color:var(--lapis)}
+.tr small{display:block;color:var(--muted);font-size:.9rem}
+@media(max-width:520px){.tr{grid-template-columns:minmax(0,1fr)}}
+
+.road{list-style:none;display:flex;gap:4px;padding:0;margin:0}
+.road li{flex:1;height:10px;border-radius:2px;background:var(--line)}
+.road li.cur{background:var(--lapis);animation:pulse 1.4s ease-in-out infinite}
+.road li.full{background:var(--laurel)}
+.road li.part{background:var(--gold)}
+
+.task .head-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.ask{margin-top:10px;color:var(--muted)}
+.target{font-size:clamp(1.35rem,4.6vw,1.8rem);font-weight:700;line-height:1.2;text-wrap:balance;margin-top:2px}
+.stemline{margin-top:12px;color:var(--muted)}
+.stemline b{font-family:var(--display);color:var(--ink);letter-spacing:.05em}
+.builder{margin:12px 0 18px;padding:18px 10px;background:var(--surface2);border:1px solid var(--line);border-radius:4px;text-align:center;overflow:hidden}
+.word{font-family:var(--display);font-weight:700;font-size:clamp(2.3rem,10vw,4rem);letter-spacing:.05em;line-height:1.1;display:inline-flex;align-items:baseline;justify-content:center;flex-wrap:wrap}
+.pre{min-width:1.5em;color:var(--lapis);border-bottom:3px dashed var(--muted);text-align:center;margin-right:.06em}
+.pre.filled{border-bottom-color:transparent}
+.pre:empty::before{content:"?";color:var(--muted)}
+.flash{animation:flash 1.2s ease-out}
+.pop{animation:pop .5s cubic-bezier(.3,1.6,.5,1)}
+
+.pick-label{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.pick-label span{font-weight:700}
+.hintbtn{font:inherit;font-size:.92rem;background:none;border:1px dashed var(--muted);color:var(--muted);padding:4px 12px;border-radius:3px;cursor:pointer}
+.hintbtn:disabled{cursor:default;opacity:.7}
+.opts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media(max-width:640px){.opts{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tile{position:relative;display:grid;place-items:center;align-content:center;gap:4px;min-height:96px;padding:16px 8px 12px;background:var(--surface2);color:var(--ink);border:1px solid var(--line);border-bottom:4px solid var(--line);border-radius:4px;font:inherit;cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
+.tile:hover:not(:disabled){transform:translateY(-3px);border-color:var(--lapis)}
+.tile:focus-visible{outline:3px solid var(--lapis);outline-offset:2px}
+.tile:disabled{cursor:default}
+.pf{font-family:var(--display);font-weight:700;font-size:1.75rem;letter-spacing:.04em}
+.tile small{display:none;font-size:.82rem;line-height:1.2;color:var(--muted);text-align:center}
+.opts.hint .tile small{display:block}
+.k{position:absolute;top:6px;left:9px;font-family:var(--display);font-size:.7rem;color:var(--muted)}
+.tile.bad{border-color:var(--red);border-bottom-color:var(--red);color:var(--red);opacity:.6;animation:shake .4s}
+.tile.good{border-color:var(--laurel);border-bottom-color:var(--laurel);background:color-mix(in srgb,var(--laurel) 16%,var(--surface2))}
+
+.fb{margin-top:16px;min-height:4px}
+.v{display:grid;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:4px;background:var(--surface);animation:rise .35s ease-out}
+.v.ok{border-color:var(--laurel)}
+.v.bad{border-color:var(--red)}
+.vh{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.chip{display:inline-block;padding:2px 10px;border-radius:3px;font-weight:700;font-size:.85rem;letter-spacing:.04em;color:var(--surface)}
+.v.ok .chip{background:var(--laurel)}
+.v.bad .chip{background:var(--red)}
+.vw{font-size:1.6rem;font-weight:700}
+.vw .wp{color:var(--lapis)}
+.v p{max-width:64ch}
+.chk{font-weight:700}
+.v.ok .chk{color:var(--laurel)}
+.v.bad .chk{color:var(--red)}
+.note{color:var(--muted);font-size:.97rem}
+.next-row{display:flex;justify-content:flex-end;margin-top:14px}
+
+.forum{position:relative;margin-top:2px}
+.forum svg{display:block;width:100%;height:auto}
+.bub{position:absolute;top:0;z-index:2;max-width:34%;transform:translateX(-50%) scale(.5);transform-origin:50% 100%;opacity:0;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 12px;text-align:center;box-shadow:0 8px 18px -12px rgba(0,0,0,.6);transition:opacity .25s,transform .35s cubic-bezier(.3,1.6,.5,1);pointer-events:none}
+.bub.on{opacity:1;transform:translateX(-50%) scale(1)}
+.bub b{display:block;font-family:var(--display);font-size:1rem;letter-spacing:.04em;line-height:1.2}
+.bub small{display:block;font-size:.78rem;color:var(--muted);line-height:1.2}
+.bub::after{content:"";position:absolute;left:50%;bottom:-6px;width:10px;height:10px;background:var(--surface);border-right:1px solid var(--line);border-bottom:1px solid var(--line);transform:translateX(-50%) rotate(45deg)}
+
+.bob{animation:breathe 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+.f2 .bob{animation-delay:-1s}
+.f3 .bob{animation-delay:-2s}
+.arm{transform-box:fill-box;transform-origin:50% 6%}
+.armL{transform:rotate(7deg)}
+.armR{transform:rotate(-7deg)}
+.head{transform-box:fill-box;transform-origin:50% 90%}
+.m-open,.m-flat{display:none}
+.cheer .m-smile,.nope .m-smile{display:none}
+.cheer .m-open{display:block}
+.nope .m-flat{display:block}
+.cheer .bob{animation:jump .55s ease-in-out infinite}
+.cheer .f2 .bob{animation-delay:-.18s}
+.cheer .f3 .bob{animation-delay:-.36s}
+.cheer .armL{animation:waveL .5s ease-in-out infinite alternate}
+.cheer .armR{animation:waveR .5s ease-in-out infinite alternate}
+.nope .head{animation:headshake .5s}
+
+.flyer{position:fixed;z-index:70;display:grid;place-items:center;pointer-events:none;background:var(--surface2);color:var(--lapis);border:1px solid var(--lapis);border-radius:4px;font-family:var(--display);font-weight:700;font-size:1.75rem}
+#fx{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:60}
+.leaf{position:absolute;width:10px;height:18px;border-radius:0 100% 0 100%;background:var(--laurel)}
+.leaf.g{background:var(--gold)}
+.leaf.burst{animation:burst 1.6s ease-out forwards}
+.leaf.rain{top:0;animation:rain 3.4s linear forwards}
+
+.namebox{display:grid;gap:6px;margin-top:12px;padding:14px;background:var(--surface2);border:1px solid var(--line);border-radius:4px}
+.namebox label{font-weight:700}
+.namebox input{font:inherit;font-size:1.25rem;font-weight:500;padding:10px 12px;width:100%;color:var(--ink);background:var(--surface);border:1px solid var(--muted);border-radius:4px}
+.namebox input:focus-visible{outline:3px solid var(--lapis);outline-offset:2px}
+.big{display:flex;align-items:baseline;gap:10px;margin-top:10px}
+.big b{font-family:var(--display);font-size:3rem;line-height:1}
+.big span{color:var(--muted)}
+.gloss{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:0;font-variant-numeric:tabular-nums}
+.gloss li{display:grid;grid-template-columns:minmax(0,9.5rem) minmax(0,1fr) auto;gap:4px 14px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line)}
+.gloss .gw{font-family:var(--display);font-weight:700;letter-spacing:.04em}
+.gloss .gp{font-weight:700;color:var(--muted)}
+.gloss li.full .gp{color:var(--laurel)}
+@media(max-width:520px){.gloss li{grid-template-columns:minmax(0,1fr) auto}.gloss .gm{grid-column:1 / -1;order:3;color:var(--muted)}}
+
+@keyframes breathe{50%{transform:translateY(-2px) scaleY(1.012)}}
+@keyframes jump{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes waveL{from{transform:rotate(138deg)}to{transform:rotate(172deg)}}
+@keyframes waveR{from{transform:rotate(-138deg)}to{transform:rotate(-172deg)}}
+@keyframes headshake{25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+@keyframes shake{20%{transform:translateX(-6px)}50%{transform:translateX(6px)}80%{transform:translateX(-3px)}}
+@keyframes pulse{50%{opacity:.45}}
+@keyframes bump{40%{transform:scale(1.25)}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+@keyframes pop{40%{transform:scale(1.12)}}
+@keyframes flash{0%{background:color-mix(in srgb,var(--gold) 60%,transparent)}100%{background:transparent}}
+@keyframes burst{
+  0%{transform:translate(0,0) rotate(0);opacity:1}
+  45%{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:1}
+  100%{transform:translate(calc(var(--dx)*1.3),calc(var(--dy) + 280px)) rotate(calc(var(--rot)*2));opacity:0}
+}
+@keyframes rain{
+  0%{transform:translate(0,-30px) rotate(0)}
+  100%{transform:translate(var(--dx),115vh) rotate(var(--rot))}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+}
+</style>
+
+<div class="app">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Praefixa Latina</p>
+      <h1 class="lat" style="letter-spacing:.06em">Constructor Latinus</h1>
+    </div>
+    <div class="stats" id="stats" hidden>
+      <div class="stat"><span>Очки</span><b id="score">0</b></div>
+      <div class="stat"><span>Серия</span><b id="streak">0</b></div>
+    </div>
+  </header>
+
+  <svg class="meander" aria-hidden="true" width="100%" height="14">
+    <defs><pattern id="mn" width="28" height="14" patternUnits="userSpaceOnUse">
+      <path d="M0 13H28M2 13V2H22V10H9V6H15" fill="none" stroke="currentColor" stroke-width="2"/>
+    </pattern></defs>
+    <rect width="100%" height="14" fill="url(#mn)"/>
+  </svg>
+
+  <main class="app" style="gap:16px">
+    <section id="start" class="card">
+      <p class="eyebrow">Зачем знать приставки</p>
+      <h2>Приставка меняет смысл глагола</h2>
+      <p class="lead">В латинском языке от одного корня образуются десятки глаголов, и различает их приставка. Например, от <b class="lat">pono</b> («класть, ставить») получаются <b class="lat">compono</b> «слагать», <b class="lat">dispono</b> «располагать», <b class="lat">transpono</b> «перемещать», <b class="lat">depono</b> «откладывать».</p>
+      <ul class="rules why">
+        <li><b>Понять незнакомое слово.</b> Если знаете значение приставки (<span class="lat">dis-</span> — «разделение», <span class="lat">re-</span> — «движение назад»), смысл нового глагола можно вывести самому.</li>
+        <li><b>Запоминать быстрее.</b> Вместо сотен отдельных слов вы учите корень и небольшой набор приставок.</li>
+        <li><b>Видеть связь с русским и другими языками.</b> Приставка либо сохраняет своё значение, либо придаёт глаголу оттенок законченности, как <span class="lat">per-</span> в <span class="lat">perficio</span> «завершать». Отсюда «композиция», «диспозиция», «транспонировать», «перфект».</li>
+      </ul>
+      <p class="eyebrow" style="margin-top:22px">Incipe · как играть</p>
+      <p class="lead">Вам даны латинский глагол и значение, которое нужно получить. Выберите приставку, которая превратит основу в нужный глагол.</p>
+      <ul class="rules">
+        <li>15 заданий, в каждом 4 приставки на выбор.</li>
+        <li>Верный ответ приветствуют римляне. За ошибку и подсказку очки снижаются.</li>
+      </ul>
+      <div class="row">
+        <button class="btn" id="go">Начать</button>
+        <span class="best" id="bestline"></span>
+      </div>
+      <details class="ref">
+        <summary>Повторить приставки (учебник Ярхо, § 278)</summary>
+        <div class="tbl" id="ref"></div>
+      </details>
+    </section>
+
+    <section id="game" hidden>
+      <ol class="road" id="road" aria-label="Ход игры"></ol>
+      <div class="card task" style="margin-top:16px">
+        <div class="head-row">
+          <p class="eyebrow">Задание <span id="num"></span></p>
+        </div>
+        <p class="ask">Составьте глагол со значением</p>
+        <p class="target" id="target"></p>
+        <p class="stemline" id="stemline"></p>
+        <div class="builder" aria-label="Собранное слово">
+          <div class="word"><span class="pre" id="pre"></span><span class="rest" id="rest"></span></div>
+        </div>
+        <div class="pick-label">
+          <span>Выберите приставку</span>
+          <button class="hintbtn" id="hintbtn" type="button">Подсказка: значения приставок (−3)</button>
+        </div>
+        <div class="opts" id="opts"></div>
+        <div class="fb" id="fb" aria-live="polite"></div>
+        <div class="next-row"><button class="btn" id="next" hidden>Дальше</button></div>
+      </div>
+    </section>
+
+    <section id="end" class="card" hidden>
+      <p class="eyebrow">Victoria · лист результатов</p>
+      <div class="namebox">
+        <label for="stname">Впишите своё имя и фамилию</label>
+        <input id="stname" type="text" maxlength="60" autocomplete="name" placeholder="Например, Анна Иванова">
+        <p class="best" id="fdate"></p>
+      </div>
+      <p class="best" id="shot">Когда имя вписано, сделайте скриншот этого экрана и отправьте его преподавателю.</p>
+      <h2 id="rank" style="margin-top:18px"></h2>
+      <p class="lead" id="rankmsg"></p>
+      <div class="big"><b id="fscore"></b><span>из 150 очков</span></div>
+      <p class="best" id="fmeta" style="margin-top:6px"></p>
+      <ol class="gloss" id="gloss"></ol>
+      <div class="row"><button class="btn" id="again">Сыграть ещё раз</button></div>
+    </section>
+  </main>
+
+  <div class="forum" id="forum">
+    <div class="bub" style="left:25%"><b></b><small></small></div>
+    <div class="bub" style="left:50%"><b></b><small></small></div>
+    <div class="bub" style="left:75%"><b></b><small></small></div>
+    <svg viewBox="0 0 600 236" role="img" aria-label="Три римлянина на форуме: сенатор, легионер и матрона">
+      <defs>
+        <pattern id="tess" width="12" height="6" patternUnits="userSpaceOnUse">
+          <rect width="6" height="6" style="fill:var(--gold)"/><rect x="6" width="6" height="6" style="fill:var(--lapis)"/>
+        </pattern>
+      </defs>
+      <rect x="0" y="212" width="600" height="24" style="fill:var(--surface2)"/>
+      <rect x="0" y="212" width="600" height="6" fill="url(#tess)"/>
+      <g style="fill:var(--surface);stroke:var(--line)" stroke-width="1.5">
+        <rect x="6" y="22" width="36" height="8"/><rect x="10" y="30" width="28" height="178"/><rect x="4" y="204" width="40" height="8"/>
+        <rect x="558" y="22" width="36" height="8"/><rect x="562" y="30" width="28" height="178"/><rect x="556" y="204" width="40" height="8"/>
+      </g>
+      <g style="stroke:var(--line)" stroke-width="1.5" fill="none">
+        <path d="M18 32V204M24 32V204M30 32V204M570 32V204M576 32V204M582 32V204"/>
+      </g>
+
+      <!-- Сенатор -->
+      <g transform="translate(150,36)" class="f1"><g class="bob">
+        <path d="M-30 176 L-27 98 Q0 88 27 98 L30 176Z" style="fill:var(--toga);stroke:var(--line)" stroke-width="1.5"/>
+        <path d="M-27 100 Q2 128 28 106 L29 122 Q0 148 -28 118Z" fill="#6E2F63"/>
+        <rect x="-5" y="84" width="10" height="14" style="fill:var(--skin)"/>
+        <g transform="translate(-27,100)"><g class="arm armL"><rect x="-7" y="-4" width="14" height="40" rx="7" style="fill:var(--toga);stroke:var(--line)" stroke-width="1.5"/><circle cx="0" cy="40" r="8" style="fill:var(--skin)"/></g></g>
+        <g transform="translate(27,100)"><g class="arm armR"><rect x="-7" y="-4" width="14" height="40" rx="7" style="fill:var(--toga);stroke:var(--line)" stroke-width="1.5"/><circle cx="0" cy="40" r="8" style="fill:var(--skin)"/></g></g>
+        <g class="head">
+          <circle cx="0" cy="70" r="17" style="fill:var(--skin)"/>
+          <path d="M-17 68 Q-19 50 0 50 Q19 50 17 68 Q9 58 0 58 Q-9 58 -17 68Z" fill="#B9BDC8"/>
+          <path d="M-20 62 Q0 40 20 62" fill="none" style="stroke:var(--laurel)" stroke-width="5" stroke-dasharray="5 3" stroke-linecap="round"/>
+          <circle cx="-6" cy="69" r="1.8" fill="#1d1d1d"/><circle cx="6" cy="69" r="1.8" fill="#1d1d1d"/>
+          <path class="m-smile" d="M-6 77 Q0 82 6 77" fill="none" stroke="#1d1d1d" stroke-width="1.8" stroke-linecap="round"/>
+          <path class="m-open" d="M-6 76 Q0 91 6 76Z" fill="#7a2323"/>
+          <path class="m-flat" d="M-5 79H5" fill="none" stroke="#1d1d1d" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+      </g></g>
+
+      <!-- Легионер -->
+      <g transform="translate(300,36)" class="f2"><g class="bob">
+        <g transform="translate(-48,134)"><rect x="-17" y="-30" width="34" height="62" rx="10" fill="#9B2B26" style="stroke:var(--bronze)" stroke-width="3"/><circle r="7" style="fill:var(--bronze)"/></g>
+        <path d="M-27 176 L-25 98 Q0 88 25 98 L27 176Z" fill="#B23A30"/>
+        <g style="fill:var(--bronze)"><rect x="-23" y="102" width="46" height="7" rx="2"/><rect x="-23" y="113" width="46" height="7" rx="2"/><rect x="-24" y="124" width="48" height="7" rx="2"/></g>
+        <rect x="-26" y="136" width="52" height="8" fill="#5a3a1a"/>
+        <rect x="-5" y="84" width="10" height="14" style="fill:var(--skin)"/>
+        <g transform="translate(-25,100)"><g class="arm armL"><rect x="-6" y="-4" width="12" height="40" rx="6" style="fill:var(--skin)"/><circle cx="0" cy="0" r="9" fill="#B23A30"/><circle cx="0" cy="40" r="8" style="fill:var(--skin)"/></g></g>
+        <g transform="translate(25,100)"><g class="arm armR"><rect x="-6" y="-4" width="12" height="40" rx="6" style="fill:var(--skin)"/><circle cx="0" cy="0" r="9" fill="#B23A30"/><circle cx="0" cy="40" r="8" style="fill:var(--skin)"/></g></g>
+        <g class="head">
+          <circle cx="0" cy="70" r="17" style="fill:var(--skin)"/>
+          <path d="M-17 44 Q0 12 17 44 Q0 34 -17 44Z" fill="#B23A30"/>
+          <path d="M-19 63 Q-19 41 0 41 Q19 41 19 63Z" style="fill:var(--bronze)"/>
+          <path d="M-20 63H20" stroke="#8a6322" stroke-width="3"/>
+          <rect x="-19" y="63" width="6" height="14" style="fill:var(--bronze)"/><rect x="13" y="63" width="6" height="14" style="fill:var(--bronze)"/>
+          <circle cx="-6" cy="69" r="1.8" fill="#1d1d1d"/><circle cx="6" cy="69" r="1.8" fill="#1d1d1d"/>
+          <path class="m-smile" d="M-6 77 Q0 82 6 77" fill="none" stroke="#1d1d1d" stroke-width="1.8" stroke-linecap="round"/>
+          <path class="m-open" d="M-6 76 Q0 91 6 76Z" fill="#7a2323"/>
+          <path class="m-flat" d="M-5 79H5" fill="none" stroke="#1d1d1d" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+      </g></g>
+
+      <!-- Матрона -->
+      <g transform="translate(450,36)" class="f3"><g class="bob">
+        <path d="M-30 176 L-25 98 Q0 88 25 98 L30 176Z" fill="#2F5AA3"/>
+        <path d="M-25 100 Q2 122 27 102 L29 128 Q2 150 -27 122Z" fill="#C9993A"/>
+        <rect x="-5" y="84" width="10" height="14" style="fill:var(--skin)"/>
+        <g transform="translate(-25,100)"><g class="arm armL"><rect x="-6" y="-4" width="12" height="40" rx="6" style="fill:var(--skin)"/><circle cx="0" cy="0" r="9" fill="#2F5AA3"/><circle cx="0" cy="40" r="8" style="fill:var(--skin)"/></g></g>
+        <g transform="translate(25,100)"><g class="arm armR"><rect x="-6" y="-4" width="12" height="40" rx="6" style="fill:var(--skin)"/><circle cx="0" cy="0" r="9" fill="#2F5AA3"/><circle cx="0" cy="40" r="8" style="fill:var(--skin)"/></g></g>
+        <g class="head">
+          <circle cx="0" cy="70" r="17" style="fill:var(--skin)"/>
+          <circle cx="0" cy="45" r="8" fill="#4B3425"/>
+          <path d="M-18 70 Q-20 49 0 49 Q20 49 18 70 Q12 58 0 57 Q-12 58 -18 70Z" fill="#4B3425"/>
+          <circle cx="-6" cy="69" r="1.8" fill="#1d1d1d"/><circle cx="6" cy="69" r="1.8" fill="#1d1d1d"/>
+          <path class="m-smile" d="M-6 77 Q0 82 6 77" fill="none" stroke="#1d1d1d" stroke-width="1.8" stroke-linecap="round"/>
+          <path class="m-open" d="M-6 76 Q0 91 6 76Z" fill="#7a2323"/>
+          <path class="m-flat" d="M-5 79H5" fill="none" stroke="#1d1d1d" stroke-width="1.8" stroke-linecap="round"/>
+        </g>
+      </g></g>
+    </svg>
+  </div>
+</div>
+<div id="fx" aria-hidden="true"></div>
+
+<script>
+(()=>{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sleep=ms=>new Promise(r=>setTimeout(r,reduce?0:ms));
+const ROM=['','I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV'];
+const F=$('#forum');
+let S=null, timer=null;
+
+const PH={abs:'удаление',de:'устранение, отдаление; движение сверху вниз',ex:'изъятие, исключение',in:'движение внутрь или на предмет',inter:'нахождение между, среди, внутри',ad:'приближение, присоединение',ob:'противодействие',con:'собирательное значение',pro:'движение вперёд',prae:'нахождение впереди',trans:'через',se:'отделение',dis:'разделение',per:'доведение действия до конца',re:'движение назад; повторение, возобновление действия'};
+
+const REF=[
+['a-, ab-, abs-','удаление (abs- перед t и c)','abstraho — отвлекать'],
+['de-','устранение, отдаление; движение сверху вниз','depono — откладывать'],
+['e-, ex-','изъятие, исключение','expono — выкладывать, излагать'],
+['in-','движение внутрь или на предмет','impono — вкладывать, налагать'],
+['inter-','нахождение между, среди, внутри','intervenio — находиться в середине, вмешиваться'],
+['ad-','приближение, присоединение','appono — прилагать'],
+['ob-','противодействие','oppono — противопоставлять'],
+['con- (co-)','собирательное значение','compono — складывать, слагать'],
+['pro-','движение вперёд','procedo — идти вперёд'],
+['prae-','нахождение впереди','praepono — ставить впереди'],
+['trans- (tra-)','через','transpono — перемещать; traduco — переводить'],
+['se-, sed-','отделение','separo — отделять'],
+['dis-, di-','разделение','dispono — располагать, размещать'],
+['per-','доведение действия до конца','perficio — завершать'],
+['re-','движение назад; повторение, возобновление действия','reduco — отводить назад']
+];
+
+// p — приставка, pre/rest — как пишется получившееся слово, m — его настоящее значение, sc — фонетическое изменение
+const TASKS=[
+{s:'facio',st:'делать',t:'завершать, доводить до конца',a:'per',cf:'перфект',tn:'В составе сложных глаголов корень facio меняется на -ficio (a → i).',o:[
+ {p:'per',pre:'per',rest:'ficio',m:'завершать, доводить до конца'},
+ {p:'re',pre:'re',rest:'ficio',m:'восстанавливать, чинить'},
+ {p:'de',pre:'de',rest:'ficio',m:'ослабевать, недоставать'},
+ {p:'ad',pre:'af',rest:'ficio',m:'воздействовать, поражать',sc:'ad- перед f уподобляется: ad + f → af-.'}]},
+{s:'traho',st:'тащить, тянуть',t:'отвлекать',a:'abs',cf:'абстракция, абстрагировать',tn:'Приставка ab- перед t и c принимает форму abs-.',o:[
+ {p:'abs',pre:'abs',rest:'traho',m:'отвлекать'},
+ {p:'con',pre:'con',rest:'traho',m:'стягивать, сокращать'},
+ {p:'pro',pre:'pro',rest:'traho',m:'вытаскивать вперёд, выводить'},
+ {p:'ex',pre:'ex',rest:'traho',m:'вытаскивать, извлекать'}]},
+{s:'pono',st:'класть, ставить',t:'слагать, составлять',a:'con',cf:'композиция, композитор',o:[
+ {p:'con',pre:'com',rest:'pono',m:'складывать, слагать, составлять',sc:'con- перед p → com-.'},
+ {p:'de',pre:'de',rest:'pono',m:'откладывать, класть на хранение'},
+ {p:'ex',pre:'ex',rest:'pono',m:'выкладывать, излагать'},
+ {p:'prae',pre:'prae',rest:'pono',m:'ставить впереди; предпочитать'}]},
+{s:'pono',st:'класть, ставить',t:'располагать, размещать',a:'dis',cf:'диспозиция',o:[
+ {p:'dis',pre:'dis',rest:'pono',m:'располагать, размещать'},
+ {p:'in',pre:'im',rest:'pono',m:'вкладывать, налагать',sc:'in- перед p → im-.'},
+ {p:'ob',pre:'op',rest:'pono',m:'противопоставлять',sc:'ob- перед p → op-.'},
+ {p:'trans',pre:'trans',rest:'pono',m:'перекладывать, перемещать'}]},
+{s:'pono',st:'класть, ставить',t:'перемещать, перекладывать',a:'trans',cf:'транспонировать',o:[
+ {p:'trans',pre:'trans',rest:'pono',m:'перекладывать, перемещать'},
+ {p:'ad',pre:'ap',rest:'pono',m:'прилагать, приставлять',sc:'ad- перед p → ap-.'},
+ {p:'pro',pre:'pro',rest:'pono',m:'выставлять, предлагать'},
+ {p:'con',pre:'com',rest:'pono',m:'складывать, слагать',sc:'con- перед p → com-.'}]},
+{s:'paro',st:'готовить',t:'отделять',a:'se',cf:'сепаратный',o:[
+ {p:'se',pre:'se',rest:'paro',m:'отделять'},
+ {p:'prae',pre:'prae',rest:'paro',m:'приготавливать заранее'},
+ {p:'re',pre:'re',rest:'paro',m:'восстанавливать, обновлять'},
+ {p:'con',pre:'com',rest:'paro',m:'приготавливать; сравнивать',sc:'con- перед p → com-.'}]},
+{s:'cedo',st:'идти, ступать',t:'идти вперёд',a:'pro',cf:'процесс, процессия, процедура',o:[
+ {p:'pro',pre:'pro',rest:'cedo',m:'идти вперёд'},
+ {p:'dis',pre:'dis',rest:'cedo',m:'расходиться'},
+ {p:'re',pre:'re',rest:'cedo',m:'отходить назад, отступать'},
+ {p:'inter',pre:'inter',rest:'cedo',m:'вставать между; вмешиваться, заступаться'}]},
+{s:'venio',st:'приходить',t:'находиться между, вмешиваться',a:'inter',cf:'интервенция',o:[
+ {p:'inter',pre:'inter',rest:'venio',m:'находиться в середине, вмешиваться'},
+ {p:'con',pre:'con',rest:'venio',m:'сходиться, собираться'},
+ {p:'ad',pre:'ad',rest:'venio',m:'приходить, прибывать'},
+ {p:'re',pre:'re',rest:'venio',m:'возвращаться'}]},
+{s:'pono',st:'класть, ставить',t:'откладывать',a:'de',cf:'депонент, депозит',o:[
+ {p:'de',pre:'de',rest:'pono',m:'откладывать, класть на хранение'},
+ {p:'ex',pre:'ex',rest:'pono',m:'выкладывать, излагать'},
+ {p:'in',pre:'im',rest:'pono',m:'вкладывать, налагать',sc:'in- перед p → im-.'},
+ {p:'prae',pre:'prae',rest:'pono',m:'ставить впереди; предпочитать'}]},
+{s:'duco',st:'вести',t:'отводить назад',a:'re',cf:'редукция',o:[
+ {p:'re',pre:'re',rest:'duco',m:'отводить назад'},
+ {p:'con',pre:'con',rest:'duco',m:'сводить вместе, собирать'},
+ {p:'pro',pre:'pro',rest:'duco',m:'выводить вперёд; производить'},
+ {p:'in',pre:'in',rest:'duco',m:'вводить, вводить внутрь'}]},
+{s:'duco',st:'вести',t:'переводить',a:'trans',cf:'фр. traduction',tn:'Приставка trans- часто имеет форму tra-: traduco (встречается и полная форма transduco).',o:[
+ {p:'trans',pre:'tra',rest:'duco',m:'переводить',sc:'trans- → tra-.'},
+ {p:'de',pre:'de',rest:'duco',m:'отводить вниз; выводить'},
+ {p:'ex',pre:'e',rest:'duco',m:'выводить; воспитывать',sc:'ex- перед d → e-.'},
+ {p:'in',pre:'in',rest:'duco',m:'вводить, вводить внутрь'}]},
+{s:'pono',st:'класть, ставить',t:'ставить впереди',a:'prae',cf:'praepositio — предлог (грам.)',o:[
+ {p:'prae',pre:'prae',rest:'pono',m:'ставить впереди'},
+ {p:'ex',pre:'ex',rest:'pono',m:'выкладывать, излагать'},
+ {p:'ob',pre:'op',rest:'pono',m:'противопоставлять',sc:'ob- перед p → op-.'},
+ {p:'in',pre:'im',rest:'pono',m:'вкладывать, налагать',sc:'in- перед p → im-.'}]},
+{s:'eo',st:'идти',t:'входить',a:'in',cf:'ineo, inire — входить',o:[
+ {p:'in',pre:'in',rest:'eo',m:'входить'},
+ {p:'ab',pre:'ab',rest:'eo',m:'уходить'},
+ {p:'ex',pre:'ex',rest:'eo',m:'выходить'},
+ {p:'trans',pre:'trans',rest:'eo',m:'переходить, проходить через'}]},
+{s:'pono',st:'класть, ставить',t:'противопоставлять',a:'ob',cf:'оппозиция',tn:'Приставка ob- перед p → op-.',o:[
+ {p:'ob',pre:'op',rest:'pono',m:'противопоставлять',sc:'ob- перед p → op-.'},
+ {p:'ad',pre:'ap',rest:'pono',m:'прилагать, приставлять',sc:'ad- перед p → ap-.'},
+ {p:'in',pre:'im',rest:'pono',m:'вкладывать, налагать',sc:'in- перед p → im-.'},
+ {p:'de',pre:'de',rest:'pono',m:'откладывать, класть на хранение'}]},
+{s:'mitto',st:'посылать, пускать',t:'выпускать, выбрасывать',a:'ex',cf:'эмиссия',o:[
+ {p:'ex',pre:'e',rest:'mitto',m:'выпускать, выбрасывать',sc:'ex- перед m → e-.'},
+ {p:'ad',pre:'ad',rest:'mitto',m:'допускать, впускать'},
+ {p:'pro',pre:'pro',rest:'mitto',m:'обещать'},
+ {p:'re',pre:'re',rest:'mitto',m:'отсылать назад; ослаблять'}]}
+];
+// у пробелов-вариантов ab/abs в задании 13 нет, поэтому подсказки берём с запасом
+PH.ab=PH.abs;
+
+const PRAISE=[['Euge!','Браво!'],['Bene!','Хорошо!'],['Optime!','Превосходно!'],['Praeclare!','Прекрасно!'],['Probe!','Отлично!'],['Macte virtute!','Слава доблести!']];
+const NOPE=[['Non ita!','Не так!'],['Iterum conare!','Ещё раз!']];
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function best(){try{return +localStorage.getItem('lat-konstruktor-best')||0}catch(e){return 0}}
+function saveBest(v){try{localStorage.setItem('lat-konstruktor-best',String(v))}catch(e){}}
+
+function show(id){
+  ['start','game','end'].forEach(k=>{$('#'+k).hidden=(k!==id)});
+  $('#stats').hidden=(id==='start');
+}
+
+/* Римляне */
+function say(items,ms,mode){
+  clearTimeout(timer);
+  F.classList.remove('cheer','nope');
+  if(mode)F.classList.add(mode);
+  $$('.bub').forEach((b,i)=>{
+    const it=items[i];
+    if(it){
+      b.querySelector('b').textContent=it[0];
+      b.querySelector('small').textContent=it[1];
+      b.style.transitionDelay=(i*110)+'ms';
+      b.classList.add('on');
+    }else b.classList.remove('on');
+  });
+  timer=setTimeout(()=>{
+    $$('.bub').forEach(b=>{b.style.transitionDelay='0ms';b.classList.remove('on')});
+    F.classList.remove('cheer','nope');
+  },ms);
+}
+function cheer(){
+  let p=shuffle(PRAISE).slice(0,3);
+  if(S.streak>=3)p[1]=['Macte virtute!','Слава доблести!'];
+  say(p,2800,'cheer');
+}
+function nope(){
+  const n=shuffle(NOPE)[0];
+  say([null,n,null],1900,'nope');
+}
+
+/* Листья */
+function leaves(n,mode,origin){
+  if(reduce)return;
+  const fx=$('#fx');
+  for(let k=0;k<n;k++){
+    const l=document.createElement('i');
+    l.className='leaf '+mode+(Math.random()<.3?' g':'');
+    if(mode==='burst'){
+      l.style.left=origin.x+'px';l.style.top=origin.y+'px';
+      l.style.setProperty('--dx',(Math.random()*340-170)+'px');
+      l.style.setProperty('--dy',-(60+Math.random()*150)+'px');
+    }else{
+      l.style.left=(Math.random()*100)+'%';
+      l.style.setProperty('--dx',(Math.random()*160-80)+'px');
+      l.style.animationDelay=(Math.random()*1.4)+'s';
+    }
+    l.style.setProperty('--rot',(Math.random()*720-360)+'deg');
+    fx.appendChild(l);
+    l.addEventListener('animationend',()=>l.remove());
+  }
+}
+
+/* Полёт приставки к слоту */
+function flyTo(from,to,label){
+  if(reduce)return Promise.resolve();
+  const a=from.getBoundingClientRect(),b=to.getBoundingClientRect();
+  const c=document.createElement('div');
+  c.className='flyer';c.textContent=label;
+  c.style.cssText+=`left:${a.left}px;top:${a.top}px;width:${a.width}px;height:${a.height}px`;
+  document.body.appendChild(c);
+  const dx=b.left+b.width/2-(a.left+a.width/2),dy=b.top+b.height/2-(a.top+a.height/2);
+  const an=c.animate([
+    {transform:'translate(0,0) scale(1)',opacity:1},
+    {transform:`translate(${dx}px,${dy}px) scale(.5)`,opacity:.2}
+  ],{duration:480,easing:'cubic-bezier(.3,.7,.2,1)',fill:'forwards'});
+  return an.finished.catch(()=>{}).then(()=>c.remove());
+}
+
+/* Слово в конструкторе */
+function setWord(pre,rest,fp,fr){
+  const p=$('#pre'),r=$('#rest');
+  p.textContent=pre;p.classList.toggle('filled',!!pre);
+  r.textContent=rest;
+  [p,r].forEach(e=>e.classList.remove('flash','pop'));
+  void p.offsetWidth;
+  if(fp)p.classList.add('flash','pop');
+  if(fr)r.classList.add('flash','pop');
+}
+
+function updateStats(){
+  $('#score').textContent=S.score;
+  $('#streak').textContent=S.streak;
+  ['#score','#streak'].forEach(id=>{const e=$(id);e.classList.remove('bump');void e.offsetWidth;e.classList.add('bump')});
+}
+function drawRoad(){
+  $('#road').innerHTML=TASKS.map((_,i)=>{
+    const r=S.res[i];
+    const c=i===S.i&&!S.done?'cur':(r?(r.clean?'full':'part'):'');
+    return `<li class="${c}"></li>`;
+  }).join('');
+}
+
+function begin(){
+  S={i:0,score:0,streak:0,first:0,res:[],done:false};
+  show('game');
+  loadTask();
+  updateStats();
+}
+
+function loadTask(){
+  const t=TASKS[S.i];
+  S.t=t;S.wrong=0;S.hint=false;S.locked=false;S.done=false;S.prev=[];
+  S.opts=shuffle(t.o);
+  $('#num').textContent=ROM[S.i+1]+' / XV';
+  $('#target').textContent='«'+t.t+'»';
+  $('#stemline').innerHTML=`Основа: <b>${t.s}</b> — «${t.st}»`;
+  setWord('',t.s);
+  const o=$('#opts');
+  o.className='opts';
+  o.innerHTML=S.opts.map((x,i)=>`<button class="tile" type="button" data-i="${i}" aria-label="Приставка ${x.p}"><span class="k">${i+1}</span><span class="pf">${x.p}-</span><small>${PH[x.p]}</small></button>`).join('');
+  $$('.tile').forEach(b=>b.addEventListener('click',()=>pick(+b.dataset.i)));
+  $('#fb').innerHTML='';
+  $('#next').hidden=true;
+  $('#next').textContent=S.i===TASKS.length-1?'Итоги':'Дальше';
+  const h=$('#hintbtn');h.disabled=false;h.hidden=false;h.textContent='Подсказка: значения приставок (−3)';
+  drawRoad();
+}
+
+function verdict(o,ok){
+  const t=S.t;
+  const notes=[];
+  if(o.sc)notes.push(o.sc);
+  if(ok&&t.tn&&!(o.sc&&t.tn.indexOf(o.sc)>=0))notes.push(t.tn);
+  let h=`<div class="v ${ok?'ok':'bad'}"><div class="vh"><span class="chip">${ok?'✓ Верно':'✗ Не подходит'}</span><span class="vw lat"><span class="wp">${o.pre}</span><span>${o.rest}</span></span></div>`;
+  h+=`<p>Так записывается новый глагол, и означает он: <em>${o.m}</em>.</p>`;
+  h+=ok?`<p class="chk">✓ Значение совпадает с заданием: «${t.t}».</p>`
+        :`<p class="chk">✗ В задании нужно «${t.t}», а здесь другое значение.</p>`;
+  h+=`<p class="note">Приставка <b>${o.p}-</b>: «${PH[o.p]}».</p>`;
+  notes.forEach(n=>{h+=`<p class="note">${n}</p>`});
+  if(ok){
+    if(t.cf)h+=`<p class="note">Ср.: ${t.cf}.</p>`;
+    if(S.prev.length)h+=`<p class="note">Раньше не подошли: ${S.prev.map(x=>x.w+' — '+x.m).join('; ')}.</p>`;
+  }
+  h+='</div>';
+  $('#fb').innerHTML=h;
+}
+
+async function pick(i){
+  if(S.locked||S.done)return;
+  S.locked=true;
+  const o=S.opts[i],btn=$$('.tile')[i],t=S.t,ok=(o.p===t.a);
+  btn.disabled=true;
+  await flyTo(btn,$('#pre'),o.p+'-');
+  // сначала приставка в исходном виде, потом слово «склеивается»
+  setWord(o.p,t.s,false,false);
+  await sleep(380);
+  setWord(o.pre,o.rest,o.pre!==o.p,o.rest!==t.s);
+  await sleep(500);
+  verdict(o,ok);
+  if(ok){
+    S.done=true;
+    btn.classList.add('good');
+    $$('.tile').forEach(b=>b.disabled=true);
+    const clean=(S.wrong===0&&!S.hint);
+    const pts=Math.max(2,10-4*S.wrong-(S.hint?3:0));
+    S.score+=pts;
+    if(S.wrong===0){S.streak++}
+    if(clean)S.first++;
+    S.res[S.i]={t,pts,clean,w:o.pre+o.rest};
+    updateStats();drawRoad();
+    $('#hintbtn').hidden=true;
+    cheer();
+    const r=$('.word').getBoundingClientRect();
+    leaves(18,'burst',{x:r.left+r.width/2,y:r.top+r.height/2});
+    const n=$('#next');n.hidden=false;
+    try{n.focus({preventScroll:true})}catch(e){}
+    if(!reduce)F.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }else{
+    S.wrong++;S.streak=0;
+    S.prev.push({w:o.pre+o.rest,m:o.m});
+    btn.classList.add('bad');
+    updateStats();
+    nope();
+    await sleep(1300);
+    setWord('',t.s);
+    S.locked=false;
+  }
+}
+
+function next(){
+  if(S.i>=TASKS.length-1){finish();return}
+  S.i++;
+  loadTask();
+  window.scrollTo&&window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+}
+
+function finish(){
+  const max=TASKS.length*10;
+  let rank,msg;
+  if(S.score>=135){rank='Консул';msg='Римский сенат аплодирует стоя: приставки вам подвластны.'}
+  else if(S.score>=105){rank='Центурион';msg='Уверенное владение приставками. Ещё немного, и безупречный результат.'}
+  else if(S.score>=70){rank='Легионер';msg='Хороший ход. Повторите таблицу приставок и сыграйте ещё раз.'}
+  else{rank='Новобранец';msg='Начало положено. Откройте таблицу приставок и попробуйте снова.'}
+  const prevBest=best();
+  if(S.score>prevBest)saveBest(S.score);
+  $('#rank').textContent=rank;
+  $('#rankmsg').textContent=msg;
+  $('#fscore').textContent=S.score;
+  $('#fmeta').textContent=`С первой попытки и без подсказок: ${S.first} из ${TASKS.length}. `+(S.score>prevBest?'Новый рекорд!':'Рекорд: '+Math.max(prevBest,S.score)+'.');
+  $('#gloss').innerHTML=S.res.map(r=>{
+    const o=r.t.o.find(x=>x.p===r.t.a);
+    return `<li class="${r.clean?'full':''}"><span class="gw">${o.pre+o.rest}</span><span class="gm">${o.m}</span><span class="gp">${r.pts}</span></li>`;
+  }).join('');
+  S.done=true;
+  const nm=$('#stname');
+  try{nm.value=localStorage.getItem('lat-konstruktor-name')||''}catch(e){}
+  $('#fdate').textContent='Дата: '+new Date().toLocaleString('ru-RU',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  show('end');
+  if(!nm.value)setTimeout(()=>{try{nm.focus({preventScroll:true})}catch(e){}},300);
+  say([['Io triumphe!','Слава триумфу!'],['Ave, victor!','Привет победителю!'],['Macte virtute!','Слава доблести!']],4500,'cheer');
+  leaves(46,'rain');
+  window.scrollTo&&window.scrollTo({top:0,behavior:reduce?'auto':'smooth'});
+}
+
+/* Подготовка экрана и события */
+$('#ref').innerHTML=REF.map(r=>`<div class="tr"><b>${r[0]}</b><div>${r[1]}<small class="lat" style="font-size:.85rem">${r[2]}</small></div></div>`).join('');
+const b0=best();
+$('#bestline').textContent=b0?`Ваш рекорд: ${b0} из 150`:'';
+$('#stname').addEventListener('input',e=>{try{localStorage.setItem('lat-konstruktor-name',e.target.value)}catch(err){}});
+$('#go').addEventListener('click',begin);
+$('#again').addEventListener('click',begin);
+$('#next').addEventListener('click',next);
+$('#hintbtn').addEventListener('click',()=>{
+  if(!S||S.locked||S.done||S.hint)return;
+  S.hint=true;
+  $('#opts').classList.add('hint');
+  const h=$('#hintbtn');h.disabled=true;h.textContent='Подсказка использована (−3)';
+});
+document.addEventListener('keydown',e=>{
+  if($('#game').hidden||!S)return;
+  if(/^[1-4]$/.test(e.key)){const t=$$('.tile')[+e.key-1];if(t&&!t.disabled)t.click()}
+});
+
+show('start');
+setTimeout(()=>say([['Salve!','Здравствуй!'],null,['Ave!','Привет!']],3200,'cheer'),600);
+})();
+</script>
+
+</body></html>
