@@ -1,0 +1,884 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Учебный перевод с латинского языка: Минерва и Диана</title>
+<meta name="author" content="Magistra MS">
+<meta name="description" content="Учебный перевод с латинского языка: определение формы (время, число, падеж) и перевод. Автор: Magistra MS.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Spectral:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>/* Latin exercise — Magistra MS */
+:root{
+  --bg:#f5eedd; --card:#fffaf0; --ink:#2b2118; --muted:#6f6350; --line:#e3d6b8;
+  --terra:#b4492f; --blue:#2f6fa8; --green:#3d7f46; --gold:#b98512; --good:#2f8a4e; --bad:#c0392b;
+  --r-p:#b4492f; --r-s:#2f6fa8; --r-o:#3d7f46; --r-r:#b98512;
+  --serif:'Spectral',Georgia,'Times New Roman',serif; --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;
+  background-image:radial-gradient(circle at 20% 0%,#fbf4e2 0,transparent 55%)}
+button,input,textarea{font:inherit;color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+.meander{height:12px;background:
+  linear-gradient(90deg,var(--terra) 0 0) 0 0/100% 2px no-repeat,
+  repeating-linear-gradient(90deg,var(--terra) 0 3px,transparent 3px 6px) 0 4px/100% 6px no-repeat;opacity:.8}
+
+/* top bar */
+.top{position:sticky;top:0;z-index:20;background:rgba(255,250,240,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:14px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:700;font-size:18px;letter-spacing:.2px}
+.brand small{display:block;font:500 11px var(--sans);color:var(--muted);letter-spacing:.3px}
+.dots{display:flex;gap:5px;flex:1;min-width:140px;flex-wrap:wrap}
+.dot{width:22px;height:8px;border-radius:4px;background:var(--line);border:0;padding:0;cursor:default}
+.dot.done{background:var(--good)} .dot.part{background:#d9a21b} .dot.cur{outline:2px solid var(--terra);outline-offset:1px}
+.dot.nav{cursor:pointer}
+.pill{font:600 13px var(--sans);background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 12px;white-space:nowrap}
+
+/* layout */
+main{padding:20px 0 60px}
+.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 1px 0 #fff inset,0 6px 18px -12px rgba(80,50,10,.35)}
+.scene{padding:0;overflow:hidden;position:relative;aspect-ratio:16/9;background:#dcecf8}
+.scene svg{width:100%;height:100%;display:block}
+.replay{position:absolute;right:10px;bottom:10px;border:1px solid var(--line);background:rgba(255,250,240,.95);border-radius:999px;padding:5px 12px;font:600 13px var(--sans);cursor:pointer}
+.snum{font:600 12px var(--sans);color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin:0 0 6px}
+.latin{font-family:var(--serif);font-size:clamp(22px,3.4vw,30px);line-height:1.5;margin:0}
+.tok{padding:1px 3px;border-radius:5px;transition:background .3s,box-shadow .3s}
+.tok.p{background:#f6d5cb;box-shadow:inset 0 -2px 0 var(--r-p)} .tok.s{background:#cfe1f3;box-shadow:inset 0 -2px 0 var(--r-s)}
+.tok.o{background:#d3ebd6;box-shadow:inset 0 -2px 0 var(--r-o)} .tok.r{background:#f4e4b6;box-shadow:inset 0 -2px 0 var(--r-r)}
+.tok.hl{outline:2px solid var(--ink)}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 16px;font-weight:600;cursor:pointer;min-height:42px}
+.btn:hover{border-color:var(--terra)}
+.btn.primary{background:var(--terra);border-color:var(--terra);color:#fff}
+.btn.primary:hover{filter:brightness(1.07)} .btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.big{padding:13px 24px;font-size:17px}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #f1a98e;outline-offset:2px}
+.dict{margin-top:12px;border-top:1px dashed var(--line);padding-top:10px}
+.dict table{width:100%;border-collapse:collapse;font-size:14.5px}
+.dict td{padding:6px 8px;border-bottom:1px solid #f0e6cc;vertical-align:top}
+.dict td:first-child{font-family:var(--serif);font-weight:700;white-space:nowrap}
+.dict tr:hover{background:#fbf0d6}
+.dict i{color:var(--muted);font-size:13px}
+
+/* steps */
+.steps{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.step{border:1px solid var(--line);border-radius:14px;background:var(--card);padding:14px 16px}
+.step.locked{opacity:.5;background:#f3ead4}
+.step h3{margin:0 0 2px;font-size:16px;display:flex;align-items:center;gap:8px}
+.step .n{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;color:#fff;font-size:13px}
+.step.p .n{background:var(--r-p)} .step.s .n{background:var(--r-s)} .step.o .n{background:var(--r-o)} .step.r .n{background:var(--r-r)}
+.step .hint{color:var(--muted);font-size:13.5px;margin:0 0 8px}
+.step input[type=text]{width:100%;padding:10px 12px;border:1.5px solid #d8c9a3;border-radius:10px;background:#fff;font-size:16px}
+.fb{margin-top:8px;font-size:14.5px}
+.chip{display:inline-block;border-radius:999px;padding:2px 10px;font:700 12.5px var(--sans);color:#fff}
+.chip.good{background:var(--good)} .chip.mid{background:#d08a10} .chip.bad{background:var(--bad)}
+.exp{background:#f6efd9;border-radius:8px;padding:6px 10px;margin-top:6px}
+.sdone{margin-top:14px}
+.sdone .ref{font-family:var(--serif);font-size:19px}
+.mark{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--terra);color:#fff;font:700 22px var(--serif)}
+
+/* intro / results */
+.hero{text-align:center;padding:26px 14px}
+.hero h1{font-family:var(--serif);font-size:clamp(28px,5vw,44px);margin:6px 0 4px;line-height:1.15}
+.hero .sub{color:var(--muted);max-width:640px;margin:0 auto 14px}
+.rules{text-align:left;max-width:720px;margin:14px auto;padding-left:20px}
+.rules li{margin:6px 0}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:18px 0}
+.choice{border:2px solid var(--line);border-radius:16px;background:#fff;padding:16px;text-align:left;cursor:pointer}
+.choice:hover{border-color:var(--terra)} .choice h3{margin:0 0 4px;font-family:var(--serif);font-size:21px}
+.choice .meta{color:var(--muted);font-size:14px}
+.legend{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.legend span{padding:2px 10px;border-radius:999px;font-size:13px;font-weight:600}
+.ticket{border:2px solid var(--terra);border-radius:18px;background:#fffdf6;padding:18px;position:relative}
+.ticket .code{font:700 clamp(15px,3.2vw,22px) ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.5px;background:#f6efd9;border-radius:10px;padding:8px 12px;display:inline-block;word-break:break-all}
+.bigmark{font:700 64px/1 var(--serif);color:var(--terra)}
+.kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:14px 0}
+.kv div{background:#f6efd9;border-radius:10px;padding:8px 12px}
+.kv b{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.nameinp{width:100%;font:700 24px var(--serif);padding:10px 14px;border:2px dashed var(--terra);border-radius:12px;background:#fff}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin:10px 0}
+.sg{border-radius:10px;padding:6px;text-align:center;font-size:13px;border:1px solid var(--line);background:#fff}
+.sg b{display:block;font-size:16px}
+.list{margin:6px 0;padding-left:18px} .list li{margin:5px 0}
+details summary{cursor:pointer;font-weight:600}
+.author{text-align:center;color:var(--muted);font-size:13px;margin-top:30px}
+.modal{position:fixed;inset:0;background:rgba(40,25,10,.5);display:grid;place-items:center;z-index:50;padding:16px}
+.modal .card{max-width:520px;width:100%}
+.modal input{width:100%;padding:10px;border:1.5px solid #d8c9a3;border-radius:10px;font:600 16px ui-monospace,Menlo,monospace}
+[hidden]{display:none!important}
+
+/* ---------- анимации сцен ---------- */
+.a-bob{animation:s-bob var(--d,2s) ease-in-out var(--delay,0s) infinite alternate}
+.a-bob2{animation:s-bob2 var(--d,2s) ease-in-out var(--delay,0s) infinite alternate}
+.a-sway{animation:s-sway var(--d,4s) ease-in-out var(--delay,0s) infinite alternate}
+.a-drift{animation:s-drift var(--d,14s) ease-in-out infinite alternate}
+.a-wave{animation:s-wave var(--d,4s) linear infinite}
+.a-flick{animation:s-flick var(--d,.5s) ease-in-out infinite alternate}
+.a-twinkle{animation:s-twinkle var(--d,1.6s) ease-in-out var(--delay,0s) infinite alternate}
+.a-rise{animation:s-rise var(--d,3s) ease-out var(--delay,0s) infinite}
+.a-flap{animation:s-flap var(--d,.5s) ease-in-out var(--delay,0s) infinite alternate}
+.a-arm{animation:s-arm 1s ease-in-out var(--delay,0s) infinite alternate}
+.a-pulse{animation:s-pulse var(--d,2.6s) ease-in-out infinite alternate}
+.a-spin{animation:s-spin var(--d,24s) linear infinite}
+.a-move{animation:s-move var(--d,5s) ease-in-out var(--delay,0s) infinite alternate}
+.a-walk{animation:s-walk var(--d,6s) linear var(--delay,0s) infinite}
+.a-leg{animation:s-leg var(--d,.7s) ease-in-out var(--delay,0s) infinite alternate}
+.a-jump{animation:s-jump var(--d,.9s) ease-in-out infinite alternate}
+.a-dash path{stroke-dashoffset:0;animation:s-dash var(--d,1.2s) linear infinite}
+.a-fan{animation:s-fan var(--d,2.4s) ease-in-out infinite alternate}
+.a-pop{animation:s-pop .5s ease-out var(--delay,0s) both}
+.a-drop{animation:s-drop var(--d,5s) ease-in infinite}
+.a-grow{animation:s-grow var(--d,5s) ease-out infinite}
+.a-thrust{animation:s-thrust var(--d,.9s) ease-in-out infinite alternate}
+.a-shake{animation:s-shake var(--d,.9s) linear infinite}
+.a-write{animation:s-write var(--d,4s) linear var(--delay,0s) infinite}
+.a-fade{animation:s-fade var(--d,3s) ease-in-out var(--delay,0s) infinite alternate}
+.a-fall{animation:s-fall var(--d,5s) linear var(--delay,0s) infinite}
+.a-ring{animation:s-ring var(--d,2.4s) ease-out var(--delay,0s) infinite}
+@keyframes s-bob{to{transform:translateY(-3px)}}
+@keyframes s-bob2{to{transform:translateY(-9px)}}
+@keyframes s-sway{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
+@keyframes s-drift{from{transform:translateX(-14px)}to{transform:translateX(14px)}}
+@keyframes s-wave{to{transform:translateX(calc(-1*var(--per,60px)))}}
+@keyframes s-flick{to{transform:scale(.9,1.14)}}
+@keyframes s-twinkle{from{opacity:.15;transform:scale(.7)}to{opacity:1;transform:scale(1.1)}}
+@keyframes s-rise{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(-55px);opacity:0}}
+@keyframes s-flap{from{transform:rotate(-22deg)}to{transform:rotate(22deg)}}
+@keyframes s-arm{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
+@keyframes s-pulse{to{transform:scale(1.12)}}
+@keyframes s-spin{to{transform:rotate(360deg)}}
+@keyframes s-move{from{transform:translate(var(--x0,0),var(--y0,0))}to{transform:translate(var(--x1,0),var(--y1,0))}}
+@keyframes s-walk{0%{transform:translate(var(--x0,0),var(--y0,0));opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translate(var(--x1,0),var(--y1,0));opacity:0}}
+@keyframes s-leg{from{transform:rotate(-16deg)}to{transform:rotate(16deg)}}
+@keyframes s-jump{to{transform:translateY(-9px)}}
+@keyframes s-dash{to{stroke-dashoffset:-30}}
+@keyframes s-fan{from{transform:scale(.8)}to{transform:scale(1.05)}}
+@keyframes s-pop{from{transform:scale(.2);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes s-drop{0%{transform:translateY(-110px);opacity:0}25%{transform:translateY(0);opacity:1}88%{opacity:1}100%{transform:translateY(0);opacity:0}}
+@keyframes s-grow{0%{transform:scaleY(.15);opacity:.3}30%{transform:scaleY(1);opacity:1}90%{opacity:1}100%{transform:scaleY(1);opacity:.3}}
+@keyframes s-thrust{to{transform:translateX(30px)}}
+@keyframes s-shake{0%,50%,100%{transform:translateX(0)}20%{transform:translateX(3px)}70%{transform:translateX(-3px)}}
+@keyframes s-write{0%{opacity:0}20%,85%{opacity:1}100%{opacity:0}}
+@keyframes s-fade{from{opacity:.25}to{opacity:1}}
+@keyframes s-fall{from{transform:translateY(0) translateX(0)}to{transform:translateY(260px) translateX(30px)}}
+@keyframes s-ring{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(34px)}}
+@media (prefers-reduced-motion:reduce){.scene *{animation-duration:30s!important}}
+
+/* v3: вопросы, схема, компактный итог */
+.ql{display:block;margin:10px 0 0;font-weight:600;font-size:15px}
+.ql input{display:block;width:100%;margin-top:4px;padding:10px 12px;border:1.5px solid #d8c9a3;border-radius:10px;background:#fff;font-size:16px;font-weight:400}
+.lat{font-family:var(--serif);color:var(--r-r);font-weight:600}
+.scheme{margin-top:14px;border:1px dashed var(--terra);border-radius:14px;padding:12px 14px;background:#fffdf6}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.sc{background:#f6efd9;border-radius:10px;padding:5px 10px}.sc small{display:block;color:var(--muted);font-size:11.5px}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+.rcol{display:grid;gap:14px}
+@media(max-width:860px){.rgrid{grid-template-columns:1fr}}
+.list.cols{columns:2;column-gap:28px}.list.cols li{break-inside:avoid}
+@media(max-width:860px){.list.cols{columns:1}}
+.sgrid{grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:6px}.sg{padding:3px;font-size:11px}.sg b{font-size:14px}
+.menu{display:grid;gap:16px;margin:20px 0}
+.menu a{text-decoration:none;color:inherit}
+.step.m .n{background:var(--r-r)}
+
+/* v4: выбор формы */
+.sel{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.sel label{font-size:13px;font-weight:600;color:var(--muted)}
+.sel select{display:block;width:100%;margin-top:3px;padding:9px 8px;border:1.5px solid #d8c9a3;border-radius:10px;background:#fff;font-size:15px;color:var(--ink)}
+@media(max-width:420px){.sel{grid-template-columns:1fr}}
+.mi{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}.mi:first-of-type{border-top:0;padding-top:0}
+.fb .mi{margin-top:8px}
+.brand{font-size:16px}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<main id="app"></main>
+<script>/* scenes.js — анимированные SVG-сцены к предложениям. Автор проекта: Magistra MS */
+(function () {
+  const C = { ink: '#2b2118', skin: '#f1c69c', marble: '#ece7da', marble2: '#cfc8b8', gold: '#d9a21b', terra: '#b4492f' };
+  let _u = 0; const uid = () => 'u' + (++_u);
+  const at = (x, y, s, inner, flip) => `<g transform="translate(${x},${y}) scale(${flip ? -(s || 1) : (s || 1)},${s || 1})">${inner}</g>`;
+  const A = (cls, inner, d, delay, extra) => `<g class="${cls}" style="--d:${d || 2}s;--delay:${delay || 0}s;${extra || ''}">${inner}</g>`;
+  const mv = (inner, x0, y0, x1, y1, d, delay, cls) => A(cls || 'a-move', inner, d, delay, `--x0:${x0}px;--y0:${y0}px;--x1:${x1}px;--y1:${y1}px`);
+
+  /* ---------- фоны ---------- */
+  const sky = (a, b) => { const i = uid(); return `<defs><linearGradient id="${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="480" height="270" fill="url(#${i})"/>`; };
+  const cloud = (x, y, s, d, fill, op) => at(x, y, s || 1, A('a-drift', `<g fill="${fill || '#fff'}" opacity="${op || .95}"><ellipse rx="34" ry="12"/><circle cx="-14" cy="-8" r="13"/><circle cx="8" cy="-13" r="16"/><circle cx="24" cy="-4" r="11"/></g>`, d || 14));
+  const sun = (x, y, r) => { r = r || 22; return at(x, y, 1, A('a-spin', Array.from({ length: 12 }, (_, i) => `<rect x="-2" y="${-r - 14}" width="4" height="10" rx="2" fill="#f6c945" transform="rotate(${i * 30})"/>`).join(''), 24) + `<circle r="${r}" fill="#f9d95a"/>`); };
+  const wave = (y, fill, amp, per, d, op, rev) => { amp = amp || 5; per = per || 60; let p = `M${-per * 2},${y}`; for (let x = -per * 2; x < 480 + per; x += per) p += ` q${per / 4},${-amp} ${per / 2},0 t${per / 2},0`; p += ` V270 H${-per * 2} Z`; return `<g class="a-wave" style="--per:${per}px;--d:${d || 4}s;${rev ? 'animation-direction:reverse;' : ''}"><path d="${p}" fill="${fill}" opacity="${op || 1}"/></g>`; };
+  const hills = (c1, c2) => `<path d="M0,190 Q90,150 190,185 T380,175 T480,170 V270 H0Z" fill="${c2 || '#7fae57'}"/><path d="M0,218 Q120,190 240,214 T480,206 V270 H0Z" fill="${c1 || '#9bc36b'}"/>`;
+  const tree = (x, y, s, k, d, delay) => at(x, y, s || 1, `<rect x="-3" y="-26" width="6" height="26" fill="#7a5230"/>` + A('a-sway', k === 'pine' ? `<path d="M0,-74 L-17,-30 H17Z M0,-58 L-22,-16 H22Z" fill="#2f6b3c"/>` : `<circle cy="-38" r="18" fill="#6f9a4a"/><circle cx="-12" cy="-28" r="12" fill="#7fae57"/><circle cx="12" cy="-30" r="12" fill="#5d8a3e"/>`, d || 4, delay || 0));
+  const house = (x, y, s) => at(x, y, s || 1, `<rect x="-16" y="-24" width="32" height="24" fill="#f0e2c0"/><path d="M-20,-24 L0,-42 L20,-24Z" fill="#c8623f"/><rect x="-4" y="-14" width="8" height="14" fill="#8a5a34"/><rect x="7" y="-19" width="6" height="6" fill="#7fb6d9"/>`);
+  const spark = (x, y, s, delay) => at(x, y, s || 1, A('a-twinkle', `<path d="M0,-6 L1.6,-1.6 L6,0 L1.6,1.6 L0,6 L-1.6,1.6 L-6,0 L-1.6,-1.6Z" fill="#fff3a0" stroke="#e6b422" stroke-width=".6"/>`, 1.6, delay || 0));
+  const heart = (x, y, delay, s) => at(x, y, s || 1, A('a-rise', `<path d="M0,4 C-10,-4 -5,-11 0,-6 C5,-11 10,-4 0,4Z" fill="#e8517f"/>`, 3, delay || 0));
+  const note = (x, y, delay) => at(x, y, 1, A('a-rise', `<ellipse rx="4.2" ry="3" transform="rotate(-20)" fill="${C.ink}"/><path d="M3.6,-1.5 V-16 q7,1 6,9" stroke="${C.ink}" stroke-width="1.8" fill="none"/>`, 3, delay || 0));
+  const bubble = (x, y, r, delay) => at(x, y, 1, A('a-rise', `<circle r="${r}" fill="none" stroke="#e8f8ff" stroke-width="1.4" opacity=".9"/>`, 3.5, delay || 0));
+  const tag = (x, y, txt, delay) => { const w = txt.length * 6.8 + 18; return at(x, y, 1, A('a-pop', `<rect x="${-w / 2}" y="-11" width="${w}" height="20" rx="10" fill="#fbf5e6" stroke="#b4492f" stroke-width="1.4"/><text y="3.5" text-anchor="middle" font-family="Spectral,Georgia,serif" font-style="italic" font-size="12.5" fill="#2b2118">${txt}</text>`, 0.5, delay || 0)); };
+  const flame = (x, y, s) => at(x, y, s || 1, A('a-flick', `<path d="M0,0 C-9,-4 -8,-16 0,-26 C2,-16 9,-12 8,-5 C7,-1 3,1 0,0Z" fill="#f08a24"/><path d="M0,0 C-4,-2 -4,-9 0,-14 C2,-9 5,-6 3,-2Z" fill="#ffd44d"/>`, .5));
+  const smoke = (x, y) => at(x, y, 1, A('a-rise', `<circle r="5" fill="#9a9a9a" opacity=".55"/>`, 3, 0) + A('a-rise', `<circle cx="4" r="4" fill="#9a9a9a" opacity=".5"/>`, 3, 1.5));
+  const altar = (x, y, s, fire, mark) => at(x, y, s || 1, `<rect x="-20" y="-6" width="40" height="6" fill="${C.marble2}"/><rect x="-15" y="-34" width="30" height="28" fill="${C.marble}"/><rect x="-18" y="-40" width="36" height="7" rx="1.5" fill="${C.marble2}"/><path d="M-9,-30 v20 M0,-30 v20 M9,-30 v20" stroke="${C.marble2}" stroke-width="2"/>${mark || ''}${fire === false ? '' : flame(0, -40, 1.1) + smoke(0, -56)}`);
+  const winged = `<g transform="translate(0,-18)"><path d="M0,0 Q-14,-10 -18,-2 Q-10,-3 -2,3Z M0,0 Q14,-10 18,-2 Q10,-3 2,3Z" fill="#fff" stroke="#b9b09a" stroke-width=".8"/><circle r="4" fill="#d9a21b"/></g>`;
+  const temple = (x, y, s, emb) => at(x, y, s || 1, `<rect x="-62" y="-8" width="124" height="8" fill="#cfc8b8"/><rect x="-56" y="-14" width="112" height="6" fill="#e1dccd"/>${[-42, -14, 14, 42].map(cx => `<rect x="${cx - 6}" y="-62" width="12" height="48" fill="#f4f0e5"/><path d="M${cx - 2},-62 v48 M${cx + 2},-62 v48" stroke="#d6d0c0"/><rect x="${cx - 8}" y="-66" width="16" height="5" fill="#e1dccd"/>`).join('')}<rect x="-60" y="-72" width="120" height="7" fill="#e1dccd"/><path d="M-64,-72 L0,-104 L64,-72Z" fill="#d9644a"/><path d="M-50,-74 L0,-98 L50,-74Z" fill="#f4f0e5"/><g transform="translate(0,-82)">${emb || ''}</g>`);
+  const statue = (x, y, s, kind) => at(x, y, s || 1, `<rect x="-16" y="-12" width="32" height="12" fill="${C.marble2}"/><rect x="-12" y="-24" width="24" height="12" fill="#e3ded0"/><path d="M-11,-26 Q-13,-56 -15,-68 L15,-68 Q13,-56 11,-26Z" fill="#f3efe4" stroke="#cfc8b8"/><circle cy="-76" r="8" fill="#f3efe4" stroke="#cfc8b8"/>${kind || ''}`);
+  const wreath = (x, y, s) => at(x, y, s || 1, `<circle r="9" fill="none" stroke="#4f8a4b" stroke-width="4.5" stroke-dasharray="5 2"/>` + [0, 72, 144, 216, 288].map(a => `<circle cx="${9 * Math.cos(a * Math.PI / 180)}" cy="${9 * Math.sin(a * Math.PI / 180)}" r="2.4" fill="${a % 144 ? '#e8517f' : '#fff'}"/>`).join(''));
+  const rose = (x, y, s) => at(x, y, s || 1, `<path d="M0,0 V12" stroke="#3f7d3a" stroke-width="2"/><circle r="5" fill="#d6336c"/><circle r="2.2" fill="#a61e4d"/>`);
+
+  /* ---------- животные ---------- */
+  const leg = (x, col, delay) => `<g transform="translate(${x},-24)">${A('a-leg', `<rect x="-2.5" width="5" height="24" rx="2" fill="${col}"/>`, .7, delay)}</g>`;
+  const horse = (x, y, s, flip) => at(x, y, s || 1, `${leg(-18, '#6e4527', 0)}${leg(18, '#6e4527', .35)}<ellipse cy="-30" rx="26" ry="12" fill="#8a5a34"/><path d="M16,-38 L30,-64 L39,-59 L27,-30Z" fill="#8a5a34"/><path d="M30,-65 L50,-57 L47,-49 L37,-53 L31,-52Z" fill="#8a5a34"/><path d="M31,-64 L29,-72 L35,-66Z" fill="#6e4527"/><circle cx="41" cy="-58" r="1.3" fill="#fff"/><path d="M17,-38 L29,-64 L32,-62 L21,-36Z" fill="#3b2415"/><path d="M-24,-36 Q-42,-30 -37,-8 Q-33,-26 -24,-30Z" fill="#3b2415"/>${leg(-10, '#8a5a34', .35)}${leg(26, '#8a5a34', 0)}`, flip);
+  const bull = (x, y, s, flip) => at(x, y, s || 1, `${leg(-18, '#3a3a3a', 0)}${leg(18, '#3a3a3a', .35)}<ellipse cy="-32" rx="30" ry="15" fill="#545454"/><path d="M22,-42 L48,-36 L50,-22 L36,-20 L24,-28Z" fill="#545454"/><path d="M46,-37 q-4,-12 7,-15 M40,-39 q-8,-8 -1,-16" stroke="#f3ecd8" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="49" cy="-24" rx="4" ry="3" fill="#d9a3a3"/><circle cx="41" cy="-32" r="1.4" fill="#fff"/><path d="M-30,-38 Q-42,-30 -38,-12" stroke="#3a3a3a" stroke-width="3" fill="none"/>${leg(-8, '#545454', .35)}${leg(26, '#545454', 0)}`, flip);
+  const deer = (x, y, s, flip) => at(x, y, s || 1, A('a-jump', `<ellipse cy="-26" rx="18" ry="9" fill="#b87a42"/><path d="M12,-30 L20,-50 L26,-48 L18,-26Z" fill="#b87a42"/><ellipse cx="25" cy="-51" rx="7" ry="4.5" fill="#b87a42"/><path d="M24,-55 L22,-66 M22,-61 L16,-66 M28,-55 L32,-66 M31,-62 L36,-64" stroke="#6e4527" stroke-width="1.6" fill="none"/><circle cx="27" cy="-52" r="1.2" fill="#2b2118"/><path d="M-10,-18 v18 M-4,-18 v18 M8,-18 v18 M13,-18 v18" stroke="#8c5a2b" stroke-width="3" stroke-linecap="round"/><circle cx="-17" cy="-28" r="3" fill="#f3ecd8"/>`, .9), flip);
+  const fish = (x, y, s, col, d, delay, dx) => at(x, y, s || 1, mv(`<path d="M0,0 Q12,-8 24,0 Q12,8 0,0Z" fill="${col}"/><path d="M24,0 L32,-6 L32,6Z" fill="${col}"/><circle cx="6" cy="-1" r="1.3" fill="#fff"/>`, 0, 0, dx || 70, 0, d || 6, delay || 0));
+  const owl = (x, y, s) => at(x, y, s || 1, `<ellipse rx="8" ry="11" fill="#8a6a43"/><ellipse cy="3" rx="5" ry="7" fill="#e7d6b0"/><circle cx="-3.5" cy="-5" r="3.8" fill="#fff"/><circle cx="3.5" cy="-5" r="3.8" fill="#fff"/><circle cx="-3.5" cy="-5" r="1.7" fill="${C.ink}"/><circle cx="3.5" cy="-5" r="1.7" fill="${C.ink}"/><path d="M-1.6,-2 L0,1 L1.6,-2Z" fill="#e89a2b"/><path d="M-7,-9 L-8,-14 L-3,-10Z M7,-9 L8,-14 L3,-10Z" fill="#8a6a43"/>`);
+  const eagle = (x, y, s) => at(x, y, s || 1, `<ellipse rx="13" ry="7" fill="#5a3b1f"/><circle cx="13" cy="-5" r="5" fill="#f5f1e6"/><path d="M17,-5 L24,-3 L17,-1Z" fill="#e8a02b"/><circle cx="14" cy="-6" r="1" fill="#2b2118"/><g>${A('a-flap', `<path d="M-2,-4 Q-10,-30 -26,-26 Q-16,-18 -10,-2Z" fill="#6e4a28"/>`, .6)}${A('a-flap', `<path d="M2,-4 Q8,-28 24,-26 Q14,-16 10,-2Z" fill="#7a5530"/>`, .6, .15)}</g>`);
+  const dove = (x, y, s) => at(x, y, s || 1, `<ellipse rx="9" ry="5" fill="#fff" stroke="#d8d3c4"/><circle cx="9" cy="-3" r="3.6" fill="#fff" stroke="#d8d3c4"/><path d="M12,-3 L16,-2 L12,-1Z" fill="#f0a030"/><path d="M-9,0 L-17,3 L-9,3Z" fill="#fff" stroke="#d8d3c4"/>${A('a-flap', `<path d="M0,-3 Q-4,-16 -14,-14 Q-8,-8 -4,0Z" fill="#fff" stroke="#d8d3c4"/>`, .5)}`);
+  const peacock = (x, y, s) => at(x, y, s || 1, A('a-fan', Array.from({ length: 9 }, (_, i) => { const a = -80 + i * 20; return `<g transform="rotate(${a})"><path d="M0,0 L0,-40" stroke="#2f8f6b" stroke-width="2"/><ellipse cy="-44" rx="5" ry="8" fill="#2f9e80"/><ellipse cy="-45" rx="2.6" ry="4.5" fill="#2c5fa8"/></g>`; }).join(''), 2.4) + `<ellipse cx="0" cy="-8" rx="13" ry="9" fill="#2c5fa8"/><path d="M8,-12 Q14,-24 12,-30" stroke="#2c5fa8" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="12" cy="-32" r="3.6" fill="#2c5fa8"/><path d="M14,-34 l1,-5" stroke="#2c5fa8" stroke-width="1.4"/><path d="M-4,0 v6 M4,0 v6" stroke="#8a5a34" stroke-width="1.8"/>`);
+
+  /* ---------- предметы в руках (начало координат — кисть) ---------- */
+  const P = {
+    trident: () => `<g stroke="#d9a21b" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M0,16 V-50"/><path d="M-9,-50 V-36 Q-9,-29 0,-29 Q9,-29 9,-36 V-50"/><path d="M-9,-50 l-2.5,5 M9,-50 l2.5,5 M0,-50 l0,-5"/></g>`,
+    caduceus: () => `<path d="M0,16 V-46" stroke="#d9a21b" stroke-width="2.6"/><path d="M0,-6 q-8,-6 0,-12 q8,-6 0,-12 q-8,-6 0,-12" stroke="#4f8a4b" stroke-width="2.2" fill="none"/><g transform="translate(0,-44)"><path d="M0,0 Q-12,-9 -16,-1 Q-9,-2 -1,3Z M0,0 Q12,-9 16,-1 Q9,-2 1,3Z" fill="#fff" stroke="#b9b09a" stroke-width=".8"/></g>`,
+    spear: () => `<path d="M0,22 V-60" stroke="#8a5a34" stroke-width="2.6"/><path d="M0,-72 L-4.5,-58 H4.5Z" fill="#c8ccd2" stroke="#8b9099" stroke-width=".8"/>`,
+    shield: () => `<circle cx="-6" cy="-2" r="16" fill="#d9a21b" stroke="#a87a0f" stroke-width="2"/><circle cx="-6" cy="-2" r="10" fill="none" stroke="#a87a0f" stroke-width="1.2"/><circle cx="-6" cy="-2" r="4" fill="#a87a0f"/>`,
+    bow: () => `<path d="M0,-28 Q-20,0 0,28" stroke="#7a4a22" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M0,-28 V28" stroke="#f3ecd8" stroke-width="1"/>`,
+    lyre: () => `<path d="M-10,-30 Q-18,-8 -8,6 L8,6 Q18,-8 10,-30" stroke="#d9a21b" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M-12,-30 H12" stroke="#d9a21b" stroke-width="3"/><path d="M-5,-30 V4 M0,-30 V5 M5,-30 V4" stroke="#8a5a34" stroke-width="1"/>`,
+    scepter: () => `<path d="M0,20 V-50" stroke="#d9a21b" stroke-width="3"/><circle cy="-54" r="5" fill="#f3c93a" stroke="#a87a0f"/>`,
+    scroll: () => `<rect x="-11" y="-9" width="22" height="18" rx="3" fill="#f8efd3" stroke="#c9a86a"/><path d="M-6,-3 H6 M-6,2 H4" stroke="#8a6a43" stroke-width="1.2"/>`,
+    wreath: () => `<g transform="translate(0,-4)">${wreath(0, 0, 1)}</g>`,
+    rose: () => `<g transform="translate(0,-2)">${rose(0, -12, 1.2)}</g>`
+  };
+  const H = {
+    helmet: `<path d="M-12,-2 Q-13,-17 0,-17 Q13,-17 12,-2 L7,-2 L7,3 L-7,3 L-7,-2Z" fill="#d9a21b" stroke="#a87a0f"/><path d="M0,-17 Q-6,-28 9,-25 Q5,-21 6,-16Z" fill="#c0392b"/>`,
+    crown: `<path d="M-10,-9 L-10,-20 L-5,-14 L0,-22 L5,-14 L10,-20 L10,-9Z" fill="#f3c93a" stroke="#b88a0a"/>`,
+    laurel: Array.from({ length: 8 }, (_, i) => { const a = (-170 + i * 20) * Math.PI / 180; return `<ellipse cx="${13 * Math.cos(a)}" cy="${-3 + 13 * Math.sin(a)}" rx="4.2" ry="2.2" fill="#4f8a4b" transform="rotate(${-170 + i * 20 + 90} ${13 * Math.cos(a)} ${-3 + 13 * Math.sin(a)})"/>`; }).join(''),
+    petasos: `<ellipse cy="-9" rx="16" ry="3.5" fill="#8a5a34"/><path d="M-9,-9 Q-9,-21 0,-21 Q9,-21 9,-9Z" fill="#a46a3c"/>${A('a-flap', `<path d="M-10,-14 Q-24,-24 -27,-13 Q-20,-15 -10,-10Z" fill="#fff" stroke="#b9b09a" stroke-width=".8"/>`, .5)}${A('a-flap', `<path d="M10,-14 Q24,-24 27,-13 Q20,-15 10,-10Z" fill="#fff" stroke="#b9b09a" stroke-width=".8"/>`, .5, .1)}`,
+    crescent: `<path d="M-4,-14 A9,9 0 1 1 8,-6 A7,7 0 1 0 -4,-14Z" fill="#f6e08a" stroke="#c9a83a" stroke-width=".8"/>`,
+    flowers: Array.from({ length: 7 }, (_, i) => { const a = (-165 + i * 22) * Math.PI / 180; return `<circle cx="${12.5 * Math.cos(a)}" cy="${-3 + 12.5 * Math.sin(a)}" r="2.8" fill="${i % 2 ? '#fff' : '#e8517f'}"/>`; }).join('')
+  };
+  const sandalWings = `<g transform="translate(-9,-3)">${A('a-flap', `<path d="M0,0 Q-10,-8 -15,-3 Q-8,-3 0,2Z" fill="#fff" stroke="#b9b09a" stroke-width=".7"/>`, .5)}</g><g transform="translate(9,-3)">${A('a-flap', `<path d="M0,0 Q10,-8 15,-3 Q8,-3 0,2Z" fill="#fff" stroke="#b9b09a" stroke-width=".7"/>`, .5, .1)}</g>`;
+
+  /* ---------- человечек ---------- */
+  function fig(o) {
+    const d = Object.assign({ x: 0, y: 0, s: 1, flip: 0, robe: '#f4efe3', trim: '#c9962b', hair: '#5b3a22', skin: C.skin, len: 0, hairLong: 0, beard: '', hat: '', back: '', stripe: '', rA: 8, lA: -8, rP: '', lP: '', rC: '', lC: '', bc: 'a-bob', d: 2.4, delay: 0, feet: '#8a5a34', op: 1, glow: '', wf: 0, rot: 0 }, o);
+    const arm = (sx, rot, prop, cls) => `<g transform="translate(${sx * 14},-58)"><g transform="rotate(${rot})">${A(cls || 'a-none', `<path d="M0,0 L0,21" stroke="${d.skin}" stroke-width="6" stroke-linecap="round"/><circle cy="23" r="3.6" fill="${d.skin}"/>${prop ? `<g transform="translate(0,23) rotate(${-rot})">${prop}</g>` : ''}`, d.d)}</g></g>`;
+    const hy = d.len;
+    const body = `${d.hairLong ? `<path d="M-12,-76 Q-15,-52 -11,-44 L11,-44 Q15,-52 12,-76Z" fill="${d.hair}"/>` : ''}${hy < 0 ? `<rect x="-9" y="${hy}" width="6" height="${-hy}" fill="${d.skin}"/><rect x="3" y="${hy}" width="6" height="${-hy}" fill="${d.skin}"/>` : ''}<ellipse cx="-8" cy="0" rx="6" ry="2.6" fill="${d.feet}"/><ellipse cx="8" cy="0" rx="6" ry="2.6" fill="${d.feet}"/>${d.wf ? sandalWings : ''}<path d="M-15,-62 Q-17,${(hy - 62) / 2} -20,${hy} L20,${hy} Q17,${(hy - 62) / 2} 15,-62Z" fill="${d.robe}"/>${d.stripe}<path d="M-20,${hy - 3} H20" stroke="${d.trim}" stroke-width="3" stroke-dasharray="4 2"/><path d="M-15,-56 H15" stroke="${d.trim}" stroke-width="2.4"/>${arm(-1, d.lA, d.lP, d.lC)}${arm(1, d.rA, d.rP, d.rC)}<g transform="translate(0,-74)"><circle r="11" fill="${d.skin}"/><path d="M-11.5,-2 Q-12,-13 0,-13 Q12,-13 11.5,-2 Q6,-8 0,-7 Q-6,-8 -11.5,-2Z" fill="${d.hair}"/><circle cx="-4" cy="0" r="1.3" fill="${C.ink}"/><circle cx="4" cy="0" r="1.3" fill="${C.ink}"/><path d="M-3,5 Q0,8 3,5" stroke="#8a4a3a" stroke-width="1.2" fill="none"/>${d.beard ? `<path d="M-9,2 Q-10,19 0,23 Q10,19 9,2 Q4,9 0,8 Q-4,9 -9,2Z" fill="${d.beard}"/>` : ''}${d.hat}</g>`;
+    const glow = d.glow ? A('a-pulse', `<circle cy="-48" r="46" fill="${d.glow}" opacity=".35"/><circle cy="-48" r="32" fill="${d.glow}" opacity=".35"/>`, 2.6) : '';
+    const rot = d.rot ? `<g transform="rotate(${d.rot})">` : '', rotE = d.rot ? '</g>' : '';
+    return at(d.x, d.y, d.s, `<g opacity="${d.op}">${rot}${glow}${d.back}<ellipse rx="20" ry="4" fill="#000" opacity=".12"/>${A(d.bc, body, d.d, d.delay)}${rotE}</g>`, d.flip);
+  }
+  const people = {
+    greek: o => fig(Object.assign({ robe: '#5b94d1', trim: '#fff' }, o)),
+    roman: o => fig(Object.assign({ robe: '#f7f2e6', trim: '#d9d2bd', stripe: '<path d="M-15,-62 L-5,-62 L16,0 L6,0Z" fill="#7b2d5f" opacity=".85"/>' }, o)),
+    sailor: o => fig(Object.assign({ robe: '#3d6fa3', trim: '#fff', len: -28, hat: '<path d="M-11,-6 Q-11,-18 0,-18 Q11,-18 11,-6Z" fill="#c0392b"/>' }, o)),
+    girl: o => fig(Object.assign({ robe: '#f59cb7', trim: '#fff', hairLong: 1, hair: '#6b3f1d', hat: H.flowers }, o)),
+    villager: o => fig(Object.assign({ robe: '#b88a5a', trim: '#e6d3a8', len: -14 }, o)),
+    enemy: o => fig(Object.assign({ robe: '#7d8590', trim: '#555', hat: '<path d="M-12,-2 Q-13,-17 0,-17 Q13,-17 12,-2Z" fill="#8b9099" stroke="#555"/>', lP: P.shield().replace(/#d9a21b/g, '#9aa1ab').replace(/#a87a0f/g, '#555') }, o))
+  };
+  const gods = {
+    neptune: o => fig(Object.assign({ robe: '#2e9aa8', trim: '#bfe9ef', hair: '#e8f1f4', beard: '#e8f1f4', hat: H.crown, glow: '#9be7ff', rP: P.trident(), rA: -22, lA: 14 }, o)),
+    mercury: o => fig(Object.assign({ robe: '#e8833a', trim: '#fff', hair: '#7a4a22', hat: H.petasos, glow: '#ffe3a0', lP: P.caduceus(), lA: 20, rA: 10, wf: 1 }, o)),
+    minerva: o => fig(Object.assign({ robe: '#f2efe6', trim: '#2f6fa8', hairLong: 1, hair: '#6b3f1d', hat: H.helmet, glow: '#cfe2ff', lP: P.shield(), lA: -4, rP: P.spear(), rA: -12 }, o)),
+    diana: o => fig(Object.assign({ robe: '#7fb06a', trim: '#fff', len: -30, hairLong: 1, hair: '#a56a2e', hat: H.crescent, glow: '#e8f0ff', rP: P.bow(), rA: -22, back: '<path d="M-14,-66 L-22,-44" stroke="#7a4a22" stroke-width="6" stroke-linecap="round"/><path d="M-21,-48 l-4,-6 M-23,-46 l-5,-3" stroke="#e8e0c8" stroke-width="2"/>' }, o)),
+    jupiter: o => fig(Object.assign({ robe: '#6b4aa3', trim: '#f3c93a', hair: '#e9e9f0', beard: '#e9e9f0', glow: '#ffe58a', rP: P.scepter(), rA: -14 }, o)),
+    juno: o => fig(Object.assign({ robe: '#4f6fd6', trim: '#f3c93a', hairLong: 1, hair: '#3b2a1e', hat: H.crown, glow: '#d9e2ff', rP: P.scepter(), rA: -14 }, o)),
+    venus: o => fig(Object.assign({ robe: '#f6a5c0', trim: '#fff', hairLong: 1, hair: '#d9a14a', glow: '#ffd1e3', rP: P.rose(), rA: -20 }, o)),
+    apollo: o => fig(Object.assign({ robe: '#f4c431', trim: '#fff', hair: '#d9a21b', hat: H.laurel, glow: '#fff0a0', lP: P.lyre(), lA: 20 }, o))
+  };
+  const stage = (x, y) => at(x, y, 1, `<ellipse rx="150" ry="14" fill="#fff" opacity=".9"/>`);
+  const spotlight = (x, w, op) => `<path d="M${x - 12},0 L${x + 12},0 L${x + w},270 L${x - w},270Z" fill="#fff6c8" opacity="${op || .35}"/>`;
+
+  /* ---------- сцены ---------- */
+  const S = {};
+
+  /* Текст 1: Нептун и Меркурий */
+  S['1.1'] = () => sky('#b9defa', '#fff3d6') + sun(420, 50, 20) + cloud(90, 40, 1, 16) + hills() +
+    [[70, '#e8833a', 'jupiter'], [140, '#2e9aa8', 'neptune'], [215, '#e8833a', 'mercury'], [290, '#f6a5c0', 'venus'], [365, '#7fb06a', 'diana']].map(([x, , k], i) => `<g transform="translate(0,0)">${cloud(x, 112, .8, 10 + i, '#fff', .9)}${gods[k]({ x, y: 112, s: .5, delay: i * .3, op: .95 })}</g>`).join('') +
+    people.greek({ x: 70, y: 252, s: .85, rA: -160, lA: 160, rC: 'a-arm', lC: 'a-arm' }) + people.greek({ x: 150, y: 256, s: .8, rA: -160, lA: 160, rC: 'a-arm', lC: 'a-arm', delay: .4 }) + people.roman({ x: 330, y: 256, s: .8, rA: -160, lA: 160, rC: 'a-arm', lC: 'a-arm', delay: .2 }) + people.roman({ x: 410, y: 252, s: .85, rA: -160, lA: 160, rC: 'a-arm', lC: 'a-arm', delay: .6 }) +
+    spark(240, 175, 1, 0) + spark(200, 195, .8, .5) + spark(280, 190, .9, 1) + tag(110, 170, 'Graecī', .3) + tag(370, 170, 'Rōmānī', .6);
+
+  S['1.2'] = () => sky('#7e6bd0', '#f6d9ef') + spotlight(190, 60) + spotlight(290, 60) + cloud(60, 60, 1, 18, '#fff', .7) + cloud(420, 50, 1, 16, '#fff', .7) + stage(240, 238) +
+    gods.jupiter({ x: 70, y: 234, s: .75, op: .45 }) + gods.apollo({ x: 125, y: 236, s: .75, op: .45 }) + gods.venus({ x: 360, y: 236, s: .75, op: .45 }) + gods.minerva({ x: 415, y: 234, s: .75, op: .45 }) +
+    A('a-bob2', gods.neptune({ x: 190, y: 242, s: 1.05, bc: 'a-none' }), 2.4) + A('a-bob2', gods.mercury({ x: 290, y: 242, s: 1.05, bc: 'a-none' }), 2.4, .3) + tag(190, 70, 'Neptūnus', .3) + tag(290, 70, 'Mercurius', .8) + spark(240, 120, 1, 0.2) + spark(150, 150, .8, .9) + spark(330, 140, .8, .5);
+
+  S['1.3'] = () => sky('#6fc0e8', '#0e4a78') + `<rect width="480" height="270" fill="#0e4a78" opacity=".0"/>` +
+    `<rect y="36" width="480" height="234" fill="#1c6fa3" opacity=".55"/><rect y="150" width="480" height="120" fill="#0b3d66" opacity=".45"/>` +
+    wave(40, '#9fdcf5', 4, 60, 5, .9) + wave(46, '#5db4e0', 4, 80, 7, .8, 1) +
+    `<path d="M0,0 H130 V36 Q100,40 70,36 H0Z" fill="#7fae57"/><path d="M62,10 Q70,24 60,36 L78,36 Q80,22 74,10Z" fill="#9fdcf5" opacity=".9"/>` + A('a-dash', `<path d="M68,14 V36" stroke="#fff" stroke-width="1.6" stroke-dasharray="3 4"/>`, 1.2) +
+    `<path d="M0,262 Q120,236 240,256 T480,250 V270 H0Z" fill="#e3c88d"/>` +
+    [60, 120, 400, 440].map((x, i) => at(x, 258, 1, A('a-sway', `<path d="M0,0 Q-6,-14 0,-26 Q6,-38 -2,-50" stroke="#2f9e6b" stroke-width="4" fill="none" stroke-linecap="round"/>`, 3 + i * .4))).join('') +
+    at(240, 246, 1.3, `<path d="M-44,0 Q-50,-40 0,-52 Q50,-40 44,0Z" fill="#f3c9d5" stroke="#d9a0b5" stroke-width="2"/><path d="M-30,0 Q-30,-34 0,-46 M0,0 V-48 M30,0 Q30,-34 0,-46" stroke="#d9a0b5" stroke-width="2" fill="none"/>`) +
+    gods.neptune({ x: 240, y: 226, s: 1, bc: 'a-bob' }) + fish(40, 120, 1, '#ffb347', 7, 0, 150) + fish(380, 170, 1, '#ff7a7a', 8, 1, -120) + fish(150, 200, .8, '#ffe066', 9, 2, 180) +
+    [[110, 220], [360, 230], [300, 210], [190, 180]].map(([x, y], i) => bubble(x, y, 3 + i % 2, i * .7)).join('') + tag(240, 90, 'Oceanus', .3);
+
+  S['1.4'] = () => sky('#bfe5fa', '#fdf1d2') + sun(60, 50, 18) + cloud(300, 40, 1, 16) + wave(135, '#4aa3d4', 3, 50, 6) + wave(150, '#2e86b8', 3, 70, 8, 1, 1) +
+    at(70, 140, .7, `<path d="M-34,-6 L34,-6 L24,10 L-24,10Z" fill="#8a5a34"/><rect x="-1.5" y="-56" width="3" height="50" fill="#5b3a22"/><path d="M2,-54 Q30,-34 24,-10 L2,-10Z" fill="#fbf5e6" stroke="#d6cdb5"/>`) +
+    `<path d="M0,196 Q150,176 300,194 T480,186 V270 H0Z" fill="#e9d29a"/>` +
+    A('a-bob2', gods.neptune({ x: 405, y: 130, s: .55, bc: 'a-none' }), 3) + cloud(405, 138, .9, 12) + tag(405, 40, 'Neptūnō', .3) +
+    altar(395, 238, 1.5) +
+    mv(people.sailor({ x: 0, y: 236, s: .8, rA: -30 }) + horse(-48, 242, .9) + people.sailor({ x: -100, y: 236, s: .8 }) + bull(-150, 242, .9), 20, 0, 215, 0, 8, 0, 'a-walk');
+
+  S['1.5'] = () => sky('#a9d2ff', '#fff6dc') + cloud(70, 50, 1.1, 18) + at(76, 86, 1, `<rect x="-34" y="-30" width="68" height="30" fill="#f6efd8"/><path d="M-40,-30 L0,-56 L40,-30Z" fill="#f3c93a"/>${[-24, -8, 8, 24].map(x => `<rect x="${x - 3}" y="-28" width="6" height="28" fill="#fff"/>`).join('')}`) + cloud(76, 92, 1.4, 14) +
+    hills('#9bc36b', '#86b25f') + house(380, 215, 1.2) + house(430, 222, .9) + tree(330, 228, 1) +
+    mv(gods.mercury({ x: 0, y: 0, s: .6, rot: 70, bc: 'a-none' }) + `<g transform="translate(-26,-6)">${P.scroll()}</g>`, 90, 120, 330, 160, 5, 0, 'a-move') +
+    A('a-dash', `<path d="M110,140 Q220,90 330,170" stroke="#fff" stroke-width="2.5" stroke-dasharray="6 8" fill="none" opacity=".8"/>`, 1.2) + tag(240, 36, 'Mercurius', .3);
+
+  S['1.6'] = () => sky('#9fcbf6', '#fff3d0') + cloud(60, 44, 1.1, 18) + gods.jupiter({ x: 60, y: 62, s: .5, bc: 'a-none' }) + cloud(60, 70, 1.2, 14) +
+    A('a-dash', `<path d="M90,70 Q170,70 215,105" stroke="#f3c93a" stroke-width="3" stroke-dasharray="7 7" fill="none"/>`, 1) +
+    hills('#9bc36b', '#86b25f') + house(90, 214, 1.1) + house(400, 216, 1.2) + tree(440, 226, .9) +
+    gods.mercury({ x: 245, y: 150, s: .85, rA: -60, rP: P.scroll(), bc: 'a-bob2' }) +
+    [34, 56, 78].map((r, i) => `<g transform="translate(245,152)">${A('a-ring', `<path d="M${-r},${r * .5} A${r * 1.1},${r * 1.1} 0 0 0 ${r},${r * .5}" stroke="#f3c93a" stroke-width="3" fill="none"/>`, 2.4, i * .5)}</g>`).join('') +
+    [175, 245, 315].map((x, i) => people.villager({ x, y: 252, s: .75, rA: -150, lA: 150, rC: 'a-arm', lC: 'a-arm', delay: i * .3 })).join('') + tag(245, 22, 'imperia deōrum', .4);
+
+  S['1.7'] = () => sky('#8fc6f0', '#fff3d6') + sun(430, 46, 18) + cloud(90, 50, 1, 20) + cloud(300, 80, .9, 15) +
+    `<path d="M0,186 Q70,150 150,184 T250,196 V270 H0Z" fill="#7fae57"/><path d="M0,226 Q90,200 220,222 V270 H0Z" fill="#9bc36b"/>` + tree(40, 220, 1) + tree(110, 214, .9) + tree(180, 222, 1, 'pine') +
+    `<rect x="240" y="196" width="240" height="74" fill="#2e86b8"/>` + wave(200, '#4aa3d4', 5, 60, 4) + wave(222, '#2e86b8', 5, 80, 6, 1, 1) + wave(246, '#1d6a9a', 5, 70, 5) +
+    mv(gods.mercury({ x: 0, y: 0, s: .95, rot: 75, bc: 'a-none', wf: 1 }), 60, 130, 360, 120, 7, 0, 'a-move') + A('a-dash', `<path d="M60,100 Q200,60 400,100" stroke="#fff" stroke-width="2" stroke-dasharray="4 8" fill="none" opacity=".6"/>`, 1.4) + tag(110, 175, 'terrās', .3) + tag(380, 180, 'undās', .6);
+
+  S['1.8'] = () => sky('#bfe3fa', '#fff1cf') + sun(70, 48, 18) + cloud(320, 46, 1, 17) + hills('#9bc36b', '#86b25f') +
+    `<path d="M120,270 Q150,235 230,228 Q310,222 300,200 Q290,185 380,170 L400,172 Q330,190 340,204 Q350,236 250,248 Q190,254 190,270Z" fill="#d9bd88"/>` + A('a-dash', `<path d="M150,266 Q175,242 235,238 Q315,230 322,205 Q328,188 385,176" stroke="#fff" stroke-width="2" stroke-dasharray="8 8" fill="none"/>`, 1.2) +
+    tree(40, 230, 1.1) + tree(440, 215, 1, 'pine') + at(250, 196, 1, `<rect x="-2" y="-30" width="4" height="30" fill="#7a4a22"/><path d="M0,-30 h24 l6,-5 l-6,-5 h-24Z" fill="#e8c87a" stroke="#8a5a34"/>`) +
+    gods.mercury({ x: 70, y: 234, s: 1.05, rA: -85, lA: 10, lP: P.caduceus(), bc: 'a-none' }) + mv(people.villager({ x: 0, y: 0, s: .7, rA: -120 }), 190, 252, 330, 206, 7, 0, 'a-walk') + tag(70, 112, 'Mercurius', .3) + tag(260, 100, 'viās', .8);
+
+  S['1.9'] = () => sky('#bfe3fa', '#fff1cf') + sun(430, 44, 18) + cloud(110, 44, 1, 17) + hills('#9bc36b', '#86b25f') +
+    `<path d="M0,246 Q160,226 300,240 T480,236 V258 Q330,252 190,262 T0,262Z" fill="#d9bd88"/>` + tree(40, 214, 1) + tree(450, 214, 1, 'pine') +
+    altar(100, 252, .8, true, winged) + altar(390, 252, .8, true, winged) +
+    people.greek({ x: 195, y: 262, s: .9, rA: -70, lA: 70, rC: 'a-arm' }) + people.roman({ x: 285, y: 262, s: .9, flip: 1, rA: -70, lA: 70, lC: 'a-arm', delay: .3 }) +
+    A('a-drop', altar(240, 232, 1, true, winged), 5) + tag(240, 70, 'Mercuriō', .3) + spark(240, 120, 1, 0) + spark(200, 140, .8, .6);
+
+  /* Текст 2: Минерва и Диана */
+  S['2.1'] = () => sky('#d7c3f5', '#ffeedd') + spotlight(190, 60) + spotlight(290, 60) + cloud(60, 60, 1, 18, '#fff', .7) + cloud(420, 50, 1, 16, '#fff', .7) + stage(240, 238) +
+    gods.juno({ x: 70, y: 234, s: .75, op: .45 }) + gods.venus({ x: 125, y: 236, s: .75, op: .45 }) + gods.venus({ x: 360, y: 236, s: .75, op: .45, robe: '#a3d9a5' }) + gods.juno({ x: 415, y: 234, s: .75, op: .45, robe: '#d68ad9' }) +
+    A('a-bob2', gods.minerva({ x: 190, y: 242, s: 1.05, bc: 'a-none' }), 2.4) + A('a-bob2', gods.diana({ x: 290, y: 242, s: 1.05, bc: 'a-none' }), 2.4, .3) + tag(190, 70, 'Minerva', .3) + tag(290, 70, 'Diāna', .8) + spark(240, 120, 1, 0.2) + spark(150, 150, .8, .9) + spark(330, 140, .8, .5);
+
+  S['2.2'] = () => sky('#cfe3f5', '#fbeed5') + `<rect x="0" y="0" width="480" height="270" fill="#f3e9cf" opacity=".5"/>` +
+    at(240, 262, 1, `<rect x="-230" y="-8" width="460" height="8" fill="#d8cfb6"/>`) +
+    at(120, 200, 1.3, `<path d="M-30,30 L30,-40" stroke="#8a5a34" stroke-width="3"/><path d="M30,-40 L26,-52 L36,-46Z" fill="#c8ccd2"/><path d="M30,30 L-30,-40" stroke="#8a5a34" stroke-width="3"/><path d="M-30,-40 L-26,-52 L-36,-46Z" fill="#c8ccd2"/>`) + spark(90, 150, 1, 0) + spark(160, 140, .8, .7) +
+    at(360, 150, 1, A('a-write', `<text x="-34" font-family="Spectral,Georgia,serif" font-size="30" fill="#2b2118" font-style="italic">A</text>`, 4, 0) + A('a-write', `<text x="-8" font-family="Spectral,Georgia,serif" font-size="30" fill="#2b2118" font-style="italic">B</text>`, 4, 1) + A('a-write', `<text x="18" font-family="Spectral,Georgia,serif" font-size="30" fill="#2b2118" font-style="italic">C</text>`, 4, 2)) +
+    at(360, 210, 1.7, `<path d="M-30,-30 Q0,-40 30,-30 V0 Q0,-8 -30,0Z" fill="#f8efd3" stroke="#c9a86a" stroke-width="1.5"/>` + '<path d="M-22,-20 Q0,-26 22,-20 M-22,-12 Q0,-18 22,-12 M-22,-4 Q0,-10 22,-4" stroke="#8a6a43" stroke-width="1" fill="none"/>') +
+    gods.minerva({ x: 240, y: 252, s: 1.2 }) + owl(300, 178, 1.2) + tag(240, 28, 'bellum', .3) + tag(360, 80, 'līterae', .8);
+
+  S['2.3'] = () => sky('#f3dfc8', '#f6e6cc') + `<path d="M0,226 H480 V270 H0Z" fill="#d9bd88"/>` + `<ellipse cx="240" cy="236" rx="220" ry="12" fill="#c8a870" opacity=".5"/>` + cloud(80, 50, 1, 20, '#fff', .8) +
+    gods.minerva({ x: 120, y: 244, s: 1.25, rA: -88, lA: -4, rP: '', bc: 'a-bob', rC: 'a-none' }) +
+    mv(`<path d="M0,0 H92" stroke="#8a5a34" stroke-width="3.5"/><path d="M92,0 L80,-5 V5Z" fill="#c8ccd2" stroke="#8b9099" stroke-width=".8"/>`, 0, 0, 22, 0, .9, 0, 'a-thrust').replace('<g class', '<g transform="translate(150,162)" class') +
+    people.enemy({ x: 372, y: 244, s: 1.2, flip: 1, lA: 70, rA: 8 }) + A('a-shake', spark(315, 172, 1.6, 0) + spark(325, 188, 1, .3) + spark(305, 160, 1, .5), .9) + tag(120, 92, 'Minerva', .3) + tag(372, 92, 'hostis', .5);
+
+  S['2.4'] = () => sky('#2c5a3a', '#5f9a5b') + at(400, 56, 1, `<circle r="26" fill="#f6e9a8" opacity=".25"/><circle r="17" fill="#f6e9a8"/><circle cx="7" cy="-3" r="14" fill="#2f5e3d"/>`) +
+    `<path d="M0,226 Q120,210 240,224 T480,220 V270 H0Z" fill="#2f6b3c"/><path d="M0,248 Q160,232 300,248 T480,244 V270 H0Z" fill="#245a31"/>` +
+    [30, 110, 170, 330, 400, 450].map((x, i) => tree(x, 232 + (i % 2) * 6, 1.35, 'pine', 3 + i * .4, i * .3)).join('') +
+    gods.diana({ x: 220, y: 252, s: 1.15 }) + mv(deer(0, 0, 1), 280, 252, 400, 252, 3, 0, 'a-walk') +
+    [[80, 150], [150, 190], [300, 140], [350, 180], [430, 160]].map(([x, y], i) => spark(x, y, .6, i * .4)).join('') + tag(220, 96, 'Diāna', .3) + tag(110, 90, 'silvae', .8);
+
+  S['2.5'] = () => sky('#bfe3fa', '#fff1cf') + sun(430, 44, 16) + cloud(100, 44, 1, 17) + hills('#9bc36b', '#86b25f') +
+    at(100, 236, 1, temple(0, 0, .85, owl(0, 12, 1.1)) + `<rect x="-26" y="-30" width="52" height="0"/>`) + at(100, 120, 1, tag(0, 0, 'Graecia', .3)) +
+    at(380, 236, 1, A('a-grow', temple(0, 0, .85, `<path d="M-6,-14 A9,9 0 1 1 5,-6 A7,7 0 1 0 -6,-14Z" fill="#f6e08a" stroke="#c9a83a" stroke-width=".8"/>`), 5)) + at(380, 120, 1, tag(0, 0, 'Italia', .6)) +
+    house(190, 232, .8) + house(220, 238, .7) + house(290, 234, .8) + house(320, 240, .65) + tree(255, 240, .8) + spark(40, 150, 1.1, 0) + spark(150, 140, .8, .8) + spark(440, 150, 1.1, .4) + spark(330, 150, .8, 1.2);
+
+  S['2.6'] = () => `<rect width="480" height="270" fill="#efe5cf"/><rect y="200" width="480" height="70" fill="#d9cdb0"/>` + [0, 1, 2, 3, 4, 5, 6, 7].map(i => `<path d="M${i * 70},200 L${i * 70 - 30},270" stroke="#c2b594" stroke-width="2"/>`).join('') +
+    `<path d="M300,0 L380,0 L430,200 L250,200Z" fill="#fff6c8" opacity=".5"/>` + [30, 450].map(x => at(x, 214, 1.1, `<rect x="-10" y="-190" width="20" height="190" fill="#f4f0e5"/><path d="M-4,-190 v190 M4,-190 v190" stroke="#d6d0c0"/>`)).join('') +
+    at(150, 214, 1, `<rect x="-42" y="-130" width="84" height="130" rx="40" fill="#cdbf9f"/>`) + at(330, 214, 1, `<rect x="-42" y="-130" width="84" height="130" rx="40" fill="#cdbf9f"/>`) +
+    statue(150, 214, 1.5, `<path d="M-9,-84 Q-9,-96 0,-96 Q9,-96 9,-84Z" fill="#d9a21b"/>`) + statue(330, 214, 1.5, `<path d="M-4,-90 A7,7 0 1 1 5,-83 A5,5 0 1 0 -4,-90Z" fill="#f6e08a"/>`) +
+    A('a-pulse', `<circle cx="150" cy="130" r="50" fill="#fff6b0" opacity=".25"/>`, 3) + A('a-pulse', `<circle cx="330" cy="130" r="50" fill="#fff6b0" opacity=".25"/>`, 3, .7) +
+    altar(220, 262, 1.1) + altar(262, 262, 1.1) + spark(150, 80, 1, 0) + spark(330, 80, 1, .6) + tag(150, 30, 'Minerva', .3) + tag(330, 30, 'Diāna', .6);
+
+  S['2.7'] = () => `<rect width="480" height="270" fill="#efe5cf"/><rect y="204" width="480" height="66" fill="#d9cdb0"/>` + `<path d="M280,0 L360,0 L400,204 L230,204Z" fill="#fff6c8" opacity=".4"/>` +
+    [24, 456].map(x => at(x, 214, 1.1, `<rect x="-10" y="-190" width="20" height="190" fill="#f4f0e5"/>`)).join('') +
+    statue(240, 214, 1.7, `<path d="M-9,-84 Q-9,-96 0,-96 Q9,-96 9,-84Z" fill="#d9a21b"/>`) + A('a-fade', wreath(240, 160, 1.1), 3) + altar(380, 252, 1.3) + A('a-fade', wreath(380, 190, 1), 3, 1) +
+    people.girl({ x: 120, y: 256, s: .9, rA: -120, rP: P.wreath(), rC: 'a-arm' }) + people.girl({ x: 330, y: 256, s: .9, flip: 1, robe: '#ffd166', lA: 120, lP: P.wreath(), lC: 'a-arm', delay: .5 }) +
+    mv(wreath(0, 0, 1.2), 150, 190, 232, 150, 3.5, 0, 'a-walk') + mv(wreath(0, 0, 1), 345, 196, 380, 196, 3.5, 1.2, 'a-walk') +
+    [60, 200, 300, 420].map((x, i) => at(x, 20 + (i % 2) * 20, 1, A('a-fall', `<ellipse rx="3" ry="2" fill="${i % 2 ? '#f59cb7' : '#fff'}"/>`, 5, i * 1.1))).join('') + tag(120, 100, 'puellae', .3);
+
+  window.SCENES = S;
+  window.renderScene = id => `<svg viewBox="0 0 480 270" role="img" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">${(S[id] || (() => ''))()}</svg>`;
+})();
+</script>
+<script>/* data.js — тексты, словарь и ключи проверки. Автор проекта: Magistra MS
+   w: слова [форма, роль, словарная форма]; роли: p — сказуемое, s — подлежащее, o — дополнение, r — остальные слова.
+   Ключ (p / s / o / m[i]):
+     g — группы допустимых РУССКИХ ФОРМ слова целиком (достаточно любой формы из группы; допускаются регулярные выражения);
+         точные формы нужны, чтобы проверять правильный перевод времени, числа и падежа;
+     f — ожидаемая грамматическая форма {a: время или падеж, b: число}; a, b могут быть массивом допустимых значений;
+     none — члена предложения нет; nom — именная часть сказуемого. */
+window.CONFIG = {
+  author: 'Magistra MS',
+  salt: 'magistra-ms-dei-2026',
+  thresholds: { 5: 90, 4: 75, 3: 55 },
+  queue: { url: '' }
+};
+
+/* словарь: только словарная форма и перевод */
+window.DICT = {
+  'Graecus, ī m.': 'грек', 'et': 'и', 'Rōmānus, ī m.': 'римлянин', 'antīquus, a, um': 'древний, старинный', 'multus, a, um': 'многий, многочисленный',
+  'deus, ī m.': 'бог', 'dea, ae f.': 'богиня', 'adōrō, adōrāre': 'поклоняться, почитать', 'in': 'в, на', 'numerus, ī m.': 'число, количество',
+  'Neptūnus, ī m.': 'Нептун, бог моря', 'Mercurius, ī m.': 'Меркурий, вестник богов', 'sum, esse, fuī': 'быть, находиться', 'dominus, ī m.': 'господин, владыка',
+  'Oceanus, ī m.': 'океан', 'fluvius, ī m.': 'река, поток', 'habitō, habitāre': 'жить, обитать', 'nauta, ae m.': 'моряк, мореплаватель', 'equus, ī m.': 'конь, лошадь',
+  'taurus, ī m.': 'бык', 'immolō, immolāre': 'приносить в жертву', 'nūntius, ī m.': 'вестник, гонец', 'minister, trī m.': 'слуга, помощник',
+  'imperium, ī n.': 'приказ, повеление, власть', 'incola, ae m.': 'житель, обитатель', 'terra, ae f.': 'земля, суша', 'nūntiō, nūntiāre': 'сообщать, возвещать',
+  'āla, ae f.': 'крыло', 'habeō, habēre, habuī': 'иметь', 'suprā': 'над', 'unda, ae f.': 'волна', 'volō, volāre': 'летать', 'etiam': 'также, ещё, даже',
+  'via, ae f.': 'дорога, путь', 'mōnstrō, mōnstrāre': 'показывать, указывать', 'itaque': 'и потому, поэтому', 'āra, ae f.': 'алтарь, жертвенник',
+  'collocō, collocāre': 'ставить, помещать', 'Minerva, ae f.': 'Минерва, богиня мудрости', 'Diāna, ae f.': 'Диана, богиня охоты', 'bellum, ī n.': 'война',
+  'līttera, ae f.': 'буква; письмо, литература, науки', 'hasta, ae f.': 'копьё', 'pūgnō, pūgnāre': 'сражаться, биться', 'silva, ae f.': 'лес',
+  'templum, ī n.': 'храм', 'māgnificus, a, um': 'великолепный, пышный', 'oppidum, ī n.': 'город, городок', 'Graecia, ae f.': 'Греция', 'Italia, ae f.': 'Италия',
+  'statua, ae f.': 'статуя', 'puella, ae f.': 'девочка, девушка', 'corōna, ae f.': 'венок, венец', 'ōrnō, ōrnāre': 'украшать'
+};
+
+/* помощники для компактной записи */
+const Pv = (g, ref, n, tag) => ({ g, ref, f: { a: 'Imperf', b: n }, tag });          // сказуемое (Imperfectum)
+const Nn = (g, ref, c, n, tag, nom) => ({ g, ref, f: { a: c, b: n }, tag, nom });    // подлежащее / дополнение
+const Mq = (q, lat, g, ref, c, n, tag) => ({ q, lat, g, ref, f: c ? { a: c, b: n } : { a: 'ind', b: 'ind' }, tag }); // вопрос к слову
+const NO = { none: true, ref: 'дополнения нет', tag: 'none' };
+const ET = r => ['et', r, 'et'];
+
+window.TEXTS = [
+  {
+    id: 't1', title: 'Neptūnus et Mercurius', ru: 'Нептун и Меркурий', game: 'Учебный перевод 1',
+    sents: [
+      { scene: '1.1', ref: 'Древние греки и римляне поклонялись многим богам и богиням.',
+        w: [['Graecī', 's', 'Graecus, ī m.'], ET('s'), ['Rōmānī', 's', 'Rōmānus, ī m.'], ['antīquī', 'r', 'antīquus, a, um'], ['multōs', 'r', 'multus, a, um'], ['deōs', 'o', 'deus, ī m.'], ET('o'), ['deās', 'o', 'dea, ae f.'], ['adōrābant.', 'p', 'adōrō, adōrāre']],
+        k: { p: Pv([['поклонялись', 'почитали', 'обожали', 'боготворили', 'молились', 'чтили']], 'поклонялись', 'pl', 'imperf'),
+             s: Nn([['греки'], ['римляне']], 'греки и римляне', 'Nom', 'pl', 'nom'),
+             o: Nn([['богов', 'богам'], ['богинь', 'богиням']], 'богов и богинь (богам и богиням)', 'Acc', 'pl', 'acc'),
+             m: [Mq('Какие греки и римляне?', 'antīquī', [['древние', 'античные', 'старинные']], 'древние', 'Nom', 'pl', 'nom'),
+                 Mq('Сколько богов и богинь?', 'multōs', [['многих', 'многим', 'многочисленных', 'многочисленным']], 'многих (многим)', 'Acc', 'pl', 'acc')] } },
+      { scene: '1.2', ref: 'В числе богов были Нептун и Меркурий.',
+        w: [['In', 'r', 'in'], ['numerō', 'r', 'numerus, ī m.'], ['deōrum', 'r', 'deus, ī m.'], ['Neptūnus', 's', 'Neptūnus, ī m.'], ET('s'), ['Mercurius', 's', 'Mercurius, ī m.'], ['erant.', 'p', 'sum, esse, fuī']],
+        k: { p: Pv([['были', 'находились', 'числились']], 'были', 'pl', 'esse'),
+             s: Nn([['нептун'], ['меркурий']], 'Нептун и Меркурий', 'Nom', [ 'sg', 'pl' ], 'nom'),
+             o: NO,
+             m: [Mq('Где (в каком количестве)?', 'in numerō', [['в числе', 'среди', 'в количестве']], 'в числе', 'Abl', 'sg', 'prep'),
+                 Mq('Чьём числе? (кого?)', 'deōrum', [['богов']], 'богов', 'Gen', 'pl', 'gen')] } },
+      { scene: '1.3', ref: 'Нептун, владыка океана и рек, жил в океане.',
+        w: [['Neptūnus,', 's', 'Neptūnus, ī m.'], ['dominus', 'r', 'dominus, ī m.'], ['Oceanī', 'r', 'Oceanus, ī m.'], ET('r'), ['fluviōrum,', 'r', 'fluvius, ī m.'], ['in', 'r', 'in'], ['Oceanō', 'r', 'Oceanus, ī m.'], ['habitābat.', 'p', 'habitō, habitāre']],
+        k: { p: Pv([['жил', 'обитал', 'проживал']], 'жил', 'sg', 'imperf'),
+             s: Nn([['нептун']], 'Нептун', 'Nom', 'sg', 'nom'),
+             o: NO,
+             m: [Mq('Кто такой Нептун?', 'dominus', [['владыка', 'господин', 'повелитель', 'властелин', 'правитель', 'хозяин']], 'владыка', 'Nom', 'sg', 'nom'),
+                 Mq('Владыка чего?', 'Oceanī', [['океана']], 'океана', 'Gen', 'sg', 'gen'),
+                 Mq('И чего ещё?', 'fluviōrum', [['рек', 'речных']], 'рек', 'Gen', 'pl', 'gen'),
+                 Mq('Где жил?', 'in Oceanō', [['в океане']], 'в океане', 'Abl', 'sg', 'abl')] } },
+      { scene: '1.4', ref: 'Нептуну моряки приносили в жертву коней и быков.',
+        w: [['Neptūnō', 'r', 'Neptūnus, ī m.'], ['nautae', 's', 'nauta, ae m.'], ['equōs', 'o', 'equus, ī m.'], ET('o'), ['taurōs', 'o', 'taurus, ī m.'], ['immolābant.', 'p', 'immolō, immolāre']],
+        k: { p: Pv([['приносили в жертву', 'жертвовали', 'закалывали']], 'приносили в жертву', 'pl', 'imperf'),
+             s: Nn([['моряки', 'мореплаватели', 'матросы', 'корабельщики', 'мореходы']], 'моряки', 'Nom', 'pl', 'nom'),
+             o: Nn([['лошадей', 'коней', 'жеребцов'], ['быков', 'тельцов']], 'коней и быков', 'Acc', 'pl', 'acc'),
+             m: [Mq('Кому приносили в жертву?', 'Neptūnō', [['нептуну']], 'Нептуну', 'Dat', 'sg', 'dat')] } },
+      { scene: '1.5', ref: 'Меркурий был вестником и слугой богов.',
+        w: [['Mercurius', 's', 'Mercurius, ī m.'], ['deōrum', 'r', 'deus, ī m.'], ['nūntius', 'o', 'nūntius, ī m.'], ET('o'), ['minister', 'o', 'minister, trī m.'], ['erat.', 'p', 'sum, esse, fuī']],
+        k: { p: Pv([['был', 'являлся']], 'был', 'sg', 'esse'),
+             s: Nn([['меркурий']], 'Меркурий', 'Nom', 'sg', 'nom'),
+             o: Nn([['вестником', 'гонцом', 'посланником', 'глашатаем'], ['слугой', 'помощником', 'служителем', 'министром', 'прислужником']], 'вестником и слугой', 'Nom', ['sg', 'pl'], 'nompred', true),
+             m: [Mq('Чей вестник и слуга?', 'deōrum', [['богов']], 'богов', 'Gen', 'pl', 'gen')] } },
+      { scene: '1.6', ref: 'Меркурий сообщал жителям земли приказы богов.',
+        w: [['Mercurius', 's', 'Mercurius, ī m.'], ['imperia', 'o', 'imperium, ī n.'], ['deōrum', 'r', 'deus, ī m.'], ['incolīs', 'r', 'incola, ae m.'], ['terrae', 'r', 'terra, ae f.'], ['nūntiābat.', 'p', 'nūntiō, nūntiāre']],
+        k: { p: Pv([['сообщал', 'возвещал', 'объявлял', 'извещал', 'передавал', 'оповещал', 'доносил']], 'сообщал', 'sg', 'imperf'),
+             s: Nn([['меркурий']], 'Меркурий', 'Nom', 'sg', 'nom'),
+             o: Nn([['приказы', 'повеления', 'веления', 'распоряжения', 'приказания', 'указы', 'команды']], 'приказы', 'Acc', 'pl', 'acc'),
+             m: [Mq('Чьи приказы?', 'deōrum', [['богов']], 'богов', 'Gen', 'pl', 'gen'),
+                 Mq('Кому сообщал?', 'incolīs', [['жителям', 'обитателям']], 'жителям', 'Dat', 'pl', 'dat'),
+                 Mq('Жителям чего?', 'terrae', [['земли', 'суши', 'страны']], 'земли', 'Gen', 'sg', 'gen')] } },
+      { scene: '1.7', ref: 'У Меркурия были крылья, и он летал над землёй и волнами.',
+        w: [['Mercurius', 's', 'Mercurius, ī m.'], ['ālās', 'o', 'āla, ae f.'], ['habēbat', 'p', 'habeō, habēre, habuī'], ET('p'), ['suprā', 'r', 'suprā'], ['terrās', 'r', 'terra, ae f.'], ET('r'), ['undās', 'r', 'unda, ae f.'], ['volābat.', 'p', 'volō, volāre']],
+        k: { p: Pv([['имел', 'обладал', 'были', 'был'], ['летал', 'парил', 'пролетал']], 'имел … и летал (два сказуемых)', 'sg', 'imperf'),
+             s: Nn([['меркурий']], 'Меркурий', 'Nom', 'sg', 'nom'),
+             o: Nn([['крылья']], 'крылья', 'Acc', 'pl', 'acc'),
+             m: [Mq('Над чем летал?', 'suprā terrās', [['над землей', 'над землями', 'над сушей']], 'над землёй', 'Acc', 'pl', 'prep'),
+                 Mq('И над чем ещё?', 'undās', [['волнами', 'над волнами']], 'волнами', 'Acc', 'pl', 'prep')] } },
+      { scene: '1.8', ref: 'Меркурий также показывал жителям земли дороги;',
+        w: [['Mercurius', 's', 'Mercurius, ī m.'], ['etiam', 'r', 'etiam'], ['viās', 'o', 'via, ae f.'], ['incolīs', 'r', 'incola, ae m.'], ['terrae', 'r', 'terra, ae f.'], ['mōnstrābat;', 'p', 'mōnstrō, mōnstrāre']],
+        k: { p: Pv([['показывал', 'указывал', 'объяснял']], 'показывал', 'sg', 'imperf'),
+             s: Nn([['меркурий']], 'Меркурий', 'Nom', 'sg', 'nom'),
+             o: Nn([['дороги', 'пути', 'тропы']], 'дороги (пути)', 'Acc', 'pl', 'acc'),
+             m: [Mq('Что значит etiam?', 'etiam', [['также', 'еще', 'даже', 'тоже']], 'также, ещё', null, null, 'adv'),
+                 Mq('Кому показывал?', 'incolīs', [['жителям', 'обитателям', 'людям']], 'жителям', 'Dat', 'pl', 'dat'),
+                 Mq('Жителям чего?', 'terrae', [['земли', 'суши']], 'земли', 'Gen', 'sg', 'gen')] } },
+      { scene: '1.9', ref: 'поэтому греки и римляне ставили Меркурию алтари на дорогах.',
+        w: [['itaque', 'r', 'itaque'], ['Graecī', 's', 'Graecus, ī m.'], ET('s'), ['Rōmānī', 's', 'Rōmānus, ī m.'], ['ārās', 'o', 'āra, ae f.'], ['Mercuriō', 'r', 'Mercurius, ī m.'], ['in', 'r', 'in'], ['viīs', 'r', 'via, ae f.'], ['collocābant.', 'p', 'collocō, collocāre']],
+        k: { p: Pv([['ставили', 'устанавливали', 'помещали', 'возводили', 'воздвигали', 'размещали', 'клали']], 'ставили', 'pl', 'imperf'),
+             s: Nn([['греки'], ['римляне']], 'греки и римляне', 'Nom', 'pl', 'nom'),
+             o: Nn([['алтари', 'жертвенники']], 'алтари', 'Acc', 'pl', 'acc'),
+             m: [Mq('Что значит itaque?', 'itaque', [['поэтому', 'потому', 'итак', 'вот почему', 'следовательно']], 'поэтому', null, null, 'adv'),
+                 Mq('Кому ставили?', 'Mercuriō', [['меркурию']], 'Меркурию', 'Dat', 'sg', 'dat'),
+                 Mq('Где ставили?', 'in viīs', [['на дорогах', 'на улицах', 'на путях']], 'на дорогах', 'Abl', 'pl', 'abl')] } }
+    ]
+  },
+  {
+    id: 't2', title: 'Minerva et Diāna', ru: 'Минерва и Диана', game: 'Учебный перевод 2',
+    sents: [
+      { scene: '2.1', ref: 'В числе богинь были Минерва и Диана.',
+        w: [['In', 'r', 'in'], ['numerō', 'r', 'numerus, ī m.'], ['deārum', 'r', 'dea, ae f.'], ['erant', 'p', 'sum, esse, fuī'], ['Minerva', 's', 'Minerva, ae f.'], ET('s'), ['Diāna.', 's', 'Diāna, ae f.']],
+        k: { p: Pv([['были', 'находились', 'числились']], 'были', 'pl', 'esse'),
+             s: Nn([['минерва'], ['диана']], 'Минерва и Диана', 'Nom', ['sg', 'pl'], 'nom'),
+             o: NO,
+             m: [Mq('Где (в каком количестве)?', 'in numerō', [['в числе', 'среди', 'в количестве']], 'в числе', 'Abl', 'sg', 'prep'),
+                 Mq('Чьём числе? (кого?)', 'deārum', [['богинь']], 'богинь', 'Gen', 'pl', 'gen')] } },
+      { scene: '2.2', ref: 'Минерва была богиней войны и наук.',
+        w: [['Minerva', 's', 'Minerva, ae f.'], ['dea', 'o', 'dea, ae f.'], ['bellī', 'r', 'bellum, ī n.'], ET('r'), ['lītterārum', 'r', 'līttera, ae f.'], ['erat.', 'p', 'sum, esse, fuī']],
+        k: { p: Pv([['была', 'являлась']], 'была', 'sg', 'esse'),
+             s: Nn([['минерва']], 'Минерва', 'Nom', 'sg', 'nom'),
+             o: Nn([['богиней']], 'богиней', 'Nom', 'sg', 'nompred', true),
+             m: [Mq('Богиня чего?', 'bellī', [['войны']], 'войны', 'Gen', 'sg', 'gen'),
+                 Mq('И чего ещё?', 'lītterārum', [['наук', 'литературы', 'письма', 'словесности', 'письмен', 'знаний', 'грамоты']], 'наук (литературы)', 'Gen', 'pl', 'gen')] } },
+      { scene: '2.3', ref: 'Минерва сражалась копьём.',
+        w: [['Minerva', 's', 'Minerva, ae f.'], ['hastā', 'r', 'hasta, ae f.'], ['pūgnābat.', 'p', 'pūgnō, pūgnāre']],
+        k: { p: Pv([['сражалась', 'билась', 'воевала', 'боролась']], 'сражалась', 'sg', 'imperf'),
+             s: Nn([['минерва']], 'Минерва', 'Nom', 'sg', 'nom'),
+             o: NO,
+             m: [Mq('Чем сражалась?', 'hastā', [['копьем', 'дротиком']], 'копьём', 'Abl', 'sg', 'abl')] } },
+      { scene: '2.4', ref: 'Диана была богиней лесов.',
+        w: [['Diāna', 's', 'Diāna, ae f.'], ['dea', 'o', 'dea, ae f.'], ['silvārum', 'r', 'silva, ae f.'], ['erat.', 'p', 'sum, esse, fuī']],
+        k: { p: Pv([['была', 'являлась']], 'была', 'sg', 'esse'),
+             s: Nn([['диана']], 'Диана', 'Nom', 'sg', 'nom'),
+             o: Nn([['богиней']], 'богиней', 'Nom', 'sg', 'nompred', true),
+             m: [Mq('Богиня чего?', 'silvārum', [['лесов']], 'лесов', 'Gen', 'pl', 'gen')] } },
+      { scene: '2.5', ref: 'У Минервы и Дианы были великолепные храмы в городах Греции и Италии.',
+        w: [['Minerva', 's', 'Minerva, ae f.'], ET('s'), ['Diāna', 's', 'Diāna, ae f.'], ['templa', 'o', 'templum, ī n.'], ['māgnifica', 'r', 'māgnificus, a, um'], ['in', 'r', 'in'], ['oppidīs', 'r', 'oppidum, ī n.'], ['Graeciae', 'r', 'Graecia, ae f.'], ET('r'), ['Italiae', 'r', 'Italia, ae f.'], ['habēbant.', 'p', 'habeō, habēre, habuī']],
+        k: { p: Pv([['имели', 'обладали', 'были', 'владели']], 'имели (у … были)', 'pl', 'imperf'),
+             s: Nn([['минерва'], ['диана']], 'Минерва и Диана', 'Nom', ['sg', 'pl'], 'nom'),
+             o: Nn([['храмы']], 'храмы', 'Acc', 'pl', 'acc'),
+             m: [Mq('Какие храмы?', 'māgnifica', [['великолепные', 'роскошные', 'пышные', 'величественные', 'прекрасные', 'огромные', 'грандиозные', 'красивые']], 'великолепные', 'Acc', 'pl', 'acc'),
+                 Mq('Где?', 'in oppidīs', [['в городах', 'в городках', 'в поселениях']], 'в городах', 'Abl', 'pl', 'abl'),
+                 Mq('Городах какой страны?', 'Graeciae', [['греции']], 'Греции', 'Gen', 'sg', 'gen'),
+                 Mq('И какой ещё страны?', 'Italiae', [['италии']], 'Италии', 'Gen', 'sg', 'gen')] } },
+      { scene: '2.6', ref: 'В храмах были статуи и алтари богинь.',
+        w: [['In', 'r', 'in'], ['templīs', 'r', 'templum, ī n.'], ['erant', 'p', 'sum, esse, fuī'], ['statuae', 's', 'statua, ae f.'], ET('s'), ['ārae', 's', 'āra, ae f.'], ['deārum.', 'r', 'dea, ae f.']],
+        k: { p: Pv([['были', 'стояли', 'находились']], 'были (стояли)', 'pl', 'esse'),
+             s: Nn([['статуи'], ['алтари', 'жертвенники']], 'статуи и алтари', 'Nom', 'pl', 'nom'),
+             o: NO,
+             m: [Mq('Чьи статуи и алтари?', 'deārum', [['богинь']], 'богинь', 'Gen', 'pl', 'gen'),
+                 Mq('Где были?', 'in templīs', [['в храмах']], 'в храмах', 'Abl', 'pl', 'abl')] } },
+      { scene: '2.7', ref: 'Девушки украшали статуи и алтари богинь венками.',
+        w: [['Puellae', 's', 'puella, ae f.'], ['statuās', 'o', 'statua, ae f.'], ET('o'), ['ārās', 'o', 'āra, ae f.'], ['deārum', 'r', 'dea, ae f.'], ['corōnīs', 'r', 'corōna, ae f.'], ['ōrnābant.', 'p', 'ōrnō, ōrnāre']],
+        k: { p: Pv([['украшали', 'увешивали']], 'украшали', 'pl', 'imperf'),
+             s: Nn([['девушки', 'девочки', 'девы', 'девицы']], 'девушки (девочки)', 'Nom', 'pl', 'nom'),
+             o: Nn([['статуи'], ['алтари', 'жертвенники']], 'статуи и алтари', 'Acc', 'pl', 'acc'),
+             m: [Mq('Чьи статуи и алтари?', 'deārum', [['богинь']], 'богинь', 'Gen', 'pl', 'gen'),
+                 Mq('Чем украшали?', 'corōnīs', [['венками', 'венцами', 'гирляндами']], 'венками', 'Abl', 'pl', 'abl')] } }
+    ]
+  }
+];
+
+/* подписи шагов; форма: время / падеж и число */
+window.STEPS = [
+  { key: 'p', title: 'Что делал(и)? — сказуемое', hint: 'Впишите перевод глагола. Передайте время и число: «жили», «был». Затем определите латинскую форму.', ph: 'перевод глагола' },
+  { key: 's', title: 'Кто? Что? — подлежащее', hint: 'Впишите перевод подлежащего (только само слово). Затем определите латинскую форму.', ph: 'перевод подлежащего' },
+  { key: 'o', title: 'Кого? Что? — дополнение', hint: 'Впишите перевод дополнения (только само слово) и определите латинскую форму. Если дополнения нет, нажмите «Дополнения нет».', ph: 'перевод дополнения' },
+  { key: 'm', title: 'Вопросы к остальным словам', hint: 'Для каждого латинского слова в скобках: впишите перевод в нужной форме и определите форму слова.' }
+];
+window.STEP_NAME = { p: 'сказуемое', s: 'подлежащее', o: 'дополнение', m: 'остальные слова' };
+window.OPT = {
+  tense: [['Praes', 'Praesens (настоящее)'], ['Imperf', 'Imperfectum (прошедшее незаконч.)'], ['Perf', 'Perfectum (прошедшее закон.)'], ['Fut', 'Futurum (будущее)']],
+  cas: [['Nom', 'Nominativus'], ['Gen', 'Genitivus'], ['Dat', 'Dativus'], ['Acc', 'Accusativus'], ['Abl', 'Ablativus']],
+  num: [['sg', 'единственное'], ['pl', 'множественное']],
+  ind: [['ind', 'не изменяется']]
+};
+
+window.TOPICS = {
+  imperf: ['Время глагола: Imperfectum', 'Суффикс -ba- (-bam, -bās, -bat, -bāmus, -bātis, -bant) — прошедшее незавершённое. Переводите: «делал, делали». Не путайте с Praesens (-t, -nt) и Perfectum.'],
+  esse: ['Глагол esse в Imperfectum', 'eram, erās, erat, erāmus, erātis, erant — «был, была, были». Erat — единственное число, erant — множественное.'],
+  num: ['Число существительных и глаголов', 'Определяйте число по окончанию: -a/-ae (1 скл.), -us/-ī, -um/-a (2 скл.); у глагола -bat — ед. ч., -bant — мн. ч. Число в переводе должно совпадать.'],
+  nom: ['Nominativus — подлежащее', 'Подлежащее отвечает на «кто? что?»: -us, -a (ед. ч.), -ī, -ae (мн. ч. 1 скл.). Проверяйте согласование со сказуемым.'],
+  acc: ['Accusativus — прямое дополнение', 'Acc. pl.: -ōs (2 скл. м.), -ās (1 скл.), -a (ср. р.). Вопрос «кого? что?». Одушевлённые в русском: «коней, богов».'],
+  nompred: ['Именная часть сказуемого', 'При глаголе esse существительное стоит в Nom., а по-русски — в творительном: Mercurius erat nūntius — «Меркурий был вестником».'],
+  gen: ['Genitivus — «чей? чего?»', 'deōrum — «богов», terrae — «земли», Graeciae — «Греции». Gen. pl.: -ōrum, -ārum; Gen. sg.: -ī, -ae.'],
+  dat: ['Dativus — «кому? чему?»', 'Neptūnō, Mercuriō, incolīs — «Нептуну, Меркурию, жителям». Dat. sg.: -ō, -ae; Dat. pl.: -īs.'],
+  abl: ['Ablativus — «чем? где?»', 'Без предлога — орудие («hastā» — копьём, «corōnīs» — венками); in + Abl. — место («in templīs» — в храмах). Abl. sg.: -ō, -ā; Abl. pl.: -īs.'],
+  prep: ['Предлоги in и suprā', 'in + Abl. — «где?» (в, на); suprā + Acc. — «над чем?»; in numerō — «в числе».'],
+  adv: ['Неизменяемые слова', 'etiam — «также, ещё»; itaque — «поэтому». Наречия и союзы не изменяются по падежам и числам — выучите их как слова-связки.'],
+  none: ['Когда нет дополнения', 'Не в каждом предложении есть прямое дополнение. Проверьте: есть ли слово в Acc.?']
+};
+window.GAME=1;</script>
+<script>/* app.js — логика учебного перевода. Автор проекта: Magistra MS */
+(function () {
+  'use strict';
+  const CFG = window.CONFIG, ALL = window.TEXTS, GAME = window.GAME || 0, TEXTS = [ALL[GAME]], STEPS = window.STEPS, TOPICS = window.TOPICS, SN = window.STEP_NAME, OPT = window.OPT, DICT = window.DICT;
+  const TITLE = 'Учебный перевод с латинского языка';
+  const KEY = 'latin-dei-v4-' + GAME, QKEY = 'latin-dei-queue-' + GAME, AKEY = 'latin-dei-attempts-' + GAME;
+  const $ = (s, r) => (r || document).querySelector(s);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const store = { get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch (e) { } } };
+
+  let state = load(), dictOpen = false, sceneKey = '', timerId = null;
+  function fresh() { return { name: '', attempt: 0, plan: [], pos: 0, maxPos: 0, texts: {}, res: {} }; }
+  function load() { try { const s = JSON.parse(store.get(KEY)); if (s && s.plan) return s; } catch (e) { } return fresh(); }
+  function save() { store.set(KEY, JSON.stringify(state)); }
+
+  /* ---------- утилиты ---------- */
+  const r2 = n => Math.round(n * 100) / 100;
+  const fmt = n => r2(n).toString().replace('.', ',');
+  const pad = n => String(n).padStart(2, '0');
+  function fmtDur(ms) { const s = Math.max(0, Math.round(ms / 1000)), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60); return (h ? h + ':' + pad(m) : m) + ':' + pad(s % 60); }
+  function fmtDate(t) { const d = new Date(t); return `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; }
+  const markOf = pct => pct >= CFG.thresholds[5] ? 5 : pct >= CFG.thresholds[4] ? 4 : pct >= CFG.thresholds[3] ? 3 : 2;
+  const markWord = m => ({ 5: 'отлично', 4: 'хорошо', 3: 'удовлетворительно', 2: 'неудовлетворительно' }[m]);
+  const chipCls = s => s >= .99 ? 'good' : s >= .4 ? 'mid' : 'bad';
+  function fnv(str) { let h = 0x811c9dc5; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h; }
+  const lab = (list, v) => { const x = list.find(o => o[0] === v); return x ? x[1] : ''; };
+  const first = v => Array.isArray(v) ? v[0] : v;
+  const okIn = (v, exp) => Array.isArray(exp) ? exp.includes(v) : v === exp;
+  const isTense = v => OPT.tense.some(o => o[0] === v);
+  const aLab = v => v === 'ind' ? 'неизменяемое слово' : (lab(OPT.tense, v) || lab(OPT.cas, v));
+  const bLab = v => v === 'ind' ? 'не изменяется' : lab(OPT.num, v);
+  const formLab = (a, b) => a ? (a === 'ind' ? 'неизменяемое слово' : aLab(a).split(' (')[0] + ', ' + (bLab(b) || '—')) : '—';
+  const expLab = f => f.a === 'ind' ? 'неизменяемое слово' : aLab(f.a).split(' (')[0] + ', ' + bLab(first(f.b));
+  const caseTag = { Nom: 'nom', Gen: 'gen', Dat: 'dat', Acc: 'acc', Abl: 'abl' };
+
+  /* ---------- проверка ---------- */
+  const norm = s => ' ' + String(s).toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9\s]/g, ' ').replace(/\s+/g, ' ').trim() + ' ';
+  const hit = (t, g) => g.some(alt => new RegExp(' (?:' + alt + ') ').test(t));
+  function tScore(spec, text, others) {
+    const t = norm(text); if (!t.trim()) return 0;
+    const matched = spec.g.filter(g => hit(t, g)).length;
+    let sc = matched / spec.g.length;
+    if (others) {
+      const own = new Set(spec.g.flat()); let intr = 0;
+      others.forEach(g => { if (!g.some(x => own.has(x)) && hit(t, g)) intr++; });
+      if (intr >= 5) sc = 0; else if (intr >= 3) sc *= .5;
+    }
+    return r2(sc);
+  }
+  const fScore = (spec, fa, fb) => r2(.5 * okIn(fa, spec.f.a) + .5 * okIn(fb, spec.f.b));
+  function othersOf(sent, key) { const o = []; ['p', 's', 'o'].forEach(k => { if (k !== key && sent.k[k].g) o.push(...sent.k[k].g); }); sent.k.m.forEach(m => o.push(...m.g)); return o; }
+  function scoreCore(sent, key, text, none, fa, fb) {
+    const k = sent.k[key];
+    if (k.none) return { text: '', none: !!none, fa: '', fb: '', t: none ? 1 : 0, f: none ? 1 : 0, score: none ? 1 : 0 };
+    if (none) return { text: '', none: true, fa: '', fb: '', t: 0, f: 0, score: 0 };
+    const t = tScore(k, text, othersOf(sent, key)), f = fScore(k, fa, fb);
+    return { text, none: false, fa, fb, t, f, score: r2(.5 * t + .5 * f) };
+  }
+  function scoreSub(spec, text, fa, fb) { const t = tScore(spec, text, null), f = fScore(spec, fa, fb); return { text, fa, fb, t, f, score: r2(.5 * t + .5 * f) }; }
+
+  /* ---------- слайды и баллы ---------- */
+  function slides() { const out = [{ k: 'intro' }]; if (state.plan.length) { TEXTS[0].sents.forEach((_, i) => out.push({ k: 's', t: 0, i })); out.push({ k: 'res', t: 0 }); } return out; }
+  const ansOf = i => (state.texts[TEXTS[0].id] || { ans: {} }).ans[i] || {};
+  const sentDone = i => { const a = ansOf(i); return !!(a.p && a.s && a.o && a.m); };
+  const sentPts = i => { const a = ansOf(i); return (a.p ? a.p.score : 0) + (a.s ? a.s.score : 0) + (a.o ? a.o.score : 0) + (a.m ? a.m.score : 0); };
+  function summary() {
+    const T = TEXTS[0], n = T.sents.length, max = n * 4; let pts = 0, tSum = 0, fSum = 0, cnt = 0;
+    const per = [], errors = [], topicLoss = {}, acc = { p: 0, s: 0, o: 0, m: 0 };
+    const add = (tag, v) => { topicLoss[tag] = (topicLoss[tag] || 0) + v; };
+    function items(i, label, spec, r, w, isVerb) {
+      tSum += r.t; fSum += r.f; cnt++;
+      if (r.t < .99) { const lost = .5 * (1 - r.t) * w; errors.push({ i: i + 1, step: label + ' — перевод', got: r.text ? '«' + r.text + '»' : '(пусто)', ref: spec.ref, lost }); add(spec.tag, lost); }
+      if (r.f < .99) {
+        const okA = okIn(r.fa, spec.f.a), okB = okIn(r.fb, spec.f.b), lost = .5 * (1 - r.f) * w;
+        errors.push({ i: i + 1, step: label + (isVerb ? ' — время и число' : spec.f.a === 'ind' ? ' — форма слова' : ' — падеж и число'), got: '«' + formLab(r.fa, r.fb) + '»', ref: expLab(spec.f), lost });
+        if (!okA) add(isVerb ? spec.tag : spec.f.a === 'ind' ? 'adv' : caseTag[first(spec.f.a)] || spec.tag, .25 * w); if (!okB) add('num', .25 * w);
+      }
+    }
+    T.sents.forEach((S, i) => {
+      const a = ansOf(i); let sp = 0;
+      ['p', 's', 'o'].forEach(k => {
+        const spec = S.k[k], r = a[k] || { score: 0, t: 0, f: 0, text: '' }; sp += r.score; acc[k] += r.score;
+        const label = (k === 'o' && spec.nom ? 'Именная часть' : STEPS.find(s => s.key === k).title.split(' — ')[1] || '');
+        const cap = label.charAt(0).toUpperCase() + label.slice(1);
+        if (spec.none) { if (r.score < .99) { errors.push({ i: i + 1, step: 'Дополнение', got: '«есть дополнение»', ref: 'дополнения нет', lost: 1 }); add('none', 1); } }
+        else if (r.none) { errors.push({ i: i + 1, step: cap, got: '«Дополнения нет»', ref: spec.ref, lost: 1 }); add(spec.tag, 1); tSum += 0; cnt++; }
+        else items(i, cap, spec, r, 1, k === 'p');
+      });
+      const m = a.m || { score: 0, items: [] }, nm = S.k.m.length; sp += m.score; acc.m += m.score;
+      S.k.m.forEach((q, j) => { const it = m.items[j] || { t: 0, f: 0, text: '', fa: '', fb: '' }; items(i, q.q + ' (' + q.lat + ')', q, it, 1 / nm, false); });
+      per.push(sp); pts += sp;
+    });
+    Object.keys(acc).forEach(k => acc[k] /= n);
+    const pct = pts / max * 100; return { pts, max, pct, mark: markOf(pct), per, errors, topicLoss, acc, n, trAcc: cnt ? tSum / cnt : 0, foAcc: cnt ? fSum / cnt : 0 };
+  }
+  function review(sm) {
+    const band = { 5: 'Отличная работа! Вы уверенно определяете формы и точно переводите их на русский язык.', 4: 'Хороший результат. Основа усвоена, остались небольшие неточности в формах или переводе.', 3: 'Удовлетворительно. Структуру предложения вы видите, но формы слов (время, число, падеж) стоит повторить.', 2: 'Пока результат низкий, но это поправимо: повторите окончания и тренируйтесь определять форму каждого слова.' }[sm.mark];
+    const tr = Math.round(sm.trAcc * 100), fo = Math.round(sm.foAcc * 100);
+    let x = ` Перевод: ${tr}% верно, определение формы (время, число, падеж): ${fo}% верно.`;
+    if (fo + 5 < tr) x += ' Формы определяются слабее, чем переводятся: потренируйте окончания.'; else if (tr + 5 < fo) x += ' Формы вы определяете увереннее, чем переводите: следите за русскими окончаниями.';
+    return band + x;
+  }
+
+  /* ---------- код и очередь ---------- */
+  function makeCode(pts) {
+    const d = new Date(), ts = String(d.getFullYear()).slice(2) + pad(d.getMonth() + 1) + pad(d.getDate()) + pad(d.getHours()) + pad(d.getMinutes()) + pad(d.getSeconds());
+    let rnd; try { rnd = Array.from(crypto.getRandomValues(new Uint8Array(3))).map(b => b.toString(36).toUpperCase().padStart(2, '0')).join('').slice(0, 4); } catch (e) { rnd = Math.random().toString(36).slice(2, 6).toUpperCase(); }
+    const body = `${TEXTS[0].id.toUpperCase()}-${ts}-${Math.round(pts * 100)}-${state.attempt}-${rnd}`;
+    return body + '-' + fnv(CFG.salt + body).toString(36).toUpperCase().slice(-3).padStart(3, '0');
+  }
+  function checkCode(code) {
+    const m = String(code).trim().toUpperCase().match(/^(T[12])-(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})-(\d+)-(\d+)-([0-9A-Z]{4})-([0-9A-Z]{3})$/);
+    if (!m) return { ok: false, msg: 'Неверный формат кода.' };
+    const body = code.trim().toUpperCase().replace(/-[0-9A-Z]{3}$/, '');
+    const ok = fnv(CFG.salt + body).toString(36).toUpperCase().slice(-3).padStart(3, '0') === m[11], g = ALL[m[1] === 'T1' ? 0 : 1];
+    return { ok, msg: ok ? `Код подлинный. ${g.game}: «${g.ru}». Сдано: 20${m[2]}-${m[3]}-${m[4]} ${m[5]}:${m[6]}:${m[7]}. Баллы: ${fmt(+m[8] / 100)} из ${g.sents.length * 4}. Попытка № ${m[9]}.` : 'Контрольная сумма не совпадает: код изменён или подделан.' };
+  }
+  function localQueue() { const n = (+store.get(QKEY) || 0) + 1; store.set(QKEY, String(n)); return n; }
+  async function getQueue() {
+    if (CFG.queue && CFG.queue.url) {
+      try { const c = new AbortController(), to = setTimeout(() => c.abort(), 4000); const r = await fetch(CFG.queue.url, { signal: c.signal, cache: 'no-store' }); clearTimeout(to); const j = await r.json(), n = j.count != null ? j.count : j.value != null ? j.value : j.number; if (n != null) return { n: +n, src: 'global' }; } catch (e) { }
+    }
+    return { n: localQueue(), src: 'local' };
+  }
+  async function finish() {
+    const tx = state.texts[TEXTS[0].id]; tx.end = Date.now();
+    state.res = { code: makeCode(summary().pts), at: tx.end, q: null, qsrc: '' }; save(); go(state.pos + 1);
+    const q = await getQueue(); state.res.q = q.n; state.res.qsrc = q.src; save();
+    const cur = slides()[state.pos]; if (cur && cur.k === 'res') draw();
+  }
+  function go(p) { state.pos = p; state.maxPos = Math.max(state.maxPos, p); save(); draw(); window.scrollTo({ top: 0 }); }
+  function start() { state.attempt = (+store.get(AKEY) || 0) + 1; store.set(AKEY, String(state.attempt)); state.plan = [0]; state.texts[TEXTS[0].id] = { start: Date.now(), end: null, ans: {} }; save(); go(1); }
+
+  /* ---------- отрисовка ---------- */
+  const root = $('#app');
+  function draw() {
+    const sl = slides(), cur = sl[state.pos] || sl[0];
+    drawTop(cur);
+    if (cur.k === 'intro') { sceneKey = ''; drawIntro(); } else if (cur.k === 's') drawSentence(cur); else { sceneKey = ''; drawResult(); }
+    clearInterval(timerId);
+    const tm = $('#timer'), tx = state.texts[TEXTS[0].id];
+    if (tm && tx) { const upd = () => { tm.textContent = '⏱ ' + fmtDur((tx.end || Date.now()) - tx.start); }; upd(); if (!tx.end) timerId = setInterval(upd, 1000); }
+  }
+  function drawTop(cur) {
+    const el = $('#top'); let mid = '<div class="dots"></div>', right = '';
+    if (cur.k !== 'intro') {
+      const sl = slides();
+      mid = '<div class="dots" role="navigation" aria-label="Предложения">' + TEXTS[0].sents.map((_, i) => { const idx = sl.findIndex(s => s.k === 's' && s.i === i), d = sentDone(i), can = idx <= state.maxPos; return `<button class="dot ${d ? 'done' : ''} ${idx === state.pos ? 'cur' : ''} ${can ? 'nav' : ''}" ${can ? `data-go="${idx}"` : 'disabled'} aria-label="Предложение ${i + 1}"></button>`; }).join('') + '</div>';
+      let pts = 0; TEXTS[0].sents.forEach((_, i) => pts += sentPts(i));
+      right = `<span class="pill" id="timer">⏱ 0:00</span><span class="pill">Баллы: ${fmt(pts)} / ${TEXTS[0].sents.length * 4}</span>`;
+    }
+    el.innerHTML = `<div class="wrap"><div class="brand">${TITLE}<small>«${esc(TEXTS[0].ru)}» · ${esc(CFG.author)}</small></div>${mid}${right}</div><div class="meander"></div>`;
+  }
+  function drawIntro() {
+    const T = TEXTS[0], cont = state.plan.length ? `<button class="btn big" data-go="${state.maxPos}">Продолжить</button> ` : '';
+    root.innerHTML = `<div class="wrap" style="max-width:640px"><div class="card hero">
+      <div class="snum">${TITLE}</div>
+      <h1>${esc(T.ru)}</h1>
+      <p class="sub" style="font-size:18px">${T.sents.length} предложений. Переведите слова и определите их форму: время, число, падеж.</p>
+      <div class="row" style="justify-content:center">${cont}<button class="btn primary big" data-start="1">${state.plan.length ? 'Начать заново' : 'Начать'}</button></div>
+      <p class="sub" style="font-size:13px;margin-top:16px">Словарь открывается по кнопке, баллы за него не снимаются.</p>
+    </div><p class="author">Автор: ${esc(CFG.author)} · <button class="btn" id="teach" style="font-size:12px;min-height:28px;padding:2px 10px">для преподавателя</button></p></div>`;
+  }
+  function tokens(i) { const a = ansOf(i); return TEXTS[0].sents[i].w.map(w => { const role = w[1] === 'r' ? (a.m ? 'r' : '') : (a[w[1]] ? w[1] : ''); return `<span class="tok ${role}">${esc(w[0])}</span>`; }).join(' '); }
+  function dictHtml(i) {
+    const seen = {};
+    return '<table>' + TEXTS[0].sents[i].w.filter(w => seen[w[2]] ? 0 : (seen[w[2]] = 1)).map(w => `<tr><td>${esc(w[2])}</td><td>${esc(DICT[w[2]] || '')}</td></tr>`).join('') + '</table>';
+  }
+  function drawSentence(cur) {
+    const T = TEXTS[0], S = T.sents[cur.i], key = String(cur.i);
+    if (sceneKey !== key || !$('#scene')) {
+      sceneKey = key;
+      root.innerHTML = `<div class="wrap grid"><section><div class="card scene" id="scene"></div>
+        <div class="card" style="margin-top:14px"><p class="snum" id="snum"></p><p class="latin" id="latin"></p>
+        <div class="row"><button class="btn" id="dbtn" aria-expanded="false">📖 Словарь</button></div><div class="dict" id="dict" hidden></div></div></section>
+        <section id="work"></section></div><p class="author">Автор: ${esc(CFG.author)}</p>`;
+      $('#scene').innerHTML = window.renderScene(S.scene) + '<button class="replay" id="replay">↻ Повторить</button>';
+    }
+    $('#snum').textContent = `Предложение ${cur.i + 1} из ${T.sents.length}`;
+    $('#latin').innerHTML = tokens(cur.i);
+    const d = $('#dict'); d.innerHTML = dictHtml(cur.i); d.hidden = !dictOpen; $('#dbtn').setAttribute('aria-expanded', dictOpen);
+    drawWork(cur);
+  }
+  const opts = (list, extra) => '<option value="">— выберите —</option>' + list.concat(extra || []).map(o => `<option value="${o[0]}">${esc(o[1])}</option>`).join('');
+  function selects(kind, cls, j) {
+    const d = j == null ? '' : ` data-j="${j}"`;
+    if (kind === 'p') return `<div class="sel"><label>Время<select class="${cls}-a"${d}>${opts(OPT.tense)}</select></label><label>Число<select class="${cls}-b"${d}>${opts(OPT.num)}</select></label></div>`;
+    if (kind === 'm') return `<div class="sel"><label>Падеж<select class="${cls}-a"${d}>${opts(OPT.cas, [['ind', 'неизменяемое слово']])}</select></label><label>Число<select class="${cls}-b"${d}>${opts(OPT.num, OPT.ind)}</select></label></div>`;
+    return `<div class="sel"><label>Падеж<select class="${cls}-a"${d}>${opts(OPT.cas)}</select></label><label>Число<select class="${cls}-b"${d}>${opts(OPT.num)}</select></label></div>`;
+  }
+  const verdict = v => v >= .99 ? 'верно' : v > 0 ? 'частично верно' : 'неверно';
+  function fb(r) {
+    if (r.none) return `<span class="chip ${chipCls(r.score)}">${fmt(r.score)} / 1</span> <b>«Дополнения нет»</b> — ${r.score >= .99 ? 'верно' : 'неверно'}`;
+    return `<div><span class="chip ${chipCls(r.score)}">${fmt(r.score)} / 1</span></div>
+      <div style="margin-top:4px"><span class="chip ${chipCls(r.t)}">перевод ${verdict(r.t)}</span> <b>${esc(r.text) || '—'}</b></div>
+      <div style="margin-top:4px"><span class="chip ${chipCls(r.f)}">форма ${verdict(r.f)}</span> <b>${esc(formLab(r.fa, r.fb))}</b></div>`;
+  }
+  function keyHtml(S) {
+    const row = (name, spec) => spec.none ? `<li><b>${name}:</b> дополнения нет</li>` : `<li><b>${esc(name)}:</b> ${esc(spec.ref)} <span style="color:var(--muted)">— ${esc(expLab(spec.f))}</span></li>`;
+    return `<div class="exp" style="margin-top:12px"><b>Верный разбор</b><ul class="list">${row('Сказуемое', S.k.p)}${row('Подлежащее', S.k.s)}${row(S.k.o.nom ? 'Именная часть' : 'Дополнение', S.k.o)}${S.k.m.map(q => row(q.q + ' (' + q.lat + ')', q)).join('')}</ul></div>`;
+  }
+  function scheme(S, a) {
+    const parts = [];
+    if (a.p) parts.push(['Что делал(и)?', a.p.text]); if (a.s) parts.push(['Кто?', a.s.text]);
+    if (a.o && !a.o.none && a.o.text) parts.push([S.k.o.nom ? 'Кем был(а)?' : 'Кого? Что?', a.o.text]);
+    if (a.m) S.k.m.forEach((q, j) => { if (a.m.items[j].text) parts.push([q.q, a.m.items[j].text]); });
+    return parts.length ? `<div class="scheme"><div class="snum">Ваш перевод по частям</div><div class="chips">${parts.map(p => `<div class="sc"><small>${esc(p[0])}</small><b>${esc(p[1])}</b></div>`).join('')}</div></div>` : '';
+  }
+  function drawWork(cur) {
+    const S = TEXTS[0].sents[cur.i], a = ansOf(cur.i), active = STEPS.findIndex(s => !a[s.key]);
+    const li = STEPS.map((st, idx) => {
+      const r = a[st.key], cls = st.key + (r ? '' : idx === active ? '' : ' locked'); let body = '', title = st.title;
+      if (st.key === 'o' && S.k.o.nom) title = 'Кем был(а)? — именная часть сказуемого';
+      if (r && st.key !== 'm') body = `<div class="fb">${fb(r)}</div>`;
+      else if (r) body = '<div class="fb">' + S.k.m.map((q, j) => `<div class="mi"><div><b>${esc(q.q)}</b> <i class="lat">(${esc(q.lat)})</i></div>${fb(r.items[j])}</div>`).join('') + '</div>';
+      else if (idx === active && st.key === 'm') body = `<p class="hint">${esc(st.hint)}</p>` + S.k.m.map((q, j) => `<div class="mi"><label class="ql">${esc(q.q)} <i class="lat">(${esc(q.lat)})</i><input type="text" class="minp" data-j="${j}" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="перевод"></label>${selects('m', 'ms', j)}</div>`).join('') + '<div class="row"><button class="btn primary" data-checkm="1">Проверить</button></div>';
+      else if (idx === active) body = `<p class="hint">${esc(S.k[st.key].nom ? 'Впишите перевод именной части (только само слово) и определите латинскую форму.' : st.hint)}</p><input type="text" id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${esc(st.ph)}" aria-label="${esc(title)}">${selects(st.key === 'p' ? 'p' : 'n', 'fs')}<div class="row"><button class="btn primary" data-check="${st.key}">Проверить</button>${st.key === 'o' ? '<button class="btn" data-none="o">Дополнения нет</button>' : ''}</div>`;
+      return `<li class="step ${cls}"><h3><span class="n">${idx + 1}</span>${esc(title)}</h3>${body}</li>`;
+    }).join('');
+    let done = '';
+    if (active === -1) {
+      const pts = sentPts(cur.i), m = markOf(pts / 4 * 100), last = cur.i === TEXTS[0].sents.length - 1;
+      done = `<div class="card sdone"><div class="row" style="margin:0 0 8px"><span class="mark">${m}</span><div><b>Предложение ${cur.i + 1}: ${fmt(pts)} из 4 баллов</b><br><span style="color:var(--muted)">${markWord(m)}</span></div></div><div class="ref">${esc(S.ref)}</div>${keyHtml(S)}<div class="row"><button class="btn primary big" data-next="1">${last ? 'К результатам →' : 'Следующее предложение →'}</button></div></div>`;
+    }
+    $('#work').innerHTML = `<ol class="steps">${li}</ol>${scheme(S, a)}${done}`;
+    const inp = $('#inp') || $('.minp'); if (inp && (cur.i || Object.keys(a).length)) inp.focus({ preventScroll: true });
+    if ($('#inp')) $('#inp').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); check(cur, STEPS[active].key, false); } });
+  }
+  const val = s => { const e = $(s); return e ? e.value : ''; };
+  function ans(cur) { const id = TEXTS[0].id; return state.texts[id].ans[cur.i] = state.texts[id].ans[cur.i] || {}; }
+  function after(cur) { save(); drawTop(cur); drawSentence(cur); const t = $('#timer'), tx = state.texts[TEXTS[0].id]; if (t) t.textContent = '⏱ ' + fmtDur(Date.now() - tx.start); }
+  function check(cur, key, none) {
+    const S = TEXTS[0].sents[cur.i], a = ans(cur); if (a[key]) return;
+    a[key] = scoreCore(S, key, none ? '' : val('#inp'), none, val('.fs-a'), val('.fs-b')); after(cur);
+  }
+  function checkM(cur) {
+    const S = TEXTS[0].sents[cur.i], a = ans(cur); if (a.m) return;
+    const items = S.k.m.map((q, j) => scoreSub(q, val(`.minp[data-j="${j}"]`), val(`.ms-a[data-j="${j}"]`), val(`.ms-b[data-j="${j}"]`)));
+    a.m = { items, score: r2(items.reduce((n, x) => n + x.score, 0) / items.length) }; after(cur);
+  }
+
+  /* ---------- итоговый слайд ---------- */
+  function drawResult() {
+    const T = TEXTS[0], R = state.res, tx = state.texts[T.id], sm = summary();
+    const queueLbl = R.qsrc === 'global' ? 'Номер в очереди' : 'Номер сдачи (на этом устройстве)', queueTxt = R.q == null ? '…' : '№ ' + R.q;
+    const topics = Object.keys(sm.topicLoss).sort((a, b) => sm.topicLoss[b] - sm.topicLoss[a]).slice(0, 5);
+    root.innerHTML = `<div class="wrap" style="max-width:1100px"><div class="rgrid">
+      <div class="ticket"><div class="snum">${TITLE} · «${esc(T.ru)}»</div>
+        <label class="snum" for="nm" style="margin-top:8px">Впишите имя и фамилию</label>
+        <input id="nm" class="nameinp" type="text" value="${esc(state.name)}" placeholder="Имя Фамилия" autocomplete="name">
+        <div class="row" style="margin-top:14px;gap:18px"><div class="bigmark">${sm.mark}</div><div><b style="font-size:20px">${fmt(sm.pts)} из ${sm.max} баллов</b> · ${Math.round(sm.pct)}%<br><span style="color:var(--muted)">${markWord(sm.mark)}</span></div></div>
+        <div class="kv"><div><b>Перевод</b>${Math.round(sm.trAcc * 100)}% верно</div><div><b>Форма: время, число, падеж</b>${Math.round(sm.foAcc * 100)}% верно</div><div><b>Сдано</b>${fmtDate(R.at)}</div><div><b>Время выполнения</b>${fmtDur(R.at - tx.start)}</div><div><b>${queueLbl}</b>${queueTxt}</div><div><b>Попытка</b>№ ${state.attempt}</div></div>
+        <div class="snum">Уникальный код</div><div class="code">${esc(R.code)}</div>
+        <div class="sgrid">${sm.per.map((p, i) => `<div class="sg"><span style="color:var(--muted)">№${i + 1}</span><b>${fmt(p)}</b></div>`).join('')}</div></div>
+      <div class="rcol"><div class="card"><b>Отзыв</b><p style="margin:6px 0 0">${esc(review(sm))}</p></div>
+        <div class="card"><b>Рекомендации</b>${topics.length ? `<ul class="list">${topics.map(t => `<li><b>${esc(TOPICS[t][0])}.</b> ${esc(TOPICS[t][1])}</li>`).join('')}</ul>` : '<p style="margin:6px 0 0">Ошибок нет. Попробуйте другой учебный перевод без подсказок словаря.</p>'}</div></div></div>
+      <div class="card" style="margin-top:14px"><b>Ошибки (${sm.errors.length})</b>${sm.errors.length ? `<ul class="list cols">${sm.errors.map(e => `<li><b>Предл. ${e.i}. ${esc(e.step)}:</b> ${esc(e.got)} → <b>${esc(e.ref)}</b> <span style="color:var(--muted)">(−${fmt(e.lost)})</span></li>`).join('')}</ul>` : '<p style="margin:6px 0 0">Ошибок нет.</p>'}</div>
+      <p class="snum" style="text-align:center;margin-top:14px">Впишите имя, сделайте скриншот этого слайда целиком и отправьте преподавателю</p>
+      <p class="author"><button class="btn" id="reset" style="font-size:12px;min-height:28px;padding:2px 10px">Пройти заново</button><br>Автор: ${esc(CFG.author)}</p></div>`;
+    $('#nm').addEventListener('input', e => { state.name = e.target.value; save(); });
+  }
+
+  /* ---------- события ---------- */
+  document.addEventListener('click', e => {
+    const t = e.target.closest('button'); if (!t) return; const cur = slides()[state.pos];
+    if (t.dataset.start) { if (state.plan.length && !confirm('Начать заново? Прогресс будет потерян.')) return; const n = state.name; state = fresh(); state.name = n; return start(); }
+    if (t.dataset.go != null) return go(+t.dataset.go);
+    if (t.dataset.check) return check(cur, t.dataset.check, false);
+    if (t.dataset.checkm) return checkM(cur);
+    if (t.dataset.none) return check(cur, 'o', true);
+    if (t.dataset.next) return cur.i === TEXTS[0].sents.length - 1 ? finish() : go(state.pos + 1);
+    if (t.id === 'dbtn') { dictOpen = !dictOpen; $('#dict').hidden = !dictOpen; t.setAttribute('aria-expanded', dictOpen); }
+    if (t.id === 'replay') { const svg = $('#scene svg'); if (svg) svg.outerHTML = window.renderScene(TEXTS[0].sents[cur.i].scene); }
+    if (t.id === 'reset') { if (confirm('Пройти заново? Текущий результат будет потерян.')) { const n = state.name; state = fresh(); state.name = n; sceneKey = ''; save(); draw(); } }
+    if (t.id === 'teach') openTeacher();
+  });
+  function openTeacher() {
+    const m = document.createElement('div'); m.className = 'modal';
+    m.innerHTML = `<div class="card"><b>Проверка кода результата</b><p style="color:var(--muted);font-size:14px">Вставьте код со скриншота студента (подходит для обоих переводов).</p><input id="cc" placeholder="T1-261119214503-3450-1-3FA9-K7X" autocomplete="off"><p id="cr" style="min-height:48px"></p><div class="row"><button class="btn primary" id="cb">Проверить</button><button class="btn" id="cx">Закрыть</button></div></div>`;
+    document.body.appendChild(m);
+    m.addEventListener('click', ev => { if (ev.target === m || ev.target.id === 'cx') m.remove(); if (ev.target.id === 'cb') { const r = checkCode($('#cc').value), c = $('#cr'); c.textContent = (r.ok ? '✓ ' : '✗ ') + r.msg; c.style.color = r.ok ? 'var(--good)' : 'var(--bad)'; } });
+    $('#cc').focus();
+  }
+  if (state.pos >= slides().length) state.pos = 0;
+  draw();
+  window.__latin = { scoreCore, scoreSub, summary, checkCode, state: () => state };
+})();
+</script>
+</body>
+</html>
