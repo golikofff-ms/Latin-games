@@ -1,0 +1,910 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Gaius et Piratae</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Uncial+Antiqua&display=swap">
+<style>
+/* Layout: one narrow manuscript leaf; Caesar and a pirate flank the title, a small vignette sits beside each step. */
+:root{
+  --parch:#efe0ba; --leaf:#f7ecd1; --ink:#2a1c10; --ink-soft:#5b4630;
+  --red:#a3281f; --blue:#27497a; --gold:#b98a2c; --green:#3f6a4c;
+  --rule:#c6aa6e; --ok:#2f6b3f; --bad:#a3281f; --shadow:rgba(60,35,10,.2);
+  --pen:#2a1c10; --cream:#f5e9c8; --skin:#e8c9a0; --wood:#7a4a2a;
+  --display:"Uncial Antiqua","Cormorant Garamond",Georgia,serif;
+  --text:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --parch:#17120c; --leaf:#221b12; --ink:#efe0c0; --ink-soft:#c2ac88;
+    --red:#d9553f; --blue:#7aa2dc; --gold:#d3a640; --green:#86ba92;
+    --rule:#594728; --ok:#8ccf9b; --bad:#f09580; --shadow:rgba(0,0,0,.5);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --parch:#17120c; --leaf:#221b12; --ink:#efe0c0; --ink-soft:#c2ac88;
+  --red:#d9553f; --blue:#7aa2dc; --gold:#d3a640; --green:#86ba92;
+  --rule:#594728; --ok:#8ccf9b; --bad:#f09580; --shadow:rgba(0,0,0,.5);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--parch);
+  background-image:radial-gradient(circle at 20% 10%,var(--shadow) 0,transparent 35%),radial-gradient(circle at 85% 90%,var(--shadow) 0,transparent 40%);
+  color:var(--ink);
+  font:500 20px/1.45 var(--text);
+  padding-block:20px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.folio{
+  position:relative; max-width:820px; margin:0 auto;
+  background:var(--leaf); border:2px solid var(--pen);
+  box-shadow:0 0 0 5px var(--leaf),0 0 0 7px var(--ink-soft),0 10px 30px var(--shadow);
+  padding:28px clamp(16px,4vw,38px) 22px;
+}
+.folio::before{content:"";position:absolute;inset:7px;border:1px solid var(--rule);pointer-events:none}
+.corner{position:absolute;width:30px;height:30px}
+.corner.tl{top:-12px;left:-12px}.corner.tr{top:-12px;right:-12px}
+.corner.bl{bottom:-12px;left:-12px}.corner.br{bottom:-12px;right:-12px}
+h1,h2,h3{font-weight:700;margin:0;text-wrap:balance}
+.hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:clamp(8px,2vw,22px)}
+.hero .vg{width:clamp(62px,13vw,104px)}
+.titlebox{text-align:center}
+h1{font-family:var(--display);color:var(--red);font-size:clamp(1.7rem,6vw,2.9rem);line-height:1.15;font-weight:400}
+h1 .cap{display:inline-grid;place-items:center;width:1.25em;height:1.25em;background:var(--red);color:var(--gold);border:2px solid var(--pen);box-shadow:inset 0 0 0 3px var(--cream),inset 0 0 0 4px var(--pen);margin-right:.1em;vertical-align:-.12em;line-height:1}
+.sub{font-style:italic;color:var(--ink-soft);letter-spacing:.03em;margin:6px 0 0}
+.by{font-variant:small-caps;letter-spacing:.12em;font-weight:700;font-size:.95rem;margin:4px 0 0;color:var(--ink-soft)}
+.rule{display:flex;align-items:center;gap:10px;margin:18px 0}
+.rule::before,.rule::after{content:"";flex:1;height:4px;border-block:1px solid var(--rule)}
+.rule svg{width:22px;height:14px}
+.panel{background:var(--parch);border:1px solid var(--rule);padding:16px 18px;box-shadow:0 2px 0 var(--shadow)}
+.panel + .panel{margin-top:14px}
+h2{font-size:1.45rem;color:var(--red);margin-bottom:8px}
+h3{font-size:1.15rem;letter-spacing:.04em;margin-bottom:6px}
+.lead{margin:0 0 10px}
+ol.rules{margin:8px 0 14px;padding-left:1.3em;display:grid;gap:5px}
+label.nm{display:block;font-weight:700;letter-spacing:.04em;margin-bottom:6px}
+input[type=text]{font:inherit;font-size:1.15rem;width:100%;padding:.5em .7em;background:var(--leaf);color:var(--ink);border:2px solid var(--ink-soft);border-radius:2px}
+input[type=text]:focus-visible,.btn:focus-visible,summary:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.btn{font:inherit;font-weight:700;letter-spacing:.05em;padding:.5em 1.2em;border:2px solid var(--pen);background:var(--red);color:#fff7e3;cursor:pointer;box-shadow:0 3px 0 var(--pen);border-radius:2px}
+.btn:hover{filter:brightness(1.1)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--pen)}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--ink-soft);box-shadow:0 3px 0 var(--ink-soft)}
+.btn.blue{background:var(--blue);color:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.topbar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.dots{display:flex;flex-wrap:wrap;gap:9px;padding:4px}
+.dot{width:13px;height:13px;border:2px solid var(--ink-soft);transform:rotate(45deg)}
+.dot.on{background:var(--gold);border-color:var(--pen)}
+.dot.cur{background:var(--red);border-color:var(--pen)}
+.timer{font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:.06em;color:var(--ink-soft)}
+.latin{font-style:italic;font-size:clamp(1.35rem,4.6vw,1.85rem);line-height:1.55;margin:4px 0 8px}
+.cl{display:inline;margin-right:.35em}
+.cl.later{opacity:.4}
+.sg{padding:0 .06em;border-bottom:3px solid transparent}
+.sg.done{font-weight:700}
+.sg.done.r-pred{color:var(--red);border-color:var(--red)}
+.sg.done.r-subj{color:var(--blue);border-color:var(--blue)}
+.sg.done.r-obj{color:var(--green);border-color:var(--green)}
+.sg.done.r-rest{border-color:var(--gold)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.9rem;color:var(--ink-soft)}
+.legend i{display:inline-block;width:18px;height:4px;vertical-align:middle;margin-right:5px}
+.step{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:start}
+.step .vg{width:clamp(56px,12vw,92px)}
+.q{margin:0 0 4px;font-size:1.05rem;color:var(--ink-soft)}
+.msg{min-height:1.5em;margin:10px 0 0;font-weight:700}
+.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.fine{font-size:.95rem;color:var(--ink-soft)}
+.done-list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:4px}
+.done-list li{display:flex;flex-wrap:wrap;gap:2px 10px;align-items:baseline;border-top:1px dotted var(--rule);padding-top:4px}
+.chip{font-variant:small-caps;font-weight:700;letter-spacing:.06em;font-size:.95rem;min-width:7.5em}
+.chip.pred{color:var(--red)}.chip.subj{color:var(--blue)}.chip.obj{color:var(--green)}.chip.rest{color:var(--ink-soft)}
+.dict ul{list-style:none;margin:8px 0 0;padding:0}
+.dict li{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr);gap:1px 14px;padding:6px 0;border-top:1px dotted var(--rule)}
+.dict .f{font-style:italic;font-weight:700}
+.dict .gr{grid-column:1/-1;font-size:.9rem;color:var(--ink-soft)}
+.model{border-left:4px double var(--gold);padding:2px 0 2px 12px;margin:10px 0;font-style:italic}
+.cert{border:2px solid var(--pen);outline:1px solid var(--rule);outline-offset:4px;padding:18px clamp(12px,3vw,24px);background:var(--parch);text-align:center}
+.cert .who{font-family:var(--display);font-size:clamp(1.5rem,5vw,2.2rem);color:var(--red);overflow-wrap:anywhere}
+.grade{font-size:1.25rem;font-weight:700;margin:4px 0 10px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:12px 0}
+.stat{border:1px solid var(--rule);padding:8px 6px;background:var(--leaf)}
+.stat b{display:block;font-family:var(--display);font-weight:400;font-size:1.6rem;font-variant-numeric:tabular-nums}
+.stat span{font-size:.9rem;color:var(--ink-soft);letter-spacing:.04em}
+.codebox{display:inline-block;max-width:100%;border:2px dashed var(--ink-soft);padding:8px 14px;margin:6px 0;font:700 clamp(1rem,4.4vw,1.4rem) ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em;overflow-wrap:anywhere;background:var(--leaf)}
+.shot{background:var(--gold);color:#1d1307;padding:8px 12px;font-weight:700;margin-top:12px}
+.bars{display:grid;gap:8px;margin:8px 0}
+.bar{display:grid;grid-template-columns:minmax(7rem,10rem) minmax(0,1fr) 3.2rem;gap:10px;align-items:center}
+.bar .tr{height:11px;background:var(--rule);border:1px solid var(--ink-soft)}
+.bar .tr i{display:block;height:100%;background:var(--green)}
+.bar .pc{font-variant-numeric:tabular-nums;text-align:right}
+.err{border-left:3px solid var(--red);padding:4px 0 4px 12px;margin:10px 0}
+.err .t{font-weight:700}
+.err .la{font-style:italic}
+ul.rec{padding-left:1.2em;display:grid;gap:6px;margin:8px 0}
+footer{text-align:center;color:var(--ink-soft);font-size:.95rem;margin-top:6px}
+.hud{display:flex;flex-wrap:wrap;gap:4px 18px;align-items:baseline}
+.score{font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:.04em}
+.score b{font-family:var(--display);font-weight:400;font-size:1.35rem;color:var(--red)}
+label.q{display:block}
+.banner{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--rule);border-left-width:6px;padding:8px 12px;margin:0 0 12px;background:var(--leaf);font-weight:600}
+.banner.ok{border-left-color:var(--ok)}.banner.part{border-left-color:var(--gold)}.banner.bad{border-left-color:var(--bad)}
+.banner .ic{font-weight:700;font-size:1.25rem;line-height:1.3}
+.banner.ok .ic{color:var(--ok)}.banner.part .ic{color:var(--ink-soft)}.banner.bad .ic{color:var(--bad)}
+.banner .tx{flex:1;min-width:0}
+.banner .tx .fine{font-weight:500;margin-top:2px}
+.banner .pt{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700}
+.hint{background:var(--leaf);border:1px dashed var(--ink-soft);padding:8px 12px;margin:8px 0;font-size:1rem}
+.need{display:inline-block;border:1px solid var(--gold);padding:0 .5em;margin-left:.2em;font-weight:700;font-size:.9rem;background:var(--leaf);white-space:nowrap}
+.mark{font-weight:700;min-width:1.1em}
+.mark.ok{color:var(--ok)}.mark.part{color:var(--ink-soft)}.mark.bad{color:var(--bad)}
+.run{font-weight:700;letter-spacing:.08em;font-size:1.15rem;margin:2px 0 4px;color:var(--blue)}
+@media (max-width:520px){
+  body{font-size:18px}
+  .dict li{grid-template-columns:minmax(0,1fr)}
+  .bar{grid-template-columns:minmax(0,1fr) 3.2rem}
+  .bar .tr{grid-column:1/-1;order:3}
+  .panel{padding:14px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .enter{animation:fadein .35s ease-out}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+}
+.crumbs{margin:0 0 8px;font-variant:small-caps;letter-spacing:.05em}
+.crumbs .cur{color:var(--red);font-weight:700}
+.crumbs .past{text-decoration:line-through;opacity:.7}
+</style>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<defs>
+<symbol id="v-caesar" viewBox="0 0 100 110">
+  <path d="M14 109 C14 82 32 75 50 75 C68 75 86 82 86 109 Z" fill="var(--red)" stroke="var(--pen)" stroke-width="2"/>
+  <path d="M34 75 L50 98 L66 75 Z" fill="var(--cream)" stroke="var(--pen)" stroke-width="2"/>
+  <rect x="43" y="60" width="14" height="17" fill="var(--skin)" stroke="var(--pen)" stroke-width="2"/>
+  <ellipse cx="50" cy="42" rx="17" ry="21" fill="var(--skin)" stroke="var(--pen)" stroke-width="2"/>
+  <path d="M33 38 C31 22 42 15 50 15 C58 15 69 22 67 38 C62 30 56 27 50 27 C44 27 38 30 33 38 Z" fill="var(--wood)" stroke="var(--pen)" stroke-width="1.5"/>
+  <g fill="var(--green)" stroke="var(--pen)" stroke-width="1">
+    <ellipse cx="32" cy="33" rx="6" ry="2.6" transform="rotate(-70 32 33)"/>
+    <ellipse cx="35" cy="24" rx="6" ry="2.6" transform="rotate(-45 35 24)"/>
+    <ellipse cx="42" cy="17" rx="6" ry="2.6" transform="rotate(-20 42 17)"/>
+    <ellipse cx="50" cy="14" rx="6" ry="2.6"/>
+    <ellipse cx="58" cy="17" rx="6" ry="2.6" transform="rotate(20 58 17)"/>
+    <ellipse cx="65" cy="24" rx="6" ry="2.6" transform="rotate(45 65 24)"/>
+    <ellipse cx="68" cy="33" rx="6" ry="2.6" transform="rotate(70 68 33)"/>
+  </g>
+  <g fill="none" stroke="var(--pen)" stroke-width="1.8" stroke-linecap="round">
+    <path d="M39 41 q3.5 -3 7 0"/><path d="M54 41 q3.5 -3 7 0"/>
+    <path d="M50 42 l-2.5 9 l5 0"/><path d="M44 57 q6 3 12 0"/>
+    <path d="M38 36 l8 -2"/><path d="M62 36 l-8 -2"/>
+  </g>
+  <circle cx="87" cy="92" r="5" fill="var(--gold)" stroke="var(--pen)" stroke-width="1.5"/>
+</symbol>
+
+<symbol id="v-pirate" viewBox="0 0 100 110">
+  <path d="M14 109 C14 82 32 75 50 75 C68 75 86 82 86 109 Z" fill="var(--pen)" stroke="var(--pen)" stroke-width="2"/>
+  <path d="M22 92 H78 M18 101 H82" stroke="var(--cream)" stroke-width="3.5"/>
+  <rect x="43" y="60" width="14" height="17" fill="var(--skin)" stroke="var(--pen)" stroke-width="2"/>
+  <ellipse cx="50" cy="44" rx="17" ry="20" fill="var(--skin)" stroke="var(--pen)" stroke-width="2"/>
+  <path d="M31 38 C31 17 69 17 69 38 C60 31 40 31 31 38 Z" fill="var(--red)" stroke="var(--pen)" stroke-width="2"/>
+  <path d="M66 30 L84 24 L80 40 Z" fill="var(--red)" stroke="var(--pen)" stroke-width="2"/>
+  <g fill="var(--cream)"><circle cx="40" cy="27" r="1.7"/><circle cx="50" cy="24" r="1.7"/><circle cx="59" cy="27" r="1.7"/><circle cx="46" cy="31" r="1.4"/><circle cx="55" cy="31" r="1.4"/></g>
+  <path d="M32 40 L56 49" stroke="var(--pen)" stroke-width="1.6"/>
+  <ellipse cx="43" cy="45" rx="5.5" ry="4.5" fill="var(--pen)"/>
+  <circle cx="57" cy="44" r="2.2" fill="var(--pen)"/>
+  <path d="M52 39 l9 -2" stroke="var(--pen)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M50 45 l-2.5 8 l5 0" fill="none" stroke="var(--pen)" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M41 58 q9 8 18 0 z" fill="var(--cream)" stroke="var(--pen)" stroke-width="1.8" stroke-linejoin="round"/>
+  <path d="M46 58 v3 M50 58 v4 M54 58 v3" stroke="var(--pen)" stroke-width="1"/>
+  <circle cx="33" cy="54" r="3" fill="none" stroke="var(--gold)" stroke-width="2"/>
+  <g fill="var(--pen)"><circle cx="40" cy="63" r=".8"/><circle cx="45" cy="65" r=".8"/><circle cx="55" cy="65" r=".8"/><circle cx="60" cy="63" r=".8"/></g>
+</symbol>
+
+<symbol id="v-ship" viewBox="0 0 140 110">
+  <path d="M69 8 V74" stroke="var(--pen)" stroke-width="3"/>
+  <path d="M69 8 L69 18 L86 13 Z" fill="var(--red)" stroke="var(--pen)" stroke-width="1.5"/>
+  <path d="M38 22 H100 C95 36 95 48 100 62 H38 C43 48 43 36 38 22 Z" fill="var(--cream)" stroke="var(--pen)" stroke-width="2"/>
+  <path d="M38 22 H100" stroke="var(--pen)" stroke-width="4"/>
+  <path d="M43 42 H95" stroke="var(--red)" stroke-width="7"/>
+  <path d="M69 22 V62" stroke="var(--red)" stroke-width="7"/>
+  <path d="M38 62 H100" stroke="var(--pen)" stroke-width="3"/>
+  <path d="M14 72 H126 L112 95 H30 Z" fill="var(--wood)" stroke="var(--pen)" stroke-width="2"/>
+  <path d="M22 80 H118" stroke="var(--gold)" stroke-width="3"/>
+  <g fill="var(--pen)"><circle cx="48" cy="87" r="2.5"/><circle cx="69" cy="87" r="2.5"/><circle cx="90" cy="87" r="2.5"/></g>
+  <path d="M4 100 q8 -8 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M4 108 q8 -8 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+</symbol>
+
+<symbol id="v-chest" viewBox="0 0 110 90">
+  <g fill="var(--gold)" stroke="var(--pen)" stroke-width="1.5">
+    <circle cx="30" cy="30" r="7"/><circle cx="46" cy="24" r="7"/><circle cx="62" cy="26" r="7"/><circle cx="78" cy="31" r="7"/><circle cx="54" cy="35" r="7"/>
+  </g>
+  <rect x="12" y="42" width="86" height="40" fill="var(--wood)" stroke="var(--pen)" stroke-width="2.5"/>
+  <path d="M12 42 C12 28 98 28 98 42 Z" fill="var(--wood)" stroke="var(--pen)" stroke-width="2.5"/>
+  <path d="M26 42 V82 M84 42 V82 M12 60 H98" stroke="var(--gold)" stroke-width="5"/>
+  <rect x="49" y="52" width="12" height="16" fill="var(--gold)" stroke="var(--pen)" stroke-width="2"/>
+  <circle cx="55" cy="59" r="2" fill="var(--pen)"/>
+</symbol>
+
+<symbol id="v-island" viewBox="0 0 130 100">
+  <path d="M64 70 C60 50 66 34 78 20" fill="none" stroke="var(--wood)" stroke-width="5" stroke-linecap="round"/>
+  <g fill="var(--green)" stroke="var(--pen)" stroke-width="1.5">
+    <path d="M78 20 C62 12 50 18 44 30 C58 22 68 22 78 20 Z"/>
+    <path d="M78 20 C92 10 106 16 110 30 C96 22 88 22 78 20 Z"/>
+    <path d="M78 20 C70 6 80 -2 90 4 C84 8 82 14 78 20 Z"/>
+  </g>
+  <path d="M18 80 C26 60 50 62 64 68 C82 60 104 62 114 80 Z" fill="var(--gold)" stroke="var(--pen)" stroke-width="2"/>
+  <path d="M6 88 q8 -8 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M6 96 q8 -8 16 0 t16 0 t16 0 t16 0 t16 0 t16 0 t16 0" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" opacity=".6"/>
+</symbol>
+
+<symbol id="v-flag" viewBox="0 0 70 100">
+  <path d="M10 96 V6" stroke="var(--wood)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M10 8 H62 C56 20 56 30 62 42 H10 Z" fill="var(--pen)" stroke="var(--pen)" stroke-width="2"/>
+  <circle cx="36" cy="22" r="7" fill="var(--cream)"/>
+  <path d="M31 28 H41 V32 H31 Z" fill="var(--cream)"/>
+  <circle cx="33" cy="21" r="1.8" fill="var(--pen)"/><circle cx="39" cy="21" r="1.8" fill="var(--pen)"/>
+  <path d="M22 34 L50 38 M22 38 L50 34" stroke="var(--cream)" stroke-width="2" stroke-linecap="round"/>
+</symbol>
+
+<symbol id="v-scroll" viewBox="0 0 110 80">
+  <path d="M18 10 H92 V62 H18 Z" fill="var(--cream)" stroke="var(--pen)" stroke-width="2"/>
+  <ellipse cx="18" cy="36" rx="8" ry="27" fill="var(--cream)" stroke="var(--pen)" stroke-width="2"/>
+  <ellipse cx="92" cy="36" rx="8" ry="27" fill="var(--cream)" stroke="var(--pen)" stroke-width="2"/>
+  <path d="M30 24 H82 M30 34 H82 M30 44 H70" stroke="var(--pen)" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="86" cy="52" r="7" fill="var(--red)" stroke="var(--pen)" stroke-width="1.5"/>
+</symbol>
+
+<symbol id="v-corner" viewBox="0 0 30 30">
+  <g fill="var(--red)" stroke="var(--pen)" stroke-width="1.2">
+    <circle cx="15" cy="7" r="5"/><circle cx="15" cy="23" r="5"/><circle cx="7" cy="15" r="5"/><circle cx="23" cy="15" r="5"/>
+  </g>
+  <circle cx="15" cy="15" r="4.5" fill="var(--gold)" stroke="var(--pen)" stroke-width="1.2"/>
+</symbol>
+
+<symbol id="v-fleuron" viewBox="0 0 22 14">
+  <path d="M11 1 L16 7 L11 13 L6 7 Z" fill="var(--gold)" stroke="var(--pen)" stroke-width="1.2"/>
+  <circle cx="2.5" cy="7" r="2" fill="var(--red)"/><circle cx="19.5" cy="7" r="2" fill="var(--red)"/>
+</symbol>
+</defs>
+</svg>
+
+<main class="folio">
+  <svg class="corner tl" viewBox="0 0 30 30" aria-hidden="true"><use href="#v-corner"/></svg>
+  <svg class="corner tr" viewBox="0 0 30 30" aria-hidden="true"><use href="#v-corner"/></svg>
+  <svg class="corner bl" viewBox="0 0 30 30" aria-hidden="true"><use href="#v-corner"/></svg>
+  <svg class="corner br" viewBox="0 0 30 30" aria-hidden="true"><use href="#v-corner"/></svg>
+
+  <header class="hero">
+    <svg class="vg" viewBox="0 0 100 110" role="img" aria-label="Гай Юлий Цезарь в лавровом венке"><use href="#v-caesar"/></svg>
+    <div class="titlebox">
+      <h1><span class="cap">G</span>aius et Piratae</h1>
+      <p class="sub">Exercitatio Latina · перевод предложений</p>
+      <p class="by">Magistra MS</p>
+    </div>
+    <svg class="vg" viewBox="0 0 100 110" role="img" aria-label="Пират в бандане"><use href="#v-pirate"/></svg>
+  </header>
+
+  <div class="rule" aria-hidden="true"><svg viewBox="0 0 22 14"><use href="#v-fleuron"/></svg></div>
+
+  <section id="screen-start" class="panel enter">
+    <div class="step">
+      <div>
+        <h2>Приветствую, студент!</h2>
+        <p class="lead">Юный Гай Юлий Цезарь плывёт на Родос, но попадает в плен к пиратам. Переведите десять предложений об этом приключении.</p>
+        <ol class="rules">
+          <li>Переводите каждую часть предложения по порядку: <b>сказуемое</b>, затем <b>подлежащее</b>, затем <b>прямое дополнение</b>. Если его нет, переходите ко всем остальным словам.</li>
+          <li>Словарь открывается кнопкой в любой момент. В нём слова даны в словарной форме с переводом.</li>
+          <li>На каждый шаг до четырёх попыток. Первая и вторая дают полный балл, с третьей балл снижается до 0,5, с четвёртой до 0,25. Кнопка «Не знаю» даёт 0 и показывает ответ.</li>
+          <li>Переводите часть целиком: подлежащее и дополнение вместе с определением, остальное вместе с предлогом или наречием. Страница подскажет, сколько латинских слов нужно перевести.</li>
+          <li>Подлежащее нужно вписать и тогда, когда отдельного слова в тексте нет (я, ты, он, мы, вы, они): оно заложено в окончании сказуемого.</li>
+          <li>В конце вы получите оценку, разбор ошибок, личный код и время. Сделайте скриншот итоговой страницы и отправьте его учителю.</li>
+        </ol>
+      </div>
+      <svg class="vg" viewBox="0 0 110 80" aria-hidden="true"><use href="#v-scroll"/></svg>
+    </div>
+    <form id="start-form" autocomplete="off">
+      <label class="nm" for="name">Ваше имя и фамилия</label>
+      <input type="text" id="name" maxlength="60" placeholder="например, Анна Иванова" required>
+      <p class="msg bad" id="name-msg" role="alert"></p>
+      <button class="btn" type="submit">Incipiamus! Начать</button>
+    </form>
+  </section>
+
+  <section id="screen-ex" hidden>
+    <div class="topbar">
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <div class="hud">
+        <div class="score">Баллы: <b id="score">0</b> / <span id="smax">65</span></div>
+        <div class="timer" id="timer" aria-label="Время">00:00</div>
+      </div>
+    </div>
+    <div class="panel" id="latin-card">
+      <h3 id="sent-title">Предложение</h3>
+      <div class="latin" id="latin" lang="la"></div>
+      <div class="legend" aria-hidden="true">
+        <span><i style="background:var(--red)"></i>сказуемое</span>
+        <span><i style="background:var(--blue)"></i>подлежащее</span>
+        <span><i style="background:var(--green)"></i>прямое дополнение</span>
+        <span><i style="background:var(--gold)"></i>остальное</span>
+      </div>
+    </div>
+    <div class="panel" id="step-card"></div>
+    <div class="panel dict" id="dict-panel" hidden></div>
+  </section>
+
+  <section id="screen-res" hidden></section>
+
+  <div class="rule" aria-hidden="true"><svg viewBox="0 0 22 14"><use href="#v-fleuron"/></svg></div>
+  <footer>Magistra MS · Exercitatio Latina · Salvete, discipuli!</footer>
+</main>
+<script>
+(function(){
+'use strict';
+const ROLE = {
+  pred: { n: "Сказуемое", l: "praedicatum" },
+  subj: { n: "Подлежащее", l: "subiectum" },
+  obj:  { n: "Прямое дополнение", l: "obiectum" },
+  rest: { n: "Остальные слова", l: "cetera" }
+};
+// ok: список групп; в каждой группе должна совпасть хотя бы одна основа. "=слово" — слово целиком.
+function P(ok, ans, why, topic, la) { return { ok: ok, ans: ans, why: why, topic: topic, la: la || null }; }
+const NOM = "Nominativus", ACC = "Accusativus", GEN = "Genetivus", DAT = "Dativus", ABL = "Ablativus",
+  IMP = "Imperfectum", FUT = "Futurum I", PRO = "Личные местоимения", NEG = "Отрицание non",
+  CON = "Наречия и союзы", ADJ = "Прилагательные", PD = "Подлежащее в окончании глагола";
+
+const SENT = [
+{ ru: "Гай Юлий Цезарь плыл к Родосу.", vg: "ship",
+  words: [
+    ["Gaius Iulius Caesar", "Gaius Iulius Caesar, -aris m", "Гай Юлий Цезарь", "Nom. sg."],
+    ["ad", "ad (praep. + Acc.)", "к, до, у", ""],
+    ["Rhodum", "Rhodus, -i f", "Родос (остров)", "Acc. sg."],
+    ["navigabat", "navigo, -are, -avi, -atum (1)", "плыть, плавать", "Imperf., 3 л. ед. ч."]],
+  clauses: [{
+    seg: [["Gaius Iulius Caesar", "subj"], ["ad Rhodum", "rest"], ["navigabat.", "pred"]],
+    pred: P([["плыл", "плава", "отплыв", "отправ"]], "плыл", "Navigabat: Imperfectum от navigo, 3 л. ед. ч. Действие длилось в прошлом.", IMP),
+    subj: P([["цезар", "гай", "юлий"]], "Гай Юлий Цезарь", "Подлежащее стоит в именительном падеже (Nominativus): кто?", NOM),
+    obj: null,
+    objWhy: "В этой части нет слова в винительном падеже без предлога. Ad Rhodum — предлог с Accusativus, это не прямое дополнение.",
+    rest: P([["родос"]], "к Родосу (допустимо: на Родос)", "Предлог ad требует Accusativus и означает направление: «к, до». Допустим и перевод «на Родос».", ACC)
+  }]},
+{ ru: "Пираты держали Гая на маленьком острове.", vg: "island",
+  words: [
+    ["Piratae", "pirata, -ae m", "пират", "Nom. pl."],
+    ["Gaium", "Gaius, -i m", "Гай", "Acc. sg."],
+    ["in", "in (praep. + Abl. / Acc.)", "в, на (где? + Abl.)", ""],
+    ["parva", "parvus, -a, -um", "маленький, малый", "Abl. sg. f"],
+    ["insula", "insula, -ae f", "остров", "Abl. sg."],
+    ["tenebant", "teneo, -ere, tenui, tentum (2)", "держать, удерживать", "Imperf., 3 л. мн. ч."]],
+  clauses: [{
+    seg: [["Piratae", "subj"], ["Gaium", "obj"], ["in parva insula", "rest"], ["tenebant.", "pred"]],
+    pred: P([["держал", "удержива", "содержал"]], "держали", "Tenebant: Imperfectum, 3 л. мн. ч. (окончание -bant).", IMP),
+    subj: P([["пират"]], "пираты", "Piratae — Nominativus plur. (окончание -ae у слов 1 склонения).", NOM),
+    obj: P([["гая", "гай"]], "Гая", "Gaium — Accusativus sg. (окончание -um): кого?", ACC),
+    rest: P([["маленьк", "небольш", "малом", "мал"], ["остров"]], "на маленьком острове", "In + Ablativus отвечает на вопрос «где?». Parva согласуется с insula (Abl. sg. f).", ABL)
+  }]},
+{ ru: "Они требовали большие деньги.", vg: "chest",
+  words: [
+    ["Magnam", "magnus, -a, -um", "большой, великий", "Acc. sg. f"],
+    ["pecuniam", "pecunia, -ae f", "деньги, денежная сумма", "Acc. sg."],
+    ["postulabant", "postulo, -are, -avi, -atum (1)", "требовать", "Imperf., 3 л. мн. ч."]],
+  clauses: [{
+    seg: [["Magnam pecuniam", "obj"], ["postulabant.", "pred"]],
+    pred: P([["требова"]], "требовали", "Postulabant: Imperfectum, 3 л. мн. ч. «требовали».", IMP),
+    subj: P([["=они", "пират"]], "они (пираты)", "Подлежащее не выражено отдельным словом: его показывает окончание -nt (3 л. мн. ч.) — «они».", PD, "(в слове postulabant, окончание -nt)"),
+    obj: P([["больш", "крупн", "огромн"], ["деньг", "денег", "сумм"]], "большие деньги", "Magnam pecuniam — Accusativus sg. f, прилагательное согласуется с существительным.", ACC),
+    rest: null
+  }]},
+{ ru: "Друзья Гая готовили деньги.", vg: "chest",
+  words: [
+    ["Amici", "amicus, -i m", "друг", "Nom. pl."],
+    ["Gaii", "Gaius, -i m", "Гай", "Gen. sg."],
+    ["pecuniam", "pecunia, -ae f", "деньги", "Acc. sg."],
+    ["parabant", "paro, -are, -avi, -atum (1)", "готовить, добывать", "Imperf., 3 л. мн. ч."]],
+  clauses: [{
+    seg: [["Amici Gaii", "subj"], ["pecuniam", "obj"], ["parabant.", "pred"]],
+    pred: P([["готови", "приготови", "собира", "добыва", "раздобы", "заготовл", "подготов"]], "готовили", "Parabant: Imperfectum, 3 л. мн. ч. от paro, -are.", IMP),
+    subj: P([["друз", "приятел"], ["гая", "гай"]], "друзья Гая", "Amici — Nom. pl.; Gaii — Genetivus (чей? — Гая).", GEN),
+    obj: P([["деньг", "денег"]], "деньги", "Pecuniam — Accusativus sg.: что?", ACC),
+    rest: null
+  }]},
+{ ru: "Гай же не боялся пиратов.", vg: "caesar",
+  words: [
+    ["Gaius", "Gaius, -i m", "Гай", "Nom. sg."],
+    ["autem", "autem (частица)", "же, а, однако", "стоит после первого слова"],
+    ["piratas", "pirata, -ae m", "пират", "Acc. pl."],
+    ["non", "non (adv.)", "не", ""],
+    ["timebat", "timeo, -ere, timui (2)", "бояться", "Imperf., 3 л. ед. ч."]],
+  clauses: [{
+    seg: [["Gaius", "subj"], ["autem", "rest"], ["piratas", "obj"], ["non timebat.", "pred"]],
+    pred: P([["=не", "=ни"], ["боя", "боит", "опаса", "страши", "испуга"]], "не боялся", "Non отрицает глагол и входит в сказуемое: non timebat — «не боялся».", NEG),
+    subj: P([["гай", "цезар"]], "Гай", "Gaius — Nominativus sg.", NOM),
+    obj: P([["пират"]], "пиратов", "Piratas — Accusativus plur. (-as): кого?", ACC),
+    rest: P([["=же", "однако", "=а", "=но", "впрочем", "зато"]], "же (однако)", "Autem — частица, стоит после первого слова предложения: «же, а, однако».", CON)
+  }]},
+{ ru: "Часто он приказывал пиратам, но пираты смеялись.", vg: "pirate",
+  words: [
+    ["Saepe", "saepe (adv.)", "часто", ""],
+    ["piratis", "pirata, -ae m", "пират", "Dat. pl."],
+    ["imperabat", "impero, -are, -avi, -atum (+ Dat.)", "приказывать, повелевать", "Imperf., 3 л. ед. ч."],
+    ["sed", "sed (conj.)", "но, а", ""],
+    ["piratae", "pirata, -ae m", "пират", "Nom. pl."],
+    ["ridebant", "rideo, -ere, risi, risum (2)", "смеяться", "Imperf., 3 л. мн. ч."]],
+  clauses: [{
+    seg: [["Saepe piratis", "rest"], ["imperabat,", "pred"]],
+    pred: P([["приказыва", "командова", "повелева", "велел", "приказал", "распоряжа", "управля", "властвова"]], "приказывал", "Imperabat: Imperfectum, 3 л. ед. ч.; глагол impero управляется Dativus: «приказывать кому?».", IMP),
+    subj: P([["=он", "гай", "цезар"]], "он (Гай)", "Подлежащее не выражено: окончание -t показывает 3 л. ед. ч. — «он».", PD, "(в слове imperabat, окончание -t)"),
+    obj: null,
+    objWhy: "Piratis — Dativus (кому?). Глагол impero требует дательного падежа, поэтому прямого дополнения здесь нет.",
+    rest: P([["част"], ["пират"]], "часто пиратам", "Saepe — наречие «часто». Piratis — Dativus plur. (кому?).", DAT)
+  }, {
+    seg: [["sed", "rest"], ["piratae", "subj"], ["ridebant.", "pred"]],
+    pred: P([["смея", "смее", "хохота", "насмеха"]], "смеялись", "Ridebant: Imperfectum, 3 л. мн. ч. от rideo, -ere.", IMP),
+    subj: P([["пират"]], "пираты", "Piratae — Nominativus plur.", NOM),
+    obj: null,
+    objWhy: "Глагол ridere («смеяться») не имеет прямого дополнения; piratae — подлежащее.",
+    rest: P([["=но", "=а", "однако"]], "но", "Sed — противительный союз «но, а».", CON)
+  }]},
+{ ru: "Гай говорил пиратам: «Мои друзья дадут деньги».", vg: "scroll",
+  words: [
+    ["Gaius", "Gaius, -i m", "Гай", "Nom. sg."],
+    ["piratis", "pirata, -ae m", "пират", "Dat. pl."],
+    ["dicebat", "dico, -ere, dixi, dictum (3)", "говорить, сказать", "Imperf., 3 л. ед. ч."],
+    ["Amici", "amicus, -i m", "друг", "Nom. pl."],
+    ["mei", "meus, -a, -um", "мой", "Nom. pl. m"],
+    ["pecuniam", "pecunia, -ae f", "деньги", "Acc. sg."],
+    ["dabunt", "do, dare, dedi, datum (1)", "давать", "Fut. I, 3 л. мн. ч."]],
+  clauses: [{
+    seg: [["Gaius", "subj"], ["piratis", "rest"], ["dicebat:", "pred"]],
+    pred: P([["говори", "сказал", "сказа", "заявля", "отвеча"]], "говорил", "Dicebat: Imperfectum, 3 л. ед. ч. от dico, -ere.", IMP),
+    subj: P([["гай", "цезар"]], "Гай", "Gaius — Nominativus sg.", NOM),
+    obj: null,
+    objWhy: "Piratis — Dativus (кому?), это косвенное дополнение. Прямого дополнения в этой части нет.",
+    rest: P([["пират"]], "пиратам", "Piratis — Dativus plur.: «говорил кому? — пиратам».", DAT)
+  }, {
+    seg: [["«Amici mei", "subj"], ["pecuniam", "obj"], ["dabunt».", "pred"]],
+    pred: P([["дад", "отдад", "дава", "предоста"]], "дадут", "Dabunt: Futurum I от do, dare (I спр.), 3 л. мн. ч. (-bunt).", FUT),
+    subj: P([["друз", "приятел"], ["мои"]], "мои друзья", "Amici mei — Nominativus plur.; mei — притяжательное местоимение, согласуется с amici.", ADJ),
+    obj: P([["деньг", "денег"]], "деньги", "Pecuniam — Accusativus sg.: что?", ACC),
+    rest: null
+  }]},
+{ ru: "«Вы освободите меня, но я вас не похвалю».", vg: "caesar",
+  words: [
+    ["Vos", "vos (pron. pers.)", "вы", "Nom. pl."],
+    ["me", "ego (pron. pers.)", "я (меня)", "Acc. sg."],
+    ["liberabitis", "libero, -are, -avi, -atum (1)", "освобождать", "Fut. I, 2 л. мн. ч."],
+    ["sed", "sed (conj.)", "но, а", ""],
+    ["ego", "ego (pron. pers.)", "я", "Nom. sg."],
+    ["vos", "vos (pron. pers.)", "вы (вас)", "Acc. pl."],
+    ["non", "non (adv.)", "не", ""],
+    ["laudabo", "laudo, -are, -avi, -atum (1)", "хвалить", "Fut. I, 1 л. ед. ч."]],
+  clauses: [{
+    seg: [["«Vos", "subj"], ["me", "obj"], ["liberabitis,", "pred"]],
+    pred: P([["освобод", "избав", "отпуст", "отпуска"]], "освободите", "Liberabitis: Futurum I, 2 л. мн. ч. (-bitis).", FUT),
+    subj: P([["=вы"]], "вы", "Vos — личное местоимение 2 л. мн. ч., Nominativus.", PRO),
+    obj: P([["=меня"]], "меня", "Me — Accusativus от ego: «меня».", PRO),
+    rest: null
+  }, {
+    seg: [["sed", "rest"], ["ego", "subj"], ["vos", "obj"], ["non laudabo».", "pred"]],
+    pred: P([["=не", "=ни"], ["хвал", "похвал", "восхвал", "одобр"]], "не похвалю", "Non laudabo: отрицание и Futurum I, 1 л. ед. ч. (-bo).", NEG),
+    subj: P([["=я"]], "я", "Ego — личное местоимение 1 л. ед. ч., Nominativus.", PRO),
+    obj: P([["=вас", "=вам"]], "вас", "Vos здесь Accusativus: «вас».", PRO),
+    rest: P([["=но", "=а", "однако"]], "но", "Sed — противительный союз.", CON)
+  }]},
+{ ru: "«Потом я поплыву с моряками и захвачу вас».", vg: "ship",
+  words: [
+    ["Deinde", "deinde (adv.)", "затем, потом", ""],
+    ["cum", "cum (praep. + Abl.)", "с, вместе с", ""],
+    ["nautis", "nauta, -ae m", "моряк, матрос", "Abl. pl."],
+    ["navigabo", "navigo, -are, -avi, -atum (1)", "плыть, плавать", "Fut. I, 1 л. ед. ч."],
+    ["et", "et (conj.)", "и", ""],
+    ["vos", "vos (pron. pers.)", "вы (вас)", "Acc. pl."],
+    ["capiam", "capio, -ere, cepi, captum (3)", "брать, захватывать, ловить", "Fut. I, 1 л. ед. ч."]],
+  clauses: [{
+    seg: [["«Deinde cum nautis", "rest"], ["navigabo", "pred"]],
+    pred: P([["плыву", "плыв", "плыть", "отплыв", "отправлюсь", "поеду"]], "поплыву", "Navigabo: Futurum I, 1 л. ед. ч. (-bo).", FUT),
+    subj: P([["=я"]], "я", "Подлежащее не выражено: окончание -o показывает 1 л. ед. ч. — «я».", PD, "(в слове navigabo, окончание -o)"),
+    obj: null,
+    objWhy: "Nautis — Ablativus с предлогом cum, это не прямое дополнение. Слов в Accusativus без предлога здесь нет.",
+    rest: P([["потом", "затем", "далее", "после", "тогда"], ["моряк", "матрос"]], "потом с моряками", "Deinde — наречие «потом». Cum + Ablativus: «с кем? — с моряками».", ABL)
+  }, {
+    seg: [["et", "rest"], ["vos", "obj"], ["capiam».", "pred"]],
+    pred: P([["захвач", "схвати", "схвач", "пойма", "возьму", "взять", "заберу", "задержу", "хвата"]], "захвачу", "Capiam: Futurum I глагола III спряжения на -io, 1 л. ед. ч. (-iam).", FUT),
+    subj: P([["=я"]], "я", "Подлежащее не выражено: окончание -m показывает 1 л. ед. ч. — «я».", PD, "(в слове capiam, окончание -m)"),
+    obj: P([["=вас", "=вам"]], "вас", "Vos — Accusativus: «вас».", PRO),
+    rest: P([["=и", "также"]], "и", "Et — союз «и».", CON)
+  }]},
+{ ru: "«Тогда я накажу вас, и вы никогда больше не будете смеяться!»", vg: "pirate",
+  words: [
+    ["Tum", "tum (adv.)", "тогда, затем", ""],
+    ["vos", "vos (pron. pers.)", "вы (вас)", "Acc. pl."],
+    ["puniam", "punio, -ire, -ivi, -itum (4)", "наказывать", "Fut. I, 1 л. ед. ч."],
+    ["et", "et (conj.)", "и", ""],
+    ["numquam", "numquam (adv.)", "никогда", ""],
+    ["iterum", "iterum (adv.)", "снова, опять, вновь", ""],
+    ["ridebitis", "rideo, -ere, risi, risum (2)", "смеяться", "Fut. I, 2 л. мн. ч."]],
+  clauses: [{
+    seg: [["«Tum", "rest"], ["vos", "obj"], ["puniam,", "pred"]],
+    pred: P([["накаж", "наказ", "покара"]], "накажу", "Puniam: Futurum I глагола IV спряжения, 1 л. ед. ч. (-iam).", FUT),
+    subj: P([["=я"]], "я", "Подлежащее не выражено: окончание -m показывает 1 л. ед. ч. — «я».", PD, "(в слове puniam, окончание -m)"),
+    obj: P([["=вас", "=вам"]], "вас", "Vos — Accusativus: «вас».", PRO),
+    rest: P([["тогда", "потом", "затем", "тут", "теперь", "далее"]], "тогда", "Tum — наречие «тогда, затем».", CON)
+  }, {
+    seg: [["et numquam iterum", "rest"], ["ridebitis!»", "pred"]],
+    pred: P([["смея", "смее", "смеш", "хохота"]], "будете смеяться", "Ridebitis: Futurum I, 2 л. мн. ч. (-bitis).", FUT),
+    subj: P([["=вы"]], "вы", "Подлежащее не выражено: окончание -tis показывает 2 л. мн. ч. — «вы».", PD, "(в слове ridebitis, окончание -tis)"),
+    obj: null,
+    objWhy: "Numquam и iterum — наречия, а ridere не требует прямого дополнения.",
+    rest: P([["никогда"], ["больше", "снова", "опять", "вновь", "еще", "вторично", "повторно", "уже"]], "и никогда больше", "Numquam — «никогда», iterum — «снова, больше»; et — «и».", CON)
+  }]}
+];
+
+const ADVICE = {
+  "Imperfectum": "Повторите Imperfectum: окончания -bam, -bas, -bat, -bamus, -batis, -bant. Это длительное или повторяющееся действие в прошлом.",
+  "Futurum I": "Повторите Futurum I. I–II спряжение: -bo, -bis, -bit, -bimus, -bitis, -bunt. III–IV спряжение: -am, -es, -et, -emus, -etis, -ent.",
+  "Nominativus": "Повторите именительный падеж: он отвечает на вопрос «кто? что?» и обозначает подлежащее.",
+  "Accusativus": "Повторите Accusativus: прямое дополнение («кого? что?») и направление после ad.",
+  "Genetivus": "Повторите Genetivus («чей? кого?»): Gaii = «Гая».",
+  "Dativus": "Повторите Dativus («кому?»). Глаголы impero и dico берут дательный падеж.",
+  "Ablativus": "Повторите Ablativus с предлогами in («где?») и cum («с кем?»).",
+  "Личные местоимения": "Выучите местоимения ego, vos и их формы: ego — me, vos — vos (Nom. и Acc. совпадают).",
+  "Отрицание non": "Запомните: non ставится перед глаголом и переводится вместе с ним («не боялся», «не похвалю»).",
+  "Наречия и союзы": "Выучите наречия и союзы: saepe, deinde, tum, numquam, iterum, sed, et, autem.",
+  "Прилагательные": "Повторите согласование прилагательных и притяжательных местоимений с существительным в роде, числе и падеже.",
+  "Подлежащее в окончании глагола": "Если отдельного подлежащего нет, ищите его в окончании глагола: -o/-m «я», -s «ты», -t «он», -mus «мы», -tis «вы», -nt «они»."
+};
+
+const $ = id => document.getElementById(id);
+const VB = { caesar: "0 0 100 110", pirate: "0 0 100 110", ship: "0 0 140 110", chest: "0 0 110 90", island: "0 0 130 100", flag: "0 0 70 100", scroll: "0 0 110 80" };
+const ORDER = ["pred", "subj", "objq", "obj", "rest"];
+const MAXTRY = 4;
+const MK = { ok: ["✓", "верно"], part: ["◐", "верно, балл снижен"], bad: ["✗", "не засчитано"] };
+const runsMem = {};
+let st = null;
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+function norm(s) { return String(s).toLowerCase().replace(/ё/g, "е").replace(/[^a-zа-я0-9\s]/g, " ").replace(/\s+/g, " ").trim(); }
+function match(ans, groups) {
+  const n = norm(ans), toks = n.split(" ");
+  return groups.every(gr => gr.some(s => s.charAt(0) === "=" ? toks.indexOf(norm(s.slice(1))) >= 0 : n.indexOf(norm(s)) >= 0));
+}
+function vg(id) { return '<svg class="vg" viewBox="' + VB[id] + '" aria-hidden="true"><use href="#v-' + id + '"/></svg>'; }
+function fmt(s) { return String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0"); }
+function hash(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
+function fp(n) { return String(n).replace(".", ","); }
+function pw(n) { return fp(n) + (n === 1 ? " балл" : " балла"); }
+function ptsFor(wrong) { return wrong < 2 ? 1 : wrong === 2 ? 0.5 : 0.25; }
+function clause() { return SENT[st.si].clauses[st.ci]; }
+function roleLatin(cl, r) {
+  const p = cl[r];
+  if (p && p.la) return p.la;
+  return cl.seg.filter(s => s[1] === r).map(s => s[0].replace(/[«»,.:;!?]/g, "").trim()).join(" ");
+}
+function segCount(cl, r) {
+  let n = 0;
+  cl.seg.forEach(s => { if (s[1] === r) n += s[0].replace(/[«»,.:;!?]/g, " ").split(/\s+/).filter(Boolean).length; });
+  return n;
+}
+function nw(n) { return n + (n === 1 ? " слово" : n < 5 ? " слова" : " слов"); }
+function markAll() { st.done.pred = st.done.subj = st.done.obj = st.done.rest = true; }
+function nextStep(cur) {
+  const cl = clause();
+  let i = ORDER.indexOf(cur) + 1;
+  while (i < ORDER.length) {
+    const r = ORDER[i];
+    if ((r === "obj" && !cl.obj) || (r === "rest" && !cl.rest)) { i++; continue; }
+    return r;
+  }
+  return "end";
+}
+function stepInfo(cl, r) {
+  const p = cl[r];
+  if (r === "subj" && p.la) {
+    return {
+      badge: "ответ: 1 слово (местоимение)",
+      hint: "В этой части отдельного слова-подлежащего нет, но перевести подлежащее всё равно нужно: оно заложено в окончании сказуемого. Определите лицо и число сказуемого и впишите местоимение: -o/-m «я», -s «ты», -t «он», -mus «мы», -tis «вы», -nt «они»."
+    };
+  }
+  const n = segCount(cl, r);
+  if (n <= 1) return { badge: "в латинском тексте: 1 слово", hint: "" };
+  let hint = "";
+  if (r === "pred") hint = "Сказуемое состоит из " + nw(n) + ": переведите их вместе (отрицание и глагол).";
+  else if (r === "rest") hint = "Переведите все " + nw(n).replace(/^(\d+) /, "$1 ") + " вместе, включая предлог, наречие или союз.";
+  else hint = "Нужно перевести все " + nw(n) + " вместе: главное слово и его определение (прилагательное, местоимение, зависимое существительное или часть имени).";
+  return { badge: "в латинском тексте: " + nw(n), hint: hint };
+}
+function nextRun(name) {
+  const key = "gp-run:" + norm(name);
+  let n = runsMem[key] || 0;
+  try { n = Math.max(n, parseInt(localStorage.getItem(key) || "0", 10) || 0); } catch (x) { }
+  n++;
+  runsMem[key] = n;
+  try { localStorage.setItem(key, String(n)); } catch (x) { }
+  return n;
+}
+
+function begin(name) {
+  const byRole = { pred: { pts: 0, max: 0 }, subj: { pts: 0, max: 0 }, obj: { pts: 0, max: 0 }, rest: { pts: 0, max: 0 } };
+  let total = 0;
+  SENT.forEach(s => s.clauses.forEach(c => {
+    byRole.pred.max++; byRole.subj.max++; byRole.obj.max++; total += 3;
+    if (c.obj) { byRole.obj.max++; total++; }
+    if (c.rest) { byRole.rest.max++; total++; }
+  }));
+  st = { name: name, t0: Date.now(), si: 0, ci: 0, step: "pred", mode: "ask", attempts: 0, wrongs: [], done: {}, shown: [], last: null,
+    log: [], pts: 0, total: total, byRole: byRole, dict: {}, ack: "", ackRole: "pred", timer: null };
+  $("screen-start").hidden = true; $("screen-res").hidden = true; $("screen-ex").hidden = false;
+  $("dict-panel").hidden = true;
+  $("timer").textContent = "00:00";
+  st.timer = setInterval(() => { $("timer").textContent = fmt(Math.floor((Date.now() - st.t0) / 1000)); }, 1000);
+  render();
+}
+
+function renderHud() {
+  $("score").textContent = fp(st.pts);
+  $("smax").textContent = st.total;
+}
+function renderDots() {
+  let h = "";
+  for (let i = 0; i < SENT.length; i++) h += '<span class="dot' + (i < st.si ? " on" : i === st.si ? " cur" : "") + '"></span>';
+  $("dots").innerHTML = h;
+}
+function renderLatin() {
+  const S = SENT[st.si];
+  $("sent-title").textContent = "Предложение " + (st.si + 1) + " из " + SENT.length + (S.clauses.length > 1 ? " · часть " + (st.ci + 1) + " из " + S.clauses.length : "");
+  $("latin").innerHTML = S.clauses.map((cl, j) => '<span class="cl' + (j > st.ci ? " later" : "") + '">' +
+    cl.seg.map(s => '<span class="sg r-' + s[1] + ((j < st.ci || (j === st.ci && st.done[s[1]])) ? " done" : "") + '">' + esc(s[0]) + "</span>").join(" ") + "</span>").join(" ");
+}
+function crumbs(cur) {
+  const cr = cur === "objq" ? "obj" : cur;
+  return '<p class="fine crumbs">' + ["pred", "subj", "obj", "rest"].map(r =>
+    '<span class="' + (r === cr ? "cur" : st.done[r] ? "past" : "") + '">' + ROLE[r].n.toLowerCase() + "</span>").join(" › ") + "</p>";
+}
+function doneList() {
+  if (!st.shown.length) return "";
+  return '<ul class="done-list">' + st.shown.map(x => '<li><span class="mark ' + x.cls + '" title="' + MK[x.cls][1] + '">' + MK[x.cls][0] + '</span><span class="chip ' + x.role + '">' + ROLE[x.role].n + '</span><span><i lang="la">' + esc(x.la) + "</i> — " + esc(x.text) + "</span></li>").join("") + "</ul>";
+}
+function bannerHtml() {
+  const b = st.last;
+  if (!b) return "";
+  return '<div class="banner ' + b.cls + '" role="status"><span class="ic" aria-hidden="true">' + b.ic + '</span><div class="tx">' + b.text +
+    (b.sub ? '<div class="fine">' + esc(b.sub) + "</div>" : "") + "</div>" + (b.pt ? '<span class="pt">' + b.pt + "</span>" : "") + "</div>";
+}
+function dictBtn() {
+  const open = !$("dict-panel").hidden;
+  return '<button type="button" class="btn alt" data-act="dict" aria-expanded="' + open + '">' + (open ? "Закрыть словарь" : "Открыть словарь") + "</button>";
+}
+function renderDict() {
+  const S = SENT[st.si];
+  $("dict-panel").innerHTML = "<h3>Словарь к предложению " + (st.si + 1) + "</h3><ul>" + S.words.map(w =>
+    '<li><span class="f" lang="la">' + esc(w[0]) + "</span><span><b>" + esc(w[1]) + "</b> — " + esc(w[2]) + "</span>" + (w[3] ? '<span class="gr">' + esc(w[3]) + "</span>" : "") + "</li>").join("") + "</ul>";
+}
+
+const HELP = {
+  pred: "Найдите в этой части предложения сказуемое и переведите его. Не забудьте время, лицо и число.",
+  subj: "Теперь подлежащее со всеми зависимыми словами.",
+  obj: "Переведите прямое дополнение со всеми зависимыми словами.",
+  rest: "Переведите все остальные слова этой части предложения."
+};
+
+function renderStep() {
+  const S = SENT[st.si], cl = clause(), card = $("step-card");
+  const last = st.ci === S.clauses.length - 1;
+  let h = "";
+  if (st.mode === "ack") {
+    h = crumbs(st.ackRole) + '<div class="row"><button type="button" class="btn" data-act="go">Дальше</button></div>' + doneList();
+  } else if (st.step === "end") {
+    const q = st.log.filter(e => e.s === st.si && e.c === st.ci);
+    const got = q.reduce((a, e) => a + e.pts, 0), max = 3 + (cl.obj ? 1 : 0) + (cl.rest ? 1 : 0);
+    h = "<p><b>" + (last ? "Предложение переведено." : "Эта часть переведена.") + "</b> Баллы за " + (S.clauses.length > 1 ? "эту часть" : "предложение") + ": " + fp(got) + " из " + max + ".</p>" + doneList();
+    if (last) h += '<div class="model" lang="ru"><span class="fine">Образец перевода:</span><br>' + esc(S.ru) + "</div>";
+    const isLastSent = st.si === SENT.length - 1;
+    h += '<div class="row"><button type="button" class="btn" data-act="' + (!last ? "nextclause" : isLastSent ? "finish" : "nextsent") + '">' +
+      (!last ? "Следующая часть" : isLastSent ? "Показать результат" : "Следующее предложение") + "</button>" + dictBtn() + "</div>";
+  } else if (st.step === "objq") {
+    h = crumbs("objq") + '<p class="q">Есть ли в этой части прямое дополнение? Это слово в винительном падеже (Accusativus) без предлога: кого? что?</p>' +
+      '<div class="row"><button type="button" class="btn blue" data-act="yes">Да, есть</button><button type="button" class="btn blue" data-act="no">Нет прямого дополнения</button>' + dictBtn() + "</div>" + doneList();
+  } else {
+    const r = st.step, info = stepInfo(cl, r);
+    h = crumbs(r) + '<form id="ans-form" autocomplete="off"><label class="q" for="ans"><b>' + ROLE[r].n + " (" + ROLE[r].l + ").</b> " + HELP[r] + ' <span class="need">' + info.badge + "</span></label>" +
+      (info.hint ? '<p class="hint">' + info.hint + "</p>" : "") +
+      '<input type="text" id="ans" maxlength="120" placeholder="Ваш перевод на русский" spellcheck="false">' +
+      '<div class="row" style="margin-top:10px"><button type="submit" class="btn">Проверить</button><button type="button" class="btn alt" data-act="dunno">Не знаю</button>' + dictBtn() + "</div>" +
+      '<p class="fine" style="margin:8px 0 0">Попытка ' + (st.attempts + 1) + " из " + MAXTRY + ". За верный ответ сейчас: " + pw(ptsFor(st.attempts)) + ".</p></form>" + doneList();
+  }
+  card.innerHTML = bannerHtml() + '<div class="step"><div>' + h + "</div>" + vg(S.vg) + "</div>";
+  const inp = $("ans"); if (inp) inp.focus({ preventScroll: true });
+}
+function render() { renderHud(); renderDots(); renderLatin(); renderStep(); }
+
+function record(role, pts, stud, model, why, topic, la) {
+  st.pts += pts; st.byRole[role].pts += pts;
+  st.log.push({ s: st.si, c: st.ci, role: role, la: la, stud: stud, model: model, why: why, topic: topic, pts: pts });
+}
+function advance(role, shownText, cls) {
+  const cl = clause();
+  st.done[role] = true;
+  st.shown.push({ role: role, la: roleLatin(cl, role), text: shownText, cls: cls });
+  st.step = nextStep(st.step);
+  if (st.step === "end") markAll();
+  st.attempts = 0; st.wrongs = [];
+  if (cls === "bad") { st.mode = "ack"; st.ackRole = role; } else st.mode = "ask";
+  render();
+}
+function reveal(role, p) {
+  st.last = { cls: "bad", ic: "✗", text: "Не засчитано. Правильный ответ: <b>" + esc(p.ans) + "</b>", sub: p.why, pt: "+0" };
+}
+
+function onSubmit(e) {
+  e.preventDefault();
+  const v = $("ans").value.trim(), role = st.step, cl = clause(), p = cl[role];
+  if (!v) { st.last = { cls: "bad", ic: "!", text: "Введите перевод.", pt: "" }; renderStep(); return; }
+  if (match(v, p.ok)) {
+    const pts = ptsFor(st.attempts), full = pts === 1;
+    record(role, pts, st.wrongs, p.ans, p.why, p.topic, roleLatin(cl, role));
+    st.last = { cls: full ? "ok" : "part", ic: full ? "✓" : "◐", text: "Верно: <b>" + ROLE[role].n.toLowerCase() + "</b> — «" + esc(v) + "»" + (full ? "" : " (попытка " + (st.attempts + 1) + ")"), sub: p.why, pt: "+" + fp(pts) };
+    advance(role, v, full ? "ok" : "part");
+    return;
+  }
+  st.wrongs.push(v); st.attempts++;
+  if (st.attempts >= MAXTRY) {
+    record(role, 0, st.wrongs, p.ans, p.why, p.topic, roleLatin(cl, role));
+    reveal(role, p);
+    advance(role, p.ans, "bad");
+  } else {
+    st.last = { cls: "bad", ic: "✗", text: "Неверно: «" + esc(v) + "». Проверьте падеж, лицо, число, время и загляните в словарь. Попытка " + (st.attempts + 1) + " из " + MAXTRY + ": за верный ответ " + pw(ptsFor(st.attempts)) + ".", pt: "" };
+    renderStep();
+  }
+}
+function onDunno() {
+  const role = st.step, cl = clause(), p = cl[role];
+  record(role, 0, st.wrongs, p.ans, p.why, p.topic, roleLatin(cl, role));
+  reveal(role, p);
+  advance(role, p.ans, "bad");
+}
+function onObjq(yes) {
+  const cl = clause(), has = !!cl.obj, good = yes === has;
+  const la = has ? roleLatin(cl, "obj") : "(прямого дополнения нет)";
+  const model = has ? "прямое дополнение есть: " + roleLatin(cl, "obj") : "прямого дополнения нет";
+  const why = has ? "Слово в винительном падеже без предлога отвечает на вопрос «кого? что?»: это " + roleLatin(cl, "obj") + "." : cl.objWhy;
+  const topic = has ? ACC : (cl.rest ? cl.rest.topic : ACC);
+  record("obj", good ? 1 : 0, good ? [] : [yes ? "есть" : "нет"], model, why, topic, la);
+  st.attempts = 0; st.wrongs = [];
+  if (!has) st.done.obj = true;
+  st.step = nextStep("objq");
+  if (st.step === "end") markAll();
+  if (good) {
+    st.last = { cls: "ok", ic: "✓", text: "Верно: " + (has ? "прямое дополнение <b>есть</b>" : "прямого дополнения <b>нет</b>"), sub: why, pt: "+1" };
+    st.mode = "ask";
+  } else {
+    st.last = { cls: "bad", ic: "✗", text: "Неверно. Правильный ответ: " + (has ? "прямое дополнение <b>есть</b>" : "прямого дополнения <b>нет</b>"), sub: why, pt: "+0" };
+    st.mode = "ack"; st.ackRole = "obj";
+  }
+  render();
+}
+function onGo() { st.mode = "ask"; st.last = null; render(); }
+function nextClause() { st.ci++; st.step = "pred"; st.done = {}; st.shown = []; st.mode = "ask"; st.last = null; render(); }
+function nextSent() {
+  st.si++; st.ci = 0; st.step = "pred"; st.done = {}; st.shown = []; st.mode = "ask"; st.last = null;
+  $("dict-panel").hidden = true;
+  render();
+  $("screen-ex").scrollIntoView({ block: "start" });
+}
+function toggleDict() {
+  const p = $("dict-panel"), inp = $("ans"), keep = inp ? inp.value : "";
+  if (p.hidden) { st.dict[st.si] = (st.dict[st.si] || 0) + 1; renderDict(); p.hidden = false; }
+  else p.hidden = true;
+  renderStep();
+  const n = $("ans"); if (n && keep) n.value = keep;
+}
+
+function gradeOf(p) {
+  return p >= 90 ? "Отлично (5)" : p >= 75 ? "Хорошо (4)" : p >= 55 ? "Удовлетворительно (3)" : "Нужно повторить (2)";
+}
+function finish() {
+  clearInterval(st.timer);
+  const dur = Math.round((Date.now() - st.t0) / 1000), now = new Date();
+  const pct = Math.round(st.pts / st.total * 100), name = st.name;
+  const run = nextRun(name);
+  const p2 = n => String(n).padStart(2, "0");
+  const code = "MS-" + String(now.getFullYear()).slice(-2) + p2(now.getMonth() + 1) + p2(now.getDate()) + "-" + p2(now.getHours()) + p2(now.getMinutes()) +
+    "-P" + run + "-" + String(pct).padStart(3, "0") + "-" + hash(name + "|" + run + "|" + st.pts + "|" + dur + "|" + Math.random()).toString(36).toUpperCase().padStart(5, "0").slice(-5);
+  let when = now.toLocaleString();
+  try { when = now.toLocaleString("ru-RU", { dateStyle: "long", timeStyle: "short" }); } catch (x) { }
+  const errs = st.log.filter(e => e.pts < 1);
+  const perfect = st.log.filter(e => e.pts === 1).length;
+  const dictN = Object.keys(st.dict).length, dictAll = Object.keys(st.dict).reduce((a, k) => a + st.dict[k], 0);
+  const grade = gradeOf(pct);
+  const nm = esc(name);
+
+  const open = pct >= 90 ? "Блестящая работа, " + nm + "! Вы уверенно разбираете структуру латинского предложения и верно определяете формы."
+    : pct >= 75 ? "Хорошая работа, " + nm + ". Основа усвоена, но в нескольких местах нужна аккуратность."
+    : pct >= 55 ? "Результат удовлетворительный, " + nm + ". Есть пробелы в формах, их стоит закрыть до следующего занятия."
+    : nm + ", пока рано останавливаться: многие формы вызвали трудности. Повторите материал и пройдите упражнение ещё раз.";
+
+  const roles = ["pred", "subj", "obj", "rest"];
+  const rp = roles.map(r => ({ r: r, p: st.byRole[r].max ? Math.round(st.byRole[r].pts / st.byRole[r].max * 100) : 100 }));
+  const weak = rp.slice().sort((a, b) => a.p - b.p)[0], strong = rp.slice().sort((a, b) => b.p - a.p)[0];
+  const roleNote = weak.p === 100 ? "Все члены предложения определены без потерь."
+    : "Лучше всего получилось: " + ROLE[strong.r].n.toLowerCase() + " (" + strong.p + "%). Слабее всего: " + ROLE[weak.r].n.toLowerCase() + " (" + weak.p + "%).";
+
+  const notes = [];
+  if (dictAll === 0) notes.push("Вы обошлись без словаря, это говорит о хорошей памяти.");
+  else if (dictN >= 7) notes.push("Словарём вы пользовались почти в каждом предложении (" + dictN + " из " + SENT.length + "). Сначала вспоминайте слово и разбирайте форму сами, а словарь оставьте для проверки.");
+  else notes.push("Словарь открывался в " + dictN + " предложениях из " + SENT.length + ": разумное использование подсказки.");
+  if (dur < 150 && pct < 75) notes.push("Задание выполнено очень быстро. При такой скорости легко пропустить окончание, читайте его внимательнее.");
+  else if (dur > 1500) notes.push("Вы работали неспешно и вдумчиво. Со временем скорость придёт вместе с автоматизмом в формах.");
+  if (run > 1) notes.push("Это ваше прохождение № " + run + ". Сравните результат с предыдущими попытками.");
+
+  const cnt = {};
+  errs.forEach(e => { cnt[e.topic] = (cnt[e.topic] || 0) + 1; });
+  const topics = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]).slice(0, 5);
+  const recs = topics.length ? topics.map(t => "<li><b>" + esc(t) + " (ошибок: " + cnt[t] + ").</b> " + esc(ADVICE[t] || "") + "</li>").join("")
+    : "<li>Ошибок нет. Переходите к связному тексту с прошедшими и будущими временами и пробуйте переводить без словаря.</li>";
+
+  const errHtml = errs.length ? errs.map(e => {
+    const multi = SENT[e.s].clauses.length > 1;
+    return '<div class="err"><div class="t">Предложение ' + (e.s + 1) + (multi ? ", часть " + (e.c + 1) : "") + " · " + ROLE[e.role].n + "</div>" +
+      '<div class="la" lang="la">' + esc(e.la) + "</div>" +
+      "<div>Ваш ответ: " + (e.stud.length ? e.stud.map(x => "«" + esc(x) + "»").join(", ") : "«не знаю»") + (e.pts > 0 ? " (в итоге верно, балл снижен до " + fp(e.pts) + ")" : "") + "</div>" +
+      "<div>Верно: <b>" + esc(e.model) + '</b></div><div class="fine">' + esc(e.why) + "</div></div>";
+  }).join("") : "<p>Ни одной ошибки. Прекрасно!</p>";
+
+  const bars = rp.map(x => '<div class="bar"><span>' + ROLE[x.r].n + '</span><span class="tr"><i style="width:' + x.p + '%"></i></span><span class="pc">' + x.p + "%</span></div>").join("");
+
+  $("screen-ex").hidden = true;
+  const res = $("screen-res");
+  res.innerHTML =
+    '<div class="cert enter"><p class="fine">Exercitatio Latina · Magistra MS</p><div class="who">' + nm + '</div>' +
+    '<div class="run">Прохождение № ' + run + "</div>" +
+    '<div class="grade">' + grade + " · " + pct + "%</div>" +
+    '<div class="stats"><div class="stat"><b>' + fp(st.pts) + " / " + st.total + "</b><span>баллы</span></div>" +
+    '<div class="stat"><b>' + fmt(dur) + "</b><span>время</span></div>" +
+    '<div class="stat"><b>' + perfect + " / " + st.log.length + "</b><span>ответов без потери баллов</span></div></div>" +
+    '<div class="fine">Код прохождения</div><div class="codebox" id="code">' + code + '</div><div><button type="button" class="btn alt" data-act="copy" id="copy-btn">Копировать код</button></div>' +
+    '<p class="fine" style="margin:10px 0 0">Завершено: ' + esc(when) + "</p>" +
+    '<div class="shot">Сделайте скриншот этой страницы вместе с кодом и отправьте его учителю.</div></div>' +
+    '<div class="panel enter"><h2>Отзыв преподавателя</h2><p>' + open + "</p><p>" + roleNote + "</p>" + notes.map(n => "<p>" + n + "</p>").join("") + '<div class="bars">' + bars + "</div></div>" +
+    '<div class="panel"><h2>Разбор ошибок</h2>' + errHtml + "</div>" +
+    '<div class="panel"><h2>Рекомендации</h2><ul class="rec">' + recs + "</ul></div>" +
+    '<div class="row" style="margin-top:14px"><button type="button" class="btn" data-act="again">Пройти ещё раз</button></div>';
+  res.hidden = false;
+  window.scrollTo(0, 0);
+}
+
+function copyCode() {
+  const el = $("code"), b = $("copy-btn");
+  const done = () => { b.textContent = "Скопировано"; };
+  const sel = () => { try { const r = document.createRange(); r.selectNodeContents(el); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Код выделен, скопируйте его"; } catch (x) { } };
+  try { navigator.clipboard.writeText(el.textContent).then(done, sel); } catch (x) { sel(); }
+}
+
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-act]");
+  if (!b || !st && b.dataset.act !== "again") return;
+  const a = b.dataset.act;
+  if (a === "dict") toggleDict();
+  else if (a === "dunno") onDunno();
+  else if (a === "yes") onObjq(true);
+  else if (a === "no") onObjq(false);
+  else if (a === "go") onGo();
+  else if (a === "nextclause") nextClause();
+  else if (a === "nextsent") nextSent();
+  else if (a === "finish") finish();
+  else if (a === "copy") copyCode();
+  else if (a === "again") { $("screen-res").hidden = true; $("screen-start").hidden = false; st = null; window.scrollTo(0, 0); }
+});
+document.addEventListener("submit", e => {
+  if (e.target.id === "ans-form") onSubmit(e);
+  else if (e.target.id === "start-form") {
+    e.preventDefault();
+    const n = $("name").value.trim();
+    if (n.length < 2) { $("name-msg").textContent = "Впишите имя и фамилию, чтобы учитель узнал вашу работу."; return; }
+    $("name-msg").textContent = "";
+    begin(n);
+  }
+});
+
+})();
+</script>
+
+</body></html>
